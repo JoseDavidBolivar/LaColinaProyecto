@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Colina</title>
+    <link href="~/Css/FaIcons.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #004b22; border: none;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("La Colina Restaurante", "LaColinaLogin", "Inicio", new { area = "" }, new
+           {
+               @class = "navbar-brand",
+               style = "color: white; font-size: 30px; font-family: Mistral; margin-top: 5px;"
+           })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li style="padding: 5px;">
+                        @Html.ActionLink("Inicio", "LaColinaRestaurante", "Inicio")
+                    </li>
+                    <li style="padding: 5px;">@Html.ActionLink("Pedido", "Pedido", "Solicitud")</li>
+                    <li style="padding: 5px;">@Html.ActionLink("Maestros", "Personal", "Maestro")</li>
+                    <li style="padding: 5px;">@Html.ActionLink("Factura", "Factura", "Caja")</li>
+                    <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuracion", "Maestro")</li>
+                    <li style="padding: 5px;">
+                        <a href="@Url.Action("LaColinaLogin", "Inicio")">
+                            <i class="fa fa-2x fa-sign-out" style="color: white; cursor: pointer;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer style="text-align:center;">
+            <p>&copy; @DateTime.Now.Year <b><h3>La Colina Restaurante</h3></b>
+            Km. 6.5 Via Siberia -Tenjo
+            </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    
+    <script src="~/Scripts/jquery.signalR-2.3.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script src="~/ScriptsViews/AlertasLayout.js?1.0.2"></script>
+    
+
+
+</body>
+</html>

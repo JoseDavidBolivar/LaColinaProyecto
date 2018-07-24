@@ -1,0 +1,104 @@
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\csc.exe
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CSharp.Core.targets
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.VisualBasic.Core.targets
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\System.Collections.Immutable.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\System.Reflection.Metadata.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\vbc.exe
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\VBCSCompiler.exe
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\roslyn\VBCSCompiler.exe.config
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\ColinaApplication.dll.config
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\ColinaApplication.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\ColinaApplication.pdb
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Antlr3.Runtime.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Web.Infrastructure.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Newtonsoft.Json.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Helpers.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Mvc.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Optimization.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Razor.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Deployment.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Razor.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\WebGrease.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Helpers.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Mvc.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Optimization.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.Razor.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Deployment.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Razor.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Antlr3.Runtime.pdb
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Newtonsoft.Json.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Host.SystemWeb.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Security.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Owin.dll
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Host.SystemWeb.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Security.xml
+c:\users\jose.gomez\documents\visual studio 2015\Projects\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojResolveAssemblyReference.cache
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\csc.exe
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\vbc.exe
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\VBCSCompiler.exe
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\ColinaApplication.dll.config
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\ColinaApplication.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\ColinaApplication.pdb
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Antlr3.Runtime.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EntityFramework.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Security.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Newtonsoft.Json.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Owin.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Helpers.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Mvc.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Optimization.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Razor.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Deployment.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Razor.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\WebGrease.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EntityFramework.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.Owin.Security.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Helpers.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Mvc.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Optimization.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.Razor.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Deployment.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Razor.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Antlr3.Runtime.pdb
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Newtonsoft.Json.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojResolveAssemblyReference.cache
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
