@@ -102,3 +102,5 @@ C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaAp
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojResolveAssemblyReference.cache
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.pdb

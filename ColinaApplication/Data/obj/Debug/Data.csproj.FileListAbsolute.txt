@@ -1,0 +1,12 @@
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\Data.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\Data.pdb
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\EntityFramework.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\EntityFramework.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\obj\Debug\Data.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\obj\Debug\Data.pdb
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\Data.dll.config
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\Entity.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Data\bin\Debug\Entity.pdb

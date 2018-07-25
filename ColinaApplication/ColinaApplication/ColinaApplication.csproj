@@ -156,10 +156,30 @@
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\MaestroController.cs" />
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Data\Business\SolicitudBsuiness.cs" />
+    <Compile Include="Data\Conexion\DBLaColina.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBLaColina.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\DBLaColina.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\DBLaColina.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DBLaColina.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\Sharedhub.cs" />
+    <Compile Include="Hubs\Solicitudhub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -168,13 +188,31 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Css\FaIcons.css" />
     <Content Include="Css\Inicio.css" />
+    <Content Include="Data\Conexion\DBLaColina.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBLaColina.edmx</DependentUpon>
+      <LastGenOutput>DBLaColina.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Conexion\DBLaColina.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DBLaColina.edmx</DependentUpon>
+      <LastGenOutput>DBLaColina.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ScriptsViews\AlertasLayout.js" />
+    <Content Include="ScriptsViews\Shared\AlertasLayout.js" />
+    <Content Include="ScriptsViews\Solicitud\SeleccionarMesa.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Data\Conexion\DBLaColina.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBLaColina.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\Conexion\DBLaColina.edmx.diagram">
+      <DependentUpon>DBLaColina.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -209,6 +247,7 @@
     <Content Include="Views\Maestro\Personal.cshtml" />
     <Content Include="Views\Maestro\Configuracion.cshtml" />
     <Content Include="Views\Solicitud\Pedido.cshtml" />
+    <Content Include="Views\Solicitud\SeleccionarMesa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -224,6 +263,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{445EE79A-B7E0-4406-B29F-8D1D2009597F}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LACOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TBL_MASTER_MESAS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOMBRE_MESA" Type="varchar" MaxLength="255" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityContainer Name="LACOModelStoreContainer">
+    <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

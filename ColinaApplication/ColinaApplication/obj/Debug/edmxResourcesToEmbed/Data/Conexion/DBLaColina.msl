@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LACOModelStoreContainer" CdmEntityContainer="DBLaColina">
+    <EntitySetMapping Name="TBL_MASTER_MESAS">
+      <EntityTypeMapping TypeName="LACOModel.TBL_MASTER_MESAS">
+        <MappingFragment StoreEntitySet="TBL_MASTER_MESAS">
+          <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NOMBRE_MESA" ColumnName="NOMBRE_MESA" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
