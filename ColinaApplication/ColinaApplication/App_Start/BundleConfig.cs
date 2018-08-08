@@ -26,6 +26,23 @@ namespace ColinaApplication
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            //-------------------*********************--------------------------------------------------------------
+
+            bundles.Add(new StyleBundle("~/Content/plugins/datatables/css").Include(
+                                        "~/Content/plugins/datatables/css/dataTables.bootstrap.css"));
+
+            bundles.Add(new ScriptBundle("~/Content/plugins/datatables/js").Include(
+                                         "~/Content/plugins/datatables/js/jquery.dataTables.min.js",
+            "~/Content/plugins/datatables/js/dataTables.bootstrap.min.js"));
+
+            //bundles.Add(new ScriptBundle("~/Content/Scripts/Tables/Data").Include(
+            //    "~/Content/Scripts/Tables/Data.js"));
+
+            bundles.Add(new ScriptBundle("~/Content/Scripts/Tables/Data/menu").Include(
+                "~/Content/Scripts/Tables/Data-menu.js"));
+            
+
         }
     }
 }

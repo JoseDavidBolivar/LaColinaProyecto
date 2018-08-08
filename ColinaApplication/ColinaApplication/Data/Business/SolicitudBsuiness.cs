@@ -19,6 +19,15 @@ namespace ColinaApplication.Data.Business
 
             return ListMesas;
         }
+        public TBL_SOLICITUD ConsultaMesaAbierta(decimal IdMesa)
+        {
+            TBL_SOLICITUD solicitudMesa = new TBL_SOLICITUD();
+            DBLaColina context = new DBLaColina();
+            var solicitudMesaA = context.TBL_SOLICITUD.Where(a => a.ID_MESA == IdMesa && a.ESTADO_SOLICITUD == "ABIERTA").ToList();
+            solicitudMesa = solicitudMesaA.LastOrDefault();
+            context.Dispose();
+            return solicitudMesa;
+        }
 
         public void ActualizaEstadoMesa (decimal Id, string Estado)
         {

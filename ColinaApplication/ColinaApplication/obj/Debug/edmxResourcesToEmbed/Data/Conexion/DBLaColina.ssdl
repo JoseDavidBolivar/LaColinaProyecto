@@ -9,7 +9,70 @@
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="TBL_PRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PRODUCTO" Type="varchar" MaxLength="255" />
+    <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FECHA_REGISTRO" Type="datetime" />
+    <Property Name="ID_SOLICITUD" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_MESERO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PRECIO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ESTADO_PRODUCTOS" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_SOLICITUD">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FECHA_SOLICITUD" Type="datetime" />
+    <Property Name="ID_MESA" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_MESERO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="IDENTIFICACION_CLIENTE" Type="varchar" MaxLength="255" />
+    <Property Name="NOMBRE_CLIENTE" Type="varchar" MaxLength="255" />
+    <Property Name="ESTADO_SOLICITUD" Type="varchar" MaxLength="255" />
+    <Property Name="OBSERVACIONES" Type="ntext" />
+  </EntityType>
+  <EntityType Name="TBL_SUBPRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="FECHA_INGRESO" Type="datetime" />
+    <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
+    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
+    <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_SUBPRODUCTOS_LOG">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PRINCIPAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="FECHA_INGRESO" Type="datetime" />
+    <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
+    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
+    <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityContainer Name="LACOModelStoreContainer">
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_SUBPRODUCTOS" EntityType="Self.TBL_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_SUBPRODUCTOS_LOG" EntityType="Self.TBL_SUBPRODUCTOS_LOG" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

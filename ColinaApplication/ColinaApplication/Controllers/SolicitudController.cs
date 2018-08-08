@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ColinaApplication.Data.Business;
+using ColinaApplication.Data.Conexion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,12 +10,11 @@ namespace ColinaApplication.Controllers
 {
     public class SolicitudController : Controller
     {
-        //SolicitudBusiness solicitud;
-
-        //public SolicitudController()
-        //{
-        //    solicitud = new SolicitudBusiness();
-        //}
+        SolicitudBsuiness solicitud;
+        public SolicitudController()
+        {
+            solicitud = new SolicitudBsuiness();
+        }
 
         [HttpGet]
         public ActionResult SeleccionarMesa()
@@ -21,9 +22,11 @@ namespace ColinaApplication.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Pedido()
+        public ActionResult Pedido(string Id)
         {
-            return View();
+            TBL_SOLICITUD model = new TBL_SOLICITUD();
+            model.ID = Convert.ToDecimal(Id);
+            return View(model);
         }
     }
 }

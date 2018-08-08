@@ -28,9 +28,17 @@ namespace ColinaApplication.Hubs
         public void ListarEstadoMesas()
         {
             List<TBL_MASTER_MESAS> listamesas = new List<TBL_MASTER_MESAS>();
+            List<MasterMesas> mesas = new List<MasterMesas>();
             listamesas = solicitud.ListaMesas();
             Clients.All.ListaMesas(listamesas);
         }
+        public void ConsultaMesaAbierta(string Id)
+        {
+            TBL_SOLICITUD ConsultaMesa = new TBL_SOLICITUD();
+            ConsultaMesa = solicitud.ConsultaMesaAbierta(Convert.ToDecimal(Id));
+            Clients.All.ListaDetallesMesa(ConsultaMesa);
+        }
+        
 
 
     }

@@ -75,5 +75,6 @@ function Llama_MetodosSeMe(connectsm) {
 
 function alerta(id)
 {
-    window.location.href = '../Solicitud/Pedido';
+    //console.log(id);
+    window.location.href = '../Solicitud/Pedido?Id='+id;
 }

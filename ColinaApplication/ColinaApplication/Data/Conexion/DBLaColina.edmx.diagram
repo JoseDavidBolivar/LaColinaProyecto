@@ -6,6 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0681d8fdb64f413b85a7cf1a3b3d5a20" Name="Diagram1">
         <EntityTypeShape EntityType="LACOModel.TBL_MASTER_MESAS" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LACOModel.TBL_PRODUCTOS" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_SUBPRODUCTOS" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_SUBPRODUCTOS_LOG" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_SOLICITUD" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_PRODUCTOS_SOLICITUD" Width="1.5" PointX="5" PointY="3.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

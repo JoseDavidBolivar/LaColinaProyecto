@@ -65,6 +65,7 @@ C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaAp
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\ColinaApplication.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\ColinaApplication.pdb
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Antlr3.Runtime.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EntityFramework.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
@@ -83,6 +84,7 @@ C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaAp
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\System.Web.WebPages.Razor.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\WebGrease.dll
+C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.pdb
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EntityFramework.xml
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.Core.xml
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
@@ -102,5 +104,3 @@ C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaAp
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojResolveAssemblyReference.cache
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
-C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.dll
-C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Entity.pdb
