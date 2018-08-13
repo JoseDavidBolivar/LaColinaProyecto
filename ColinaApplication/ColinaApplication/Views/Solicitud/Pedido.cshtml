@@ -12,77 +12,37 @@
 
 <div class="row">
     <div class="col-xs-12">
+        <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
         <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
-        
-        @Html.HiddenFor(m => m.ID, new { @Id = "ID" })
-        
+        @Html.HiddenFor(m => m.ID, new { @Id = "ID" })        
     </div>
     <div class="col-md-12">
         <div class="col-md-4">
-            <div class="box-body">
-                <div class="col-lg-12">
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3>
-                                #1
-                            </h3>
-                            <p>Mesa 1</p>
-                            <p><b>Cliente: </b>Jose David Gomez Cruz</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-check"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="box-body" id="InfoMesa">
+                
             </div>
-            <div class="box-body table-responsive">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <small>Otros Cobros: </small>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <small>Descuentos: </small>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <small>Total: </small>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="box-body table-responsive" id="InfoPrecios">
+                
             </div>
         </div>
         <div class="col-md-8">
-            <div class="box-body">
-                <table id="Tabla2" class="table table-bordered table-hover">
+            <a class="AgregProd" href="#AgregaProducto" data-toggle="modal" data-backdrop="static" data-keyboard="false">Agregar Producto</a>
+            <br />
+            <br />
+            <br />
+            <div class="box-body" id="InfoProductos">
+                @*<table id="Tabla2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Rendering engine</th>
-                            <th>Browser</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Trident</td>
-                            <td>
-                                Internet
-                                Explorer 4.0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Trident</td>
-                            <td>
-                                Internet
-                                Explorer 5.0
-                            </td>
-                        </tr>
+                    <tbody id="ProductosMesa">
+                        
                     </tbody>
-                </table>
+                </table>*@
             </div>
         </div>
         <table class="" style="width: 100%;">
@@ -90,13 +50,68 @@
                 <td colspan="6">
                     <h4><b>Observaciones: </b></h4>
                     @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control input-sm", id = "ObservacionesAsesor", style = "margin-left:5px; width:100%; height:70px; max-width: 100%;" })
-
                 </td>
             </tr>
             <tr>
                 <td></td>
             </tr>
         </table>
+        <br /><br />
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary" style="width: 15%; margin-left: 43%;">Guardar</button>
+        </div>
+        <br /><br />
+    </div>
+</div>
+
+<div id="AgregaProducto" class="modal">
+    <div class="modal-dialog" style="width:1000px;">
+        <div class="modal-content" style="width:1000px;">
+            <div class="modal-header" style="width:1000px; background-color:#202020; ">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;"><i class="fa fa-times"></i></button>
+                <h3 class="modal-title" style="color: white;"><i class="fa fa-plus-circle" aria-hidden="true" style="color:#006512;"></i> Agregar Productos</h3>
+            </div>
+            <div class="modal-body" style="width:1010px;">
+                <br />
+                <div class="row">
+                    <div class="col-lg-offset-1" style="width:950px; margin-left:25px;">
+                        <table class="table" style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <p>Elija una categoria: </p>
+                                    <select id="Categoria" class="form-control input-sm" onchange="CargaSubProducto()">
+                                        <option value="">--SELECCIONE--</option>
+                                    </select>
+                                </td>
+                                <td><p>Elija una producto: </p>
+                                    <select id="Subrpoductos" class="form-control input-sm">
+                                        <option value="">--SELECCIONE--</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <p><b>Cantidad Disponible: </b></p>
+                                    <input id="CantidadDisponible" type="text" class="form-control input-sm" readonly="readonly"/>
+                                </td>
+                                <td>
+                                    <p><b>Cantidad: </b></p>
+                                    <input id="CantidadVender" type="text" class="form-control input-sm" readonly="readonly" autocomplete="off" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h3>Este Plato Contiene: </h3></td>
+                            </tr>
+                            <tr id="Composicion">
+                                
+                            </tr>
+                            <tr>
+
+                            </tr>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -104,8 +119,18 @@
 
     @Scripts.Render("~/Content/plugins/datatables/js")
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
-    <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.2"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.0.2"></script>
+    <script>
+        var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
+        var urlListaSubProductos = '@Url.Action("ListaSubProductos", "Solicitud")';
+        var urlListaComposicionSubProductos = '@Url.Action("ListaComposicionSubProductos", "Solicitud")';
+        var urlDatosElementoInventario =  '@Url.Action("DatosElementoInventario", "Solicitud")';
+
+    </script>
+    
+    <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.7"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.1"></script>
+    
+    
 
 }
 

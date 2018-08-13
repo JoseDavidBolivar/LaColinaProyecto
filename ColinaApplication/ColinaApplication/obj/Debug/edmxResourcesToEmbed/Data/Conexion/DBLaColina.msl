@@ -61,15 +61,46 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+        <MappingFragment StoreEntitySet="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+          <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="ID_PRODUCTO_SOLICITUD" ColumnName="ID_PRODUCTO_SOLICITUD" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_COMPOSICION_SUBPRODUCTOS">
+      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_SUBPRODUCTOS">
+        <MappingFragment StoreEntitySet="TBL_COMPOSICION_SUBPRODUCTOS">
+          <ScalarProperty Name="VALOR_ESTIMADO" ColumnName="VALOR_ESTIMADO" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TBL_PRODUCTOS_SOLICITUD">
       <EntityTypeMapping TypeName="LACOModel.TBL_PRODUCTOS_SOLICITUD">
         <MappingFragment StoreEntitySet="TBL_PRODUCTOS_SOLICITUD">
           <ScalarProperty Name="ESTADO_PRODUCTOS" ColumnName="ESTADO_PRODUCTOS" />
-          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+          <ScalarProperty Name="PRECIO_FINAL" ColumnName="PRECIO_FINAL" />
+          <ScalarProperty Name="PRECIO_PRODUCTO" ColumnName="PRECIO_PRODUCTO" />
           <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
           <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
           <ScalarProperty Name="ID_SOLICITUD" ColumnName="ID_SOLICITUD" />
           <ScalarProperty Name="FECHA_REGISTRO" ColumnName="FECHA_REGISTRO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_USUARIOS">
+      <EntityTypeMapping TypeName="LACOModel.TBL_USUARIOS">
+        <MappingFragment StoreEntitySet="TBL_USUARIOS">
+          <ScalarProperty Name="CONTRASEÑA" ColumnName="CONTRASEÑA" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

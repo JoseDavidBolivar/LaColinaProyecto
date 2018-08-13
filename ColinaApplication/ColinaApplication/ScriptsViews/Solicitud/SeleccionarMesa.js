@@ -1,6 +1,6 @@
-﻿
+﻿var connectSM = "";
 $(function SeleccionarMesa() {
-    var connectSM = $.connection.solicitudhub;
+    connectSM = $.connection.solicitudhub;
 
     Llama_MetodosSeMe(connectSM);
 
@@ -11,13 +11,9 @@ $(function SeleccionarMesa() {
 
 function Registra_EventosSeMe(connectsm) {
 
-    //$('#NotificaOfertaComercialCliente').click(function () {
-    //    connect.server.consultaNotificacion(Usuario);
-    //});
 
     connectsm.server.listarEstadoMesas();
 }
-
 function Llama_MetodosSeMe(connectsm) {
 
     connectsm.client.ListaMesas = function (data) {
@@ -26,7 +22,7 @@ function Llama_MetodosSeMe(connectsm) {
         for (var i = 0; i < data.length; i++)
         {
             if (data[i].ESTADO == "LIBRE") {
-                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id);" class="panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'OCUPADO\');" class="clic panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                                             '<div class="panel-heading">' +
                                                 '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
                                             '</div>' +
@@ -34,7 +30,7 @@ function Llama_MetodosSeMe(connectsm) {
                                         '</div>');
             }
             if (data[i].ESTADO == "OCUPADO") {
-                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id);"  class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                                             '<div class="panel-heading">' +
                                                 '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
                                             '</div>' +
@@ -42,7 +38,7 @@ function Llama_MetodosSeMe(connectsm) {
                                         '</div>');
             }
             if (data[i].ESTADO == "ESPERA") {
-                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id);"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                                             '<div class="panel-heading">' +
                                                 '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
                                             '</div>' +
@@ -73,8 +69,14 @@ function Llama_MetodosSeMe(connectsm) {
     }
 }
 
-function alerta(id)
+
+function alerta(id, Estado)
 {
-    //console.log(id);
+    console.log(Estado);
+    if (Estado != "NO")
+    {
+        connectSM.server.actualizaMesa(id, Estado);
+        connectSM.server.insertaSolicitud(id, Estado, 2);
+    }
     window.location.href = '../Solicitud/Pedido?Id='+id;
 }

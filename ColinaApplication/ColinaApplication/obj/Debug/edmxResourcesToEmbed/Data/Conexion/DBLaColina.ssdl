@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="LACOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PRODUCTO_SOLICITUD" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+    <Property Name="VALOR" Type="numeric" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="TBL_COMPOSICION_SUBPRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+    <Property Name="VALOR_ESTIMADO" Type="numeric" Precision="18" Scale="0" />
+  </EntityType>
   <EntityType Name="TBL_MASTER_MESAS">
     <Key>
       <PropertyRef Name="ID" />
@@ -26,7 +44,8 @@
     <Property Name="ID_SOLICITUD" Type="numeric" Precision="18" Scale="0" />
     <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="ID_MESERO" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="PRECIO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PRECIO_PRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PRECIO_FINAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="ESTADO_PRODUCTOS" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="TBL_SOLICITUD">
@@ -67,12 +86,24 @@
     <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="TBL_USUARIOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CEDULA" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
+    <Property Name="CONTRASEÑA" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityContainer Name="LACOModelStoreContainer">
+    <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_COMPOSICION_SUBPRODUCTOS" EntityType="Self.TBL_COMPOSICION_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SUBPRODUCTOS" EntityType="Self.TBL_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SUBPRODUCTOS_LOG" EntityType="Self.TBL_SUBPRODUCTOS_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

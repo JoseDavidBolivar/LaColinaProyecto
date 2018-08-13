@@ -10,7 +10,10 @@
         <EntityTypeShape EntityType="LACOModel.TBL_SUBPRODUCTOS" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="LACOModel.TBL_SUBPRODUCTOS_LOG" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="LACOModel.TBL_SOLICITUD" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="LACOModel.TBL_PRODUCTOS_SOLICITUD" Width="1.5" PointX="5" PointY="3.625" />
+        <EntityTypeShape EntityType="LACOModel.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_COMPOSICION_SUBPRODUCTOS" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_PRODUCTOS_SOLICITUD" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="LACOModel.TBL_USUARIOS" Width="1.5" PointX="7.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

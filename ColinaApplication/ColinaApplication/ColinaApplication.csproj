@@ -157,6 +157,7 @@
     <Compile Include="Controllers\MaestroController.cs" />
     <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
+    <Compile Include="Data\Clases\Estados.cs" />
     <Compile Include="Data\Conexion\DBLaColina.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,6 +172,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DBLaColina.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_COMPOSICION_PRODUCTOS_SOLICITUD.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_COMPOSICION_SUBPRODUCTOS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
@@ -188,6 +195,9 @@
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_SUBPRODUCTOS_LOG.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_USUARIOS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
