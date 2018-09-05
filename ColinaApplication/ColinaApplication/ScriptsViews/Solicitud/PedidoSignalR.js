@@ -1,4 +1,13 @@
-﻿$(function PedidoSignalR() {
+﻿var VProductosInfo = [];
+var VProductosFinal = [];
+var VComposiProducF = [];
+
+var VListaSelects = [];
+var CantidadColumns = 0;
+
+$(function PedidoSignalR() {
+    
+    CargaProducto();
     var connectPSR = $.connection.solicitudhub;
 
     Llama_MetodosPSR(connectPSR);
@@ -12,33 +21,51 @@
 
 function Registra_EventosPSR(connectpsr) {
 
-    $('#Subrpoductos').change(function () {
-        connectpsr.server.consultaComposicionSubProducto($("#Subrpoductos").val());
+    $('#AgregaSubproductos').click(function () {
+        if (VComposiProducF.length > 0)
+        {
+            var CantiDispon = parseInt($("#CantidadDisponible").val());
+            var CantiVender = parseInt($("#SelectCantidadVender").val());
+            alert();
+            if (CantiDispon >= CantiVender)
+            {
+                console.log(VProductosFinal);
+                console.log(VComposiProducF);
+                connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF );
+                alert("3");
+            }
+            else
+            {
+                alert("Debe seleccionar menos CANTIDAD a vender .....");
+            }
+        }
+        else {
+            alert("Debe seleccionar primero los productos antes de Guardar .....");
+        }
     });
 
-    connectpsr.server.consultaMesaAbierta($('#ID').val());
+    connectpsr.server.consultaMesaAbierta($('#ID_MESA').val());
 }
 
 function Llama_MetodosPSR(connectpsr) {
-
     connectpsr.client.ListaDetallesMesa = function (data) {
-        console.log(data);
+
         if (data.length > 0) {
             ActualizaInfoMesa(data);
             ActualizaInfoPrecios(data);
             ActualizaInfoProductos(data);
-            
+            $("#ID").val(data[0].Id);
+
         }
-        else
-        {
+        else {
             $("#InfoMesa").empty();
             $("#InfoMesa").append('<div class="col-lg-12">' +
                     '<div class="small-box bg-green">' +
                         '<div class="inner">' +
                             '<h3>' +
-                                '#' + $('#ID').val() +
+                                '#' + $('#ID_MESA').val() +
                             '</h3>' +
-                            '<p>' +  + '</p>' +
+                            '<p>' + + '</p>' +
                             '<p><b>Mesero:<b/> ' + + '</p>' +
                             '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
                             '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
@@ -50,26 +77,26 @@ function Llama_MetodosPSR(connectpsr) {
                 '</div>');
             $("#InfoPrecios").empty();
             $("#InfoPrecios").append('<table class="table table-hover">' +
-                    '<tbody>'+
-                        '<tr>'+
-                            '<td>'+
+                    '<tbody>' +
+                        '<tr>' +
+                            '<td>' +
                                 '<small>Otros Cobros: </small>' +
                                 '<input type="text" class="form-control input-sm" name="OtrosCobros"/>' +
-                            '</td>'+
-                        '</tr>'+
-                        '<tr>'+
-                            '<td>'+
+                            '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td>' +
                                 '<small>Descuentos: </small>' +
                                 '<input type="text" class="form-control input-sm" name="Descuentos"/>' +
-                            '</td>'+
-                        '</tr>'+
-                        '<tr>'+
-                            '<td>'+
+                            '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                            '<td>' +
                                 '<small>Total: </small>' +
                                 '<input type="text" class="form-control input-sm" name="Total"/>' +
-                            '</td>'+
-                        '</tr>'+
-                    '</tbody>'+
+                            '</td>' +
+                        '</tr>' +
+                    '</tbody>' +
                 '</table>');
             $("#InfoProductos").empty();
             $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
@@ -88,24 +115,20 @@ function Llama_MetodosPSR(connectpsr) {
                     '</table>');
 
             $('#Tabla2').DataTable();
-            
-            
+
+
         }
     }
-    connectpsr.client.ListaCompoSubProdu = function (data) {
-        console.log(data);
-        if (data.length > 0)
-        {
-            if (data[0].ID_SUBPRODUCTO == $("#Subrpoductos").val()) {
-                TraeComposicionSeleccion(data);
-            }
-        }
+    
+    connectpsr.client.GuardoProductos = function () {
+        alert("ENTENDIDO");
     }
+    
+
 }
 
-function ActualizaInfoMesa(data)
-{
-    if (data[0].EstadoSolicitud == "ABIERTA"){
+function ActualizaInfoMesa(data) {
+    if (data[0].EstadoSolicitud == "ABIERTA") {
         $("#InfoMesa").empty();
         $("#InfoMesa").append('<div class="col-lg-12">' +
                 '<div class="small-box bg-danger">' +
@@ -133,7 +156,7 @@ function ActualizaInfoMesa(data)
                             '#' + data[0].IdMesa +
                         '</h3>' +
                         '<p>' + data[0].NombreMesa + '</p>' +
-                        '<p><b>Mesero:<b/> ' +  + '</p>' +
+                        '<p><b>Mesero:<b/> ' + + '</p>' +
                         '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
                         '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
                     '</div>' +
@@ -163,8 +186,7 @@ function ActualizaInfoMesa(data)
             '</div>');
     }
 }
-function ActualizaInfoPrecios(data)
-{
+function ActualizaInfoPrecios(data) {
     $("#InfoPrecios").empty();
     $("#InfoPrecios").append('<table class="table table-hover">' +
             '<tbody>' +
@@ -189,8 +211,7 @@ function ActualizaInfoPrecios(data)
             '</tbody>' +
         '</table>');
 }
-function ActualizaInfoProductos(data)
-{
+function ActualizaInfoProductos(data) {
     $("#InfoProductos").empty();
     $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
             '<thead>' +
@@ -242,15 +263,18 @@ function TraeComposicionSeleccion(json) {
     for (var index = 0, len = json.length; index < len; index++) {
         var code = '';
         if (index == 0) {
-            code = '<td><p valor="' + json[index].VALOR_ESTIMADO + '" style="background-color: #b9d5e6;padding: 5px; min-width: 160px;' +
+            code = '<td><p style="background-color: #b9d5e6;padding: 5px; min-width: 160px;' +
                 ' border-radius: 5px;">' + json[index].DESCRIPCION + '</p>';
         }
         else {
-            code = '<td><p valor="' + json[index].VALOR_ESTIMADO + '" style="background-color: #b9d5e6;padding: 5px; min-width: 160px; ' +
-                'border-radius: 5px; cursor: w-resize;">' + json[index].DESCRIPCION + '</p>';
+            code = '<td><p style="background-color: #b9d5e6;padding: 5px; min-width: 160px; ' +
+                'border-radius: 5px;">' + json[index].DESCRIPCION + '</p>';
         }
-
+        VProductosInfo[index] = {
+            IdVarios: json[index].VARIOS
+        };
         $("#Composicion").append(code);
+        CantidadColumns++;
     }
     ListaCantidadDisponible();
 }
@@ -266,7 +290,7 @@ function ListaCantidadDisponible(id) {
             var json = JSON.parse(result);
             if (json != null) {
                 $("#CantidadDisponible").val(json.CANTIDAD_EXISTENCIA);
-                $("#CantidadVender").removeAttr("ReadOnly");
+                $("#SelectCantidadVender").removeAttr("disabled");
             }
         },
         error: function (request, status, error) {
@@ -275,4 +299,231 @@ function ListaCantidadDisponible(id) {
 
     });
 
+}
+
+function CargaProducto() {
+    $.ajax({
+        type: "POST",
+        url: urlListaProductos,
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        success: function (result) {
+            var json = JSON.parse(result);
+            if (json.length > 0) {
+                for (var index = 0, len = json.length; index < len; index++) {
+                    $('#Categoria').append($('<option>', {
+                        value: json[index].ID,
+                        text: json[index].PRODUCTO
+                    }));
+                }
+            }
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+
+    });
+}
+function CargaSubProducto() {
+    var idProducto = $("#Categoria").val();
+    $("#Subrpoductos").empty();
+    $("#Subrpoductos").append("<option value=''>--SELECCIONE--</option>");
+    $("#Composicion").empty();
+    $("#CantidadPlatos").empty();    
+    $("#CantidadDisponible").val('');
+    VComposiProducFH = [];
+    document.getElementById("SelectCantidadVender").value = '';
+    $("#SelectCantidadVender").attr("disabled", "disabled");
+
+    if (idProducto != "") {
+        $.ajax({
+            type: "POST",
+            url: urlListaSubProductos,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ IdProducto: idProducto }),
+            dataType: "JSON",
+            success: function (result) {
+                var json = JSON.parse(result);
+                if (json.length > 0) {
+                    for (var index = 0, len = json.length; index < len; index++) {
+                        $('#Subrpoductos').append($('<option>', {
+                            value: json[index].ID,
+                            text: json[index].NOMBRE_SUBPRODUCTO,
+                            valorTotal: json[index].PRECIO_UNITARIO
+                        }));
+                    }
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    }
+
+}
+
+function ListarPlatosOpciones() {
+    VProductosFinal = [];
+    $("#CantidadPlatos").empty();
+    $("#TituloPlatos").empty();
+    var CantidadPlatos = $("#SelectCantidadVender").val();
+    if (CantidadPlatos != "") {
+        for (var i = 0; i < CantidadPlatos; i++) {
+            var title = '<th><h4><b>' + $('#Categoria option:selected').text() + ' #' + (i + 1) + '</b></h4></th>';
+            var code = '';
+            var VListaSelectsH = [];
+            for (var j = 0; j < VProductosInfo.length; j++) {
+                code = code + '<td><select id="' + i + j + '" class="form-control input-sm" onchange="GuardaPlatoVector(this)">' +
+                    '</select>';
+                
+                if (VProductosInfo[j].IdVarios == 0) {
+                    VListaSelectsH[j] = {
+                        IdSelect: i + '' + j + '',
+                        IdSubProducto: $("#Subrpoductos").val()
+                    };
+                }
+                else {
+                    VListaSelectsH[j] = {
+                        IdSelect: i + '' + j + '',
+                        IdSubProducto: VProductosInfo[i, j].IdVarios
+                    };
+                }
+            }
+            VListaSelects.push(VListaSelectsH);
+            $("#CantidadPlatos").append('<tr>' + title + '</tr><tr>' + code + '</tr><tr></tr>');
+
+        }
+        //console.log(VListaSelects);
+        ListarSelects();
+
+    }
+}
+function ListarSelects() {
+    for (var i = 0; i < VListaSelects.length; i++) {
+        for (var j = 0; j < VListaSelects[i].length; j++) {
+            var idBusqueda = VListaSelects[i][j].IdSubProducto;
+            var Select = VListaSelects[i][j].IdSelect;
+            LlenaDesplegable(idBusqueda, Select);
+        }
+    }
+    VListaSelects = [];
+    var VProductoFinalH = [];
+    VProductoFinalH = {
+        ID_SOLICITUD: $("#ID").val(),
+        ID_SUBPRODUCTO: $("#Subrpoductos").val(),
+        ID_MESERO: User,
+        PRECIO_PRODUCTO: $('#Subrpoductos option:selected').attr("valorTotal"),
+        PRECIO_FINAL: "",
+        ESTADO_PRODUCTOS: "ENTREGADO"
+    };
+    VProductosFinal.push(VProductoFinalH);
+}
+function LlenaDesplegable(idBusqueda, Select)
+{
+    $('#' + Select + '').empty();
+    $('#'+Select+'').append("<option value=''>NO</option>");
+    
+    if (idBusqueda != "") {
+        $.ajax({
+            type: "POST",
+            url: urlListaPreciosSubproductos,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ IdSubproducto: idBusqueda }),
+            dataType: "JSON",
+            success: function (result) {
+                var json = JSON.parse(result);
+                if (json.length > 0) {
+                    for (var index = 0, len = json.length; index < len; index++) {
+                        
+                        $('#' + Select + '').append($('<option>', {
+                            value: json[index].ID,
+                            text: json[index].DESCRIPCION,
+                            valorIndividual: json[index].PRECIO_INDIVIDUAL
+                        }));
+                    }
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    }
+}
+
+function GuardaPlatoVector(e) {
+    var id = e.id;
+    PosicionInicial = id.substring(0, 1);
+    PosicionFinal = id.substring(1, 2);
+    var combo = document.getElementById(id);
+    var selected = combo.options[combo.selectedIndex].text;
+    var VComposiProducFH = [];
+    if (selected != "NO")
+    {
+        VComposiProducFHR = {
+            ID_PRODUCTO_SOLICITUD: "",
+            DESCRIPCION: selected,
+            VALOR: $('option:selected', e).attr("valorIndividual")
+        };
+    }
+    else {
+        VComposiProducFHR = {};
+    }
+    
+    if (VComposiProducF.length > 0)
+    {
+        VComposiProducFH = VComposiProducF[PosicionInicial];
+        if (VComposiProducFH != undefined)
+        {
+            VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+        }
+        else
+        {
+            VComposiProducFH = {};
+            VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+        }
+    }
+    else
+    {
+        VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+    }
+
+    VComposiProducF[PosicionInicial] = VComposiProducFH;
+    
+}
+
+function ConsultaComposicionSub()
+{
+    if ($('#Subrpoductos').val() != "")
+    {
+        document.getElementById("SelectCantidadVender").value = '';
+        var id = $("#Subrpoductos").val();
+        $.ajax({
+            type: "POST",
+            url: urlConsultaComposicionSubProducto,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ idProducto: id }),
+            dataType: "JSON",
+            success: function (result) {
+                var json = JSON.parse(result);
+                if (json.length > 0)
+                {
+                    TraeComposicionSeleccion(json);
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    }
+    else {
+        $("#CantidadPlatos").empty();
+        $("#Composicion").empty();
+        $("#CantidadDisponible").val('');
+        document.getElementById("SelectCantidadVender").value = '';
+        $("#SelectCantidadVender").attr("disabled", "disabled");
+    }
+    ListarPlatosOpciones();
 }

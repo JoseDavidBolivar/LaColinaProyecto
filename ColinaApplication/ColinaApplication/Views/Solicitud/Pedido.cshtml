@@ -14,6 +14,7 @@
     <div class="col-xs-12">
         <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
         <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
+        @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })  
         @Html.HiddenFor(m => m.ID, new { @Id = "ID" })        
     </div>
     <div class="col-md-12">
@@ -83,18 +84,27 @@
                                         <option value="">--SELECCIONE--</option>
                                     </select>
                                 </td>
-                                <td><p>Elija una producto: </p>
-                                    <select id="Subrpoductos" class="form-control input-sm">
+                                <td><p>Elija un producto: </p>
+                                    <select id="Subrpoductos" class="form-control input-sm" onchange="ConsultaComposicionSub();">
                                         <option value="">--SELECCIONE--</option>
                                     </select>
                                 </td>
-                                <td>
+                                <td style="width: 200px;">
                                     <p><b>Cantidad Disponible: </b></p>
-                                    <input id="CantidadDisponible" type="text" class="form-control input-sm" readonly="readonly"/>
+                                    <input id="CantidadDisponible" type="text" class="form-control input-sm" readonly="readonly" />
                                 </td>
                                 <td>
                                     <p><b>Cantidad: </b></p>
-                                    <input id="CantidadVender" type="text" class="form-control input-sm" readonly="readonly" autocomplete="off" />
+                                    <select id="SelectCantidadVender" onchange="ListarPlatosOpciones()" disabled class="form-control input-sm">
+                                        <option value="">--SELECCIONE--</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -103,11 +113,21 @@
                             <tr id="Composicion">
                                 
                             </tr>
+                            <tbody id="CantidadPlatos">
+                                
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <table style="width: 100%;">
                             <tr>
-
+                                <td>
+                                    <button id="AgregaSubproductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Agregar</button>
+                                </td>
                             </tr>
                         </table>
-                        
                     </div>
                 </div>
             </div>
@@ -120,15 +140,18 @@
     @Scripts.Render("~/Content/plugins/datatables/js")
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
     <script>
+        var User = "2";
         var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
         var urlListaSubProductos = '@Url.Action("ListaSubProductos", "Solicitud")';
         var urlListaComposicionSubProductos = '@Url.Action("ListaComposicionSubProductos", "Solicitud")';
-        var urlDatosElementoInventario =  '@Url.Action("DatosElementoInventario", "Solicitud")';
+        var urlDatosElementoInventario = '@Url.Action("DatosElementoInventario", "Solicitud")';
+        var urlListaPreciosSubproductos = '@Url.Action("ListaPreciosSubproductos", "Solicitud")';
+        var urlConsultaComposicionSubProducto = '@Url.Action("ConsultaComposicionSubProducto", "Solicitud")'; 
 
     </script>
     
-    <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.7"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.1"></script>
+    <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.6"></script>
     
     
 

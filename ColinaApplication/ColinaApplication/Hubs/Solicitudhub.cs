@@ -2,7 +2,9 @@
 using ColinaApplication.Data.Conexion;
 using Entity;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -49,13 +51,29 @@ namespace ColinaApplication.Hubs
             ConsultaMesa = solicitud.ConsultaSolicitudMesa(Convert.ToDecimal(Id));
             Clients.All.ListaDetallesMesa(ConsultaMesa);
         }
-        public void ConsultaComposicionSubProducto(decimal idProducto)
+        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<object> list2)
         {
-            List<TBL_COMPOSICION_SUBPRODUCTOS> list = new List<TBL_COMPOSICION_SUBPRODUCTOS>();
-            list = solicitud.ComposicionSubProductos(idProducto);
-            Clients.All.ListaCompoSubProdu(list);
-        }
+            List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> lista = new List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>>();
+            var fila = ((IEnumerable)list2).Cast<object>().ToList();
 
+            
+
+            for (int i = 0; i < fila.Count; i++)
+            {
+                var Vector = ((IEnumerable)fila[i]).Cast<object>().ToList();
+                //string adaptador = "{\"TBL_COMPOSICION_PRODUCTOS_SOLICITUD\":" + JsonConvert.SerializeObject(fila[i]+"}");
+                
+                //var result = JsonConvert.DeserializeObject<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>(adaptador);
+
+
+                //var IdProdSolicitud = result.ID_PRODUCTO_SOLICITUD;
+                //lista.Add(new List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> { new TBL_COMPOSICION_PRODUCTOS_SOLICITUD { ID_PRODUCTO_SOLICITUD = IdProdSolicitud} });
+
+            }
+
+            //solicitud.InsertaProductos(list1, result);
+            Clients.All.GuardoProductos();
+        }
 
     }
 }

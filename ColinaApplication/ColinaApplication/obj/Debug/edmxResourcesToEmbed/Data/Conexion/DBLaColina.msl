@@ -61,26 +61,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
-      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
-        <MappingFragment StoreEntitySet="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
-          <ScalarProperty Name="VALOR" ColumnName="VALOR" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-          <ScalarProperty Name="ID_PRODUCTO_SOLICITUD" ColumnName="ID_PRODUCTO_SOLICITUD" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TBL_COMPOSICION_SUBPRODUCTOS">
-      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_SUBPRODUCTOS">
-        <MappingFragment StoreEntitySet="TBL_COMPOSICION_SUBPRODUCTOS">
-          <ScalarProperty Name="VALOR_ESTIMADO" ColumnName="VALOR_ESTIMADO" />
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-          <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TBL_PRODUCTOS_SOLICITUD">
       <EntityTypeMapping TypeName="LACOModel.TBL_PRODUCTOS_SOLICITUD">
         <MappingFragment StoreEntitySet="TBL_PRODUCTOS_SOLICITUD">
@@ -101,6 +81,38 @@
           <ScalarProperty Name="CONTRASEÑA" ColumnName="CONTRASEÑA" />
           <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
           <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+        <MappingFragment StoreEntitySet="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
+          <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="ID_PRODUCTO_SOLICITUD" ColumnName="ID_PRODUCTO_SOLICITUD" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_COMPOSICION_SUBPRODUCTOS">
+      <EntityTypeMapping TypeName="LACOModel.TBL_COMPOSICION_SUBPRODUCTOS">
+        <MappingFragment StoreEntitySet="TBL_COMPOSICION_SUBPRODUCTOS">
+          <ScalarProperty Name="VARIOS" ColumnName="VARIOS" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_PRECIOS_SUBPRODUCTOS">
+      <EntityTypeMapping TypeName="LACOModel.TBL_PRECIOS_SUBPRODUCTOS">
+        <MappingFragment StoreEntitySet="TBL_PRECIOS_SUBPRODUCTOS">
+          <ScalarProperty Name="VALOR_MEDIDA" ColumnName="VALOR_MEDIDA" />
+          <ScalarProperty Name="CANTIDAD_PORCION" ColumnName="CANTIDAD_PORCION" />
+          <ScalarProperty Name="PRECIO_INDIVIDUAL" ColumnName="PRECIO_INDIVIDUAL" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

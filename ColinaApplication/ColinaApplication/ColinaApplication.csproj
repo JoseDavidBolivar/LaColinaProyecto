@@ -182,6 +182,9 @@
     <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Conexion\TBL_PRECIOS_SUBPRODUCTOS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Conexion\TBL_PRODUCTOS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>

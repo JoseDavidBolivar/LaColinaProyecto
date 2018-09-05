@@ -26,7 +26,7 @@ namespace ColinaApplication.Controllers
         public ActionResult Pedido(string Id)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
-            model.ID = Convert.ToDecimal(Id);
+            model.ID_MESA = Convert.ToDecimal(Id);
             return View(model);
         }
         public JsonResult ListaProductos()
@@ -53,6 +53,19 @@ namespace ColinaApplication.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-        
+        public JsonResult ListaPreciosSubproductos(string IdSubproducto)
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(solicitud.ListaPreciosSubproductos(Convert.ToDecimal(IdSubproducto))), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult ConsultaComposicionSubProducto(decimal idProducto)
+        {
+            List<TBL_COMPOSICION_SUBPRODUCTOS> list = new List<TBL_COMPOSICION_SUBPRODUCTOS>();
+            list = solicitud.ComposicionSubProductos(idProducto);
+            var jsonResult = Json(JsonConvert.SerializeObject(list), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
     }
 }

@@ -117,7 +117,7 @@ namespace ColinaApplication.Data.Business
                     model.ESTADO_SOLICITUD = Estados.Abierta;
                     contex.TBL_SOLICITUD.Add(model);
                     contex.SaveChanges();
-                    Respuesta = "Solicitud Insertado exitosamente";
+                    Respuesta = "Solicitud Insertada exitosamente";
                 }
                 catch (Exception e)
                 {
@@ -164,6 +164,64 @@ namespace ColinaApplication.Data.Business
             }
 
             return subrpoducto;
+        }
+        public List<TBL_PRECIOS_SUBPRODUCTOS> ListaPreciosSubproductos(decimal IdSubProducto)
+        {
+            List<TBL_PRECIOS_SUBPRODUCTOS> list = new List<TBL_PRECIOS_SUBPRODUCTOS>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                list = contex.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.ID_SUBPRODUCTO == IdSubProducto).ToList();
+            }
+            return list;
+        }
+        public string InsertaProductos(List<TBL_PRODUCTOS_SOLICITUD> list1, List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> list2)
+        {
+            string respuesta = "";
+            using (DBLaColina context = new DBLaColina())
+            {
+                try
+                {
+                    foreach (var item in list2)
+                    {
+                        decimal? precioFinal = 0;
+                        foreach (var item2 in item)
+                        {
+                            precioFinal = precioFinal + item2.VALOR;
+                        }
+                        
+                        TBL_PRODUCTOS_SOLICITUD model1 = new TBL_PRODUCTOS_SOLICITUD();
+                        model1.FECHA_REGISTRO = DateTime.Now;
+                        model1.ID_SOLICITUD = list1[0].ID_SOLICITUD;
+                        model1.ID_SUBPRODUCTO = list1[0].ID_SUBPRODUCTO;
+                        model1.ID_MESERO = list1[0].ID_MESERO;
+                        model1.PRECIO_PRODUCTO = list1[0].PRECIO_PRODUCTO;
+                        model1.PRECIO_FINAL = precioFinal;
+                        model1.ESTADO_PRODUCTOS = list1[0].ESTADO_PRODUCTOS;
+
+                        context.TBL_PRODUCTOS_SOLICITUD.Add(model1);
+
+                        foreach (var item3 in item)
+                        {
+                            TBL_COMPOSICION_PRODUCTOS_SOLICITUD model2 = new TBL_COMPOSICION_PRODUCTOS_SOLICITUD();
+                            model2.ID_PRODUCTO_SOLICITUD = model1.ID;
+                            model2.DESCRIPCION = item3.DESCRIPCION;
+                            model2.VALOR = item3.VALOR;
+                            context.TBL_COMPOSICION_PRODUCTOS_SOLICITUD.Add(model2);
+                        }
+
+                        context.SaveChanges();
+
+                        respuesta = "Productos insertados exitosamente";
+                    }
+                    
+
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return respuesta;
         }
     }
 }

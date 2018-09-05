@@ -16,7 +16,7 @@
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
-    <Property Name="VALOR_ESTIMADO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="VARIOS" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_MASTER_MESAS">
     <Key>
@@ -26,6 +26,17 @@
     <Property Name="NOMBRE_MESA" Type="varchar" MaxLength="255" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_PRECIOS_SUBPRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+    <Property Name="PRECIO_INDIVIDUAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="CANTIDAD_PORCION" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="VALOR_MEDIDA" Type="numeric" Precision="18" Scale="3" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS">
     <Key>
@@ -99,6 +110,7 @@
     <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_COMPOSICION_SUBPRODUCTOS" EntityType="Self.TBL_COMPOSICION_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PRECIOS_SUBPRODUCTOS" EntityType="Self.TBL_PRECIOS_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />

@@ -12,11 +12,13 @@ namespace ColinaApplication.Data.Conexion
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_COMPOSICION_SUBPRODUCTOS
+    public partial class TBL_PRECIOS_SUBPRODUCTOS
     {
         public decimal ID { get; set; }
         public Nullable<decimal> ID_SUBPRODUCTO { get; set; }
         public string DESCRIPCION { get; set; }
-        public Nullable<decimal> VARIOS { get; set; }
+        public Nullable<decimal> PRECIO_INDIVIDUAL { get; set; }
+        public Nullable<decimal> CANTIDAD_PORCION { get; set; }
+        public Nullable<decimal> VALOR_MEDIDA { get; set; }
     }
 }
