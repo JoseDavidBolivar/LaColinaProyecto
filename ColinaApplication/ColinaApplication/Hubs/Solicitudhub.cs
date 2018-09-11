@@ -1,4 +1,5 @@
 ﻿using ColinaApplication.Data.Business;
+using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
 using Entity;
 using Microsoft.AspNet.SignalR;
@@ -44,35 +45,52 @@ namespace ColinaApplication.Hubs
             listamesas = solicitud.ListaMesas();
             Clients.All.ListaMesas(listamesas);
         }
-        
+
         public void ConsultaMesaAbierta(string Id)
         {
             List<ConsultaSolicitudGeneral> ConsultaMesa = new List<ConsultaSolicitudGeneral>();
             ConsultaMesa = solicitud.ConsultaSolicitudMesa(Convert.ToDecimal(Id));
             Clients.All.ListaDetallesMesa(ConsultaMesa);
         }
-        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<object> list2)
+        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> list2, decimal valorDescontar, string IdMesa)
         {
-            List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> lista = new List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>>();
-            var fila = ((IEnumerable)list2).Cast<object>().ToList();
-
+            List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> model = new List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>>();
+            var count = (from a in list2 select new { a.ID}).Distinct().Count();
             
-
-            for (int i = 0; i < fila.Count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var Vector = ((IEnumerable)fila[i]).Cast<object>().ToList();
-                //string adaptador = "{\"TBL_COMPOSICION_PRODUCTOS_SOLICITUD\":" + JsonConvert.SerializeObject(fila[i]+"}");
+                var fila = Convert.ToInt32(list2[i].ID);
                 
-                //var result = JsonConvert.DeserializeObject<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>(adaptador);
-
-
-                //var IdProdSolicitud = result.ID_PRODUCTO_SOLICITUD;
-                //lista.Add(new List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> { new TBL_COMPOSICION_PRODUCTOS_SOLICITUD { ID_PRODUCTO_SOLICITUD = IdProdSolicitud} });
-
+                List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> arrays = list2.Where(a => a.ID == fila && (a.DESCRIPCION != null || a.VALOR != null)).ToList();
+                model.Add(arrays);                
             }
+            var respuesta = solicitud.InsertaProductos(list1, model);
 
-            //solicitud.InsertaProductos(list1, result);
-            Clients.All.GuardoProductos();
+            List<ActualizarProductos> lista = new List<ActualizarProductos>();
+            foreach (var item in list2)
+            {
+                var llave = "";
+                decimal? valorrestar = 0;
+                if(item.DESCRIPCION != null && item.DESCRIPCION != "")
+                {
+                    if ((item.DESCRIPCION == "CHURRASCO 350 GR") || (item.DESCRIPCION == "CARNE BABY BEEF 350 GR"))
+                    {
+                        llave = "TABLA SUBPRODUCTOS";
+                        valorrestar = 1;
+                    }
+                    else
+                    {
+                        llave = "TABLA PRECIOS SUBPRODUCTOS";
+                        valorrestar = null;
+                    }
+                    lista.Add(new ActualizarProductos { Id = Convert.ToDecimal(list1[0].ID_SUBPRODUCTO), Llave = llave, Descripcion = item.DESCRIPCION, ValorRestar = valorrestar });
+                }
+            }
+            var respuesta2 = solicitud.ActualizaCantidadSubProducto(lista);
+
+            Clients.Caller.GuardoProductos(respuesta);
+            Clients.All.ActualizaCantidadProductos(respuesta2);
+            ConsultaMesaAbierta(IdMesa);
         }
 
     }

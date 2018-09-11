@@ -24,15 +24,13 @@ function Registra_EventosPSR(connectpsr) {
     $('#AgregaSubproductos').click(function () {
         if (VComposiProducF.length > 0)
         {
+            alert(1);
             var CantiDispon = parseInt($("#CantidadDisponible").val());
             var CantiVender = parseInt($("#SelectCantidadVender").val());
-            alert();
             if (CantiDispon >= CantiVender)
             {
-                console.log(VProductosFinal);
-                console.log(VComposiProducF);
-                connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF );
-                alert("3");
+                var valordescontar = CantiVender;
+                connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF, valordescontar, $("#ID_MESA").val());
             }
             else
             {
@@ -48,83 +46,102 @@ function Registra_EventosPSR(connectpsr) {
 }
 
 function Llama_MetodosPSR(connectpsr) {
-    connectpsr.client.ListaDetallesMesa = function (data) {
+    connectpsr.client.ListaDetallesMesa = function (data, data2) {
+        if (data[0].IdMesa == $('#ID_MESA').val())
+        {
+            if (data.length > 0) {
+                ActualizaInfoMesa(data);
+                ActualizaInfoPrecios(data);
+                ActualizaInfoProductos(data);
+                $("#ID").val(data[0].Id);
 
-        if (data.length > 0) {
-            ActualizaInfoMesa(data);
-            ActualizaInfoPrecios(data);
-            ActualizaInfoProductos(data);
-            $("#ID").val(data[0].Id);
-
-        }
-        else {
-            $("#InfoMesa").empty();
-            $("#InfoMesa").append('<div class="col-lg-12">' +
-                    '<div class="small-box bg-green">' +
-                        '<div class="inner">' +
-                            '<h3>' +
-                                '#' + $('#ID_MESA').val() +
-                            '</h3>' +
-                            '<p>' + + '</p>' +
-                            '<p><b>Mesero:<b/> ' + + '</p>' +
-                            '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
-                            '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
+            }
+            else {
+                $("#InfoMesa").empty();
+                $("#InfoMesa").append('<div class="col-lg-12">' +
+                        '<div class="small-box bg-green">' +
+                            '<div class="inner">' +
+                                '<h3>' +
+                                    '#' + $('#ID_MESA').val() +
+                                '</h3>' +
+                                '<p>' + + '</p>' +
+                                '<p><b>Mesero:<b/> ' + + '</p>' +
+                                '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
+                                '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
+                            '</div>' +
+                            '<div class="icon">' +
+                                '<i class="fa fa-check"></i>' +
+                            '</div>' +
                         '</div>' +
-                        '<div class="icon">' +
-                            '<i class="fa fa-check"></i>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>');
-            $("#InfoPrecios").empty();
-            $("#InfoPrecios").append('<table class="table table-hover">' +
-                    '<tbody>' +
-                        '<tr>' +
-                            '<td>' +
-                                '<small>Otros Cobros: </small>' +
-                                '<input type="text" class="form-control input-sm" name="OtrosCobros"/>' +
-                            '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                            '<td>' +
-                                '<small>Descuentos: </small>' +
-                                '<input type="text" class="form-control input-sm" name="Descuentos"/>' +
-                            '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                            '<td>' +
-                                '<small>Total: </small>' +
-                                '<input type="text" class="form-control input-sm" name="Total"/>' +
-                            '</td>' +
-                        '</tr>' +
-                    '</tbody>' +
-                '</table>');
-            $("#InfoProductos").empty();
-            $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
-                    '<thead>' +
-                        '<tr>' +
-                            '<th>Id</th>' +
-                            '<th>Producto</th>' +
-                            '<th>Composicion</th>' +
-                            '<th>Cantidad</th>' +
-                            '<th>Precio</th>' +
-                        '</tr>' +
-                    '</thead>' +
-                    '<tbody id="BodyProductos">' +
-
-                    '</tbody>' +
+                    '</div>');
+                $("#InfoPrecios").empty();
+                $("#InfoPrecios").append('<table class="table table-hover">' +
+                        '<tbody>' +
+                            '<tr>' +
+                                '<td>' +
+                                    '<small>Otros Cobros: </small>' +
+                                    '<input type="text" class="form-control input-sm" name="OtrosCobros"/>' +
+                                '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td>' +
+                                    '<small>Descuentos: </small>' +
+                                    '<input type="text" class="form-control input-sm" name="Descuentos"/>' +
+                                '</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                                '<td>' +
+                                    '<small>Total: </small>' +
+                                    '<input type="text" class="form-control input-sm" name="Total"/>' +
+                                '</td>' +
+                            '</tr>' +
+                        '</tbody>' +
                     '</table>');
+                $("#InfoProductos").empty();
+                $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th>Id</th>' +
+                                '<th>Producto</th>' +
+                                '<th>Composicion</th>' +
+                                '<th>Cantidad</th>' +
+                                '<th>Precio</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody id="BodyProductos">' +
 
-            $('#Tabla2').DataTable();
+                        '</tbody>' +
+                        '</table>');
+
+                $('#Tabla2').DataTable();
 
 
+            }
         }
+        
     }
     
-    connectpsr.client.GuardoProductos = function () {
-        alert("ENTENDIDO");
-    }
-    
+    connectpsr.client.GuardoProductos = function (data) {
+        alert(data);
+        var x = document.getElementById("CerrarModalAP");
+        x.click();
+        document.getElementById("Categoria").value = '';
+        $("#Subrpoductos").empty();
+        $("#Subrpoductos").append("<option value=''>--SELECCIONE--</option>");
+        $("#Composicion").empty();
+        $("#CantidadPlatos").empty();
+        $("#CantidadDisponible").val('');
+        document.getElementById("SelectCantidadVender").value = '';
+        $("#SelectCantidadVender").attr("disabled", "disabled");
 
+    }
+
+    connectpsr.client.ActualizaCantidadProductos = function (data)
+    {
+        if ($("#Subrpoductos").val() == data.ID)
+            $("#CantidadDisponible").val(data.CANTIDAD_EXISTENCIA);
+    }
+    
 }
 
 function ActualizaInfoMesa(data) {
@@ -216,7 +233,7 @@ function ActualizaInfoProductos(data) {
     $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
             '<thead>' +
                 '<tr>' +
-                    '<th>Id</th>' +
+                    //'<th>Editar</th>' +
                     '<th>Producto</th>' +
                     '<th>Composicion</th>' +
                     '<th>Cantidad</th>' +
@@ -237,9 +254,9 @@ function ActualizaInfoProductos(data) {
         }
 
         $("#BodyProductos").append('<tr>' +
-                '<td>' +
-                    data[0].ProductosSolicitud[i].IdSubProducto +
-                '</<td>' +
+                //'<td>' +
+                //    data[0].ProductosSolicitud[i].IdSubProducto +
+                //'</<td>' +
                 '<td>' +
                     data[0].ProductosSolicitud[i].NombreSubProducto +
                 '</<td>' +
@@ -459,38 +476,69 @@ function GuardaPlatoVector(e) {
     var combo = document.getElementById(id);
     var selected = combo.options[combo.selectedIndex].text;
     var VComposiProducFH = [];
+    var VComposiProducFHA = [];
+    var VComposiProducFHE = [];
     if (selected != "NO")
     {
         VComposiProducFHR = {
+            ID: PosicionInicial,
             ID_PRODUCTO_SOLICITUD: "",
             DESCRIPCION: selected,
-            VALOR: $('option:selected', e).attr("valorIndividual")
+            VALOR: $('option:selected', e).attr("valorIndividual"),
         };
     }
     else {
         VComposiProducFHR = {};
     }
-    
+
     if (VComposiProducF.length > 0)
     {
-        VComposiProducFH = VComposiProducF[PosicionInicial];
-        if (VComposiProducFH != undefined)
+        for (var i = 0; i < VComposiProducF.length; i++)
         {
-            VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+            if (VComposiProducF[i].ID == PosicionInicial)
+            {
+                VComposiProducFH.push(VComposiProducF[i]);
+            }
+        }
+        if (VComposiProducFH.length > 0)
+        {
+            for (var j = 0; j < VComposiProducFH.length; j++)
+            {
+                if (j == PosicionFinal)
+                {
+                    VComposiProducFHA.push(VComposiProducFHR);
+                    VComposiProducFHE = VComposiProducFH[j];
+                }
+            }
+            if (VComposiProducFHA.length > 0)
+            {
+                for (var i = 0; i < VComposiProducF.length; i++) {
+                    console.log(VComposiProducF[i]);
+                    if (VComposiProducF[i] == VComposiProducFHE || VComposiProducF[i] == {})
+                    {
+                        VComposiProducF[i] = VComposiProducFHA[0];
+                    }
+                }
+                VComposiProducFH = [];
+                VComposiProducFHA = [];
+                VComposiProducFHE = [];
+            }
+            else
+            {
+                VComposiProducF.push(VComposiProducFHR);
+            }
         }
         else
         {
-            VComposiProducFH = {};
-            VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+            VComposiProducF.push(VComposiProducFHR);
         }
+        
     }
     else
     {
-        VComposiProducFH[PosicionInicial, PosicionFinal] = VComposiProducFHR;
+        VComposiProducF.push(VComposiProducFHR);
     }
-
-    VComposiProducF[PosicionInicial] = VComposiProducFH;
-    
+    console.log(VComposiProducF);
 }
 
 function ConsultaComposicionSub()

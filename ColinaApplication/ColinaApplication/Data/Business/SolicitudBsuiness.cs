@@ -199,13 +199,16 @@ namespace ColinaApplication.Data.Business
                         model1.ESTADO_PRODUCTOS = list1[0].ESTADO_PRODUCTOS;
 
                         context.TBL_PRODUCTOS_SOLICITUD.Add(model1);
+                        context.SaveChanges();
 
                         foreach (var item3 in item)
                         {
                             TBL_COMPOSICION_PRODUCTOS_SOLICITUD model2 = new TBL_COMPOSICION_PRODUCTOS_SOLICITUD();
+
                             model2.ID_PRODUCTO_SOLICITUD = model1.ID;
                             model2.DESCRIPCION = item3.DESCRIPCION;
                             model2.VALOR = item3.VALOR;
+                            
                             context.TBL_COMPOSICION_PRODUCTOS_SOLICITUD.Add(model2);
                         }
 
@@ -213,15 +216,46 @@ namespace ColinaApplication.Data.Business
 
                         respuesta = "Productos insertados exitosamente";
                     }
-                    
-
                 }
                 catch (Exception e)
                 {
-                    throw;
+                    throw e;
                 }
             }
             return respuesta;
+        }
+        public TBL_SUBPRODUCTOS ActualizaCantidadSubProducto(List<ActualizarProductos> lista)
+        {
+            TBL_SUBPRODUCTOS modelActualizar = new TBL_SUBPRODUCTOS();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                foreach (var item in lista)
+                {
+                    if(item.Llave == "TABLA SUBPRODUCTOS")
+                    {
+                        modelActualizar = contex.TBL_SUBPRODUCTOS.FirstOrDefault(a => a.ID == item.Id);
+
+                        if (modelActualizar != null)
+                        {
+                            var CantExist = modelActualizar.CANTIDAD_EXISTENCIA - item.ValorRestar;
+                            modelActualizar.CANTIDAD_EXISTENCIA = CantExist;
+                            contex.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        TBL_PRECIOS_SUBPRODUCTOS mod = new TBL_PRECIOS_SUBPRODUCTOS();
+                        mod = contex.TBL_PRECIOS_SUBPRODUCTOS.FirstOrDefault(a=>a.ID_SUBPRODUCTO == item.Id && a.DESCRIPCION == item.Descripcion);
+                        if(mod != null)
+                        {
+                            mod.CANTIDAD_PORCION = (mod.CANTIDAD_PORCION - mod.VALOR_MEDIDA);
+                            contex.SaveChanges();
+                        }
+                    }
+                }                
+                
+            }
+            return modelActualizar;
         }
     }
 }
