@@ -38,7 +38,7 @@ function Llama_MetodosSeMe(connectsm) {
                                         '</div>');
             }
             if (data[i].ESTADO == "ESPERA") {
-                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'ESPERA\');"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                                             '<div class="panel-heading">' +
                                                 '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
                                             '</div>' +
@@ -76,7 +76,10 @@ function alerta(id, Estado)
     if (Estado != "NO")
     {
         connectSM.server.actualizaMesa(id, Estado);
-        connectSM.server.insertaSolicitud(id, Estado, 2);
+        if (Estado == "OCUPADO")
+        {
+            connectSM.server.insertaSolicitud(id, Estado, Iduser);
+        }
     }
     window.location.href = '../Solicitud/Pedido?Id='+id;
 }

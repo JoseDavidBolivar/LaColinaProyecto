@@ -18,5 +18,6 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> CEDULA { get; set; }
         public string NOMBRE { get; set; }
         public string CONTRASEÑA { get; set; }
+        public Nullable<decimal> ID_PERFIL { get; set; }
     }
 }

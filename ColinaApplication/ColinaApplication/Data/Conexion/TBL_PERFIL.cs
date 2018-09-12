@@ -12,18 +12,9 @@ namespace ColinaApplication.Data.Conexion
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_SOLICITUD
+    public partial class TBL_PERFIL
     {
         public decimal ID { get; set; }
-        public Nullable<System.DateTime> FECHA_SOLICITUD { get; set; }
-        public Nullable<decimal> ID_MESA { get; set; }
-        public Nullable<decimal> ID_MESERO { get; set; }
-        public string IDENTIFICACION_CLIENTE { get; set; }
-        public string NOMBRE_CLIENTE { get; set; }
-        public string ESTADO_SOLICITUD { get; set; }
-        public string OBSERVACIONES { get; set; }
-        public Nullable<decimal> OTROS_COBROS { get; set; }
-        public Nullable<decimal> DESCUENTOS { get; set; }
-        public Nullable<decimal> TOTAL { get; set; }
+        public string NOMBRE_PERFIL { get; set; }
     }
 }

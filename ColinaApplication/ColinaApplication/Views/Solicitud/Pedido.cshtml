@@ -140,7 +140,7 @@
     @Scripts.Render("~/Content/plugins/datatables/js")
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
     <script>
-        var User = "2";
+        var User = '@Session["IdUsuario"].ToString()';
         var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
         var urlListaSubProductos = '@Url.Action("ListaSubProductos", "Solicitud")';
         var urlListaComposicionSubProductos = '@Url.Action("ListaComposicionSubProductos", "Solicitud")';
@@ -151,7 +151,7 @@
     </script>
     
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.9"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.13"></script>
     
     
 

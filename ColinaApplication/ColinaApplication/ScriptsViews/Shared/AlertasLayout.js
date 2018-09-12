@@ -15,6 +15,23 @@ function Registra_Eventos(connect) {
 function Llama_Metodos(connect) {
 
     connect.client.Hello = function (data) {
-        //alert('Signalr recibido'+ data);
+        
     }
 }
+
+
+
+function cargando() {
+    $("#Cargando").css("display", "block");
+
+}
+
+function cerrar() {
+    $("#Cargando").css("display", "none");
+}
+$(document).ajaxStart(function () {
+    cargando();
+});
+$(document).ajaxStop(function () {
+    cerrar();
+});

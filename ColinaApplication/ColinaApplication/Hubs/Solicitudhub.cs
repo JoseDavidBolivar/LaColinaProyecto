@@ -31,6 +31,9 @@ namespace ColinaApplication.Hubs
             model.ID_MESA = Convert.ToDecimal(IdMesa);
             model.ID_MESERO = Convert.ToDecimal(IdUser);
             model.ESTADO_SOLICITUD = Estado;
+            model.OTROS_COBROS = 0;
+            model.DESCUENTOS = 0;
+            model.TOTAL = 0;
             solicitud.InsertaSolicitud(model);
 
         }
@@ -52,7 +55,7 @@ namespace ColinaApplication.Hubs
             ConsultaMesa = solicitud.ConsultaSolicitudMesa(Convert.ToDecimal(Id));
             Clients.All.ListaDetallesMesa(ConsultaMesa);
         }
-        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> list2, decimal valorDescontar, string IdMesa)
+        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> list2, string IdMesa)
         {
             List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> model = new List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>>();
             var count = (from a in list2 select new { a.ID}).Distinct().Count();
@@ -66,30 +69,8 @@ namespace ColinaApplication.Hubs
             }
             var respuesta = solicitud.InsertaProductos(list1, model);
 
-            List<ActualizarProductos> lista = new List<ActualizarProductos>();
-            foreach (var item in list2)
-            {
-                var llave = "";
-                decimal? valorrestar = 0;
-                if(item.DESCRIPCION != null && item.DESCRIPCION != "")
-                {
-                    if ((item.DESCRIPCION == "CHURRASCO 350 GR") || (item.DESCRIPCION == "CARNE BABY BEEF 350 GR"))
-                    {
-                        llave = "TABLA SUBPRODUCTOS";
-                        valorrestar = 1;
-                    }
-                    else
-                    {
-                        llave = "TABLA PRECIOS SUBPRODUCTOS";
-                        valorrestar = null;
-                    }
-                    lista.Add(new ActualizarProductos { Id = Convert.ToDecimal(list1[0].ID_SUBPRODUCTO), Llave = llave, Descripcion = item.DESCRIPCION, ValorRestar = valorrestar });
-                }
-            }
-            var respuesta2 = solicitud.ActualizaCantidadSubProducto(lista);
-
-            Clients.Caller.GuardoProductos(respuesta);
-            Clients.All.ActualizaCantidadProductos(respuesta2);
+            Clients.Caller.GuardoProductos("Productos Insertados Exitosamente");
+            Clients.All.ActualizaCantidadProductos(respuesta);
             ConsultaMesaAbierta(IdMesa);
         }
 

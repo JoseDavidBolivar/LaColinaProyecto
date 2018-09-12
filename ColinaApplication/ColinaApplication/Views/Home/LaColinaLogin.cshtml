@@ -11,15 +11,28 @@
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <title>La Colina Login</title>
     <link href="~/Css/FaIcons.css" rel="stylesheet" />
-    <link href="~/Css/Inicio.css?1.0.1" rel="stylesheet" />
-    <script src="~/ScriptsViews/Inicio/LaColinaLogin.js?1.0.1"></script>
+    <link href="~/Css/Inicio.css?1.0.2" rel="stylesheet" />
+    
 
     <script>
-        var urlInicioSesion = '@Url.Action("InicioSesion", "Inicio")';
+        var urlInicioSesion = '@Url.Action("InicioSesion", "Home")';
     </script>
-    
+
 </head>
 <body style="background-color: #005f19; ">
+    <div id="Cargando" style="background-color: rgba(64, 63, 63, 0.77); position: absolute; width: 100%; 
+        height: 100%; top: 0; left: 0; z-index: 99; display: none;">
+        <div id="fountainG">
+            <div id="fountainG_1" class="fountainG"></div>
+            <div id="fountainG_2" class="fountainG"></div>
+            <div id="fountainG_3" class="fountainG"></div>
+            <div id="fountainG_4" class="fountainG"></div>
+            <div id="fountainG_5" class="fountainG"></div>
+            <div id="fountainG_6" class="fountainG"></div>
+            <div id="fountainG_7" class="fountainG"></div>
+            <div id="fountainG_8" class="fountainG"></div>
+        </div>
+    </div>
     <div style="width: 100%;">
         <div class="CajaContenedora">
             <div class="Circulo">
@@ -36,7 +49,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" id="Cedula" autocomplete="off"/>
+                                <input type="text" id="Cedula" autocomplete="off" />
                                 <i class="fa fa-2x fa-user"></i>
                             </td>
                         </tr>
@@ -47,7 +60,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="password" id="Contrasena" autocomplete="off"/>
+                                <input type="password" id="Contrasena" autocomplete="off" />
                                 <i class="fa fa-2x fa-lock"></i>
                             </td>
                         </tr>
@@ -61,6 +74,8 @@
             </div>
         </div>
     </div>
+    <script src="~/ScriptsViews/Home/LaColinaLogin.js?1.0.3"></script>
 </body>
 
 </html>
+

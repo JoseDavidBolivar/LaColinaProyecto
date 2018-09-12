@@ -15,22 +15,20 @@ $(function PedidoSignalR() {
     $.connection.hub.start().done(function () {
         Registra_EventosPSR(connectPSR);
     });
-
-
 });
 
 function Registra_EventosPSR(connectpsr) {
 
-    $('#AgregaSubproductos').click(function () {
+    $('#AgregaSubproductos').click(function ()
+    {
+        cargando();
         if (VComposiProducF.length > 0)
         {
-            alert(1);
             var CantiDispon = parseInt($("#CantidadDisponible").val());
             var CantiVender = parseInt($("#SelectCantidadVender").val());
             if (CantiDispon >= CantiVender)
             {
-                var valordescontar = CantiVender;
-                connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF, valordescontar, $("#ID_MESA").val());
+                connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF, $("#ID_MESA").val());
             }
             else
             {
@@ -40,6 +38,7 @@ function Registra_EventosPSR(connectpsr) {
         else {
             alert("Debe seleccionar primero los productos antes de Guardar .....");
         }
+        cerrar();
     });
 
     connectpsr.server.consultaMesaAbierta($('#ID_MESA').val());
@@ -164,25 +163,25 @@ function ActualizaInfoMesa(data) {
                 '</div>' +
             '</div>');
     }
-    if (data[0].EstadoSolicitud == "FINALIZADA") {
-        $("#InfoMesa").empty();
-        $("#InfoMesa").append('<div class="col-lg-12">' +
-                '<div class="small-box bg-green">' +
-                    '<div class="inner">' +
-                        '<h3>' +
-                            '#' + data[0].IdMesa +
-                        '</h3>' +
-                        '<p>' + data[0].NombreMesa + '</p>' +
-                        '<p><b>Mesero:<b/> ' + + '</p>' +
-                        '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
-                        '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
-                    '</div>' +
-                    '<div class="icon">' +
-                        '<i class="fa fa-check"></i>' +
-                    '</div>' +
-                '</div>' +
-            '</div>');
-    }
+    //if (data[0].EstadoSolicitud == "FINALIZADA") {
+    //    $("#InfoMesa").empty();
+    //    $("#InfoMesa").append('<div class="col-lg-12">' +
+    //            '<div class="small-box bg-green">' +
+    //                '<div class="inner">' +
+    //                    '<h3>' +
+    //                        '#' + data[0].IdMesa +
+    //                    '</h3>' +
+    //                    '<p>' + data[0].NombreMesa + '</p>' +
+    //                    '<p><b>Mesero:<b/> ' + + '</p>' +
+    //                    '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
+    //                    '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
+    //                '</div>' +
+    //                '<div class="icon">' +
+    //                    '<i class="fa fa-check"></i>' +
+    //                '</div>' +
+    //            '</div>' +
+    //        '</div>');
+    //}
     if (data[0].EstadoSolicitud == "LLEVAR") {
         $("#InfoMesa").empty();
         $("#InfoMesa").append('<div class="col-lg-12">' +
@@ -197,32 +196,33 @@ function ActualizaInfoMesa(data) {
                         '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
                     '</div>' +
                     '<div class="icon">' +
-                        '<i class="fa fa-check"></i>' +
+                        '<i class="fa fa-clock-o"></i>' +
                     '</div>' +
                 '</div>' +
             '</div>');
     }
 }
 function ActualizaInfoPrecios(data) {
+    console.log(data);
     $("#InfoPrecios").empty();
     $("#InfoPrecios").append('<table class="table table-hover">' +
             '<tbody>' +
                 '<tr>' +
                     '<td>' +
                         '<small>Otros Cobros: </small>' +
-                        '<input type="text" class="form-control input-sm" name="OtrosCobros"/>' +
+                        '<input type="text" class="form-control input-sm" name="OtrosCobros" value="' + data[0].OtrosCobros + '"/>' +
                     '</td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td>' +
                         '<small>Descuentos: </small>' +
-                        '<input type="text" class="form-control input-sm" name="Descuentos"/>' +
+                        '<input type="text" class="form-control input-sm" name="Descuentos" value="' + data[0].Descuentos + '"/>' +
                     '</td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td>' +
                         '<small>Total: </small>' +
-                        '<input type="text" class="form-control input-sm" name="Total"/>' +
+                        '<input type="text" class="form-control input-sm" name="Total" value="' + data[0].Total + '" ReadOnly="true"/>' +
                     '</td>' +
                 '</tr>' +
             '</tbody>' +
@@ -411,7 +411,6 @@ function ListarPlatosOpciones() {
             $("#CantidadPlatos").append('<tr>' + title + '</tr><tr>' + code + '</tr><tr></tr>');
 
         }
-        //console.log(VListaSelects);
         ListarSelects();
 
     }
@@ -450,14 +449,29 @@ function LlenaDesplegable(idBusqueda, Select)
             dataType: "JSON",
             success: function (result) {
                 var json = JSON.parse(result);
-                if (json.length > 0) {
-                    for (var index = 0, len = json.length; index < len; index++) {
-                        
-                        $('#' + Select + '').append($('<option>', {
-                            value: json[index].ID,
-                            text: json[index].DESCRIPCION,
-                            valorIndividual: json[index].PRECIO_INDIVIDUAL
-                        }));
+                if (json.length > 0)
+                {
+                    for (var index = 0, len = json.length; index < len; index++)
+                    {
+                        if (json[index].CANTIDAD_PORCION > 0 && json[index].ID_SUBPRODUCTO == 7)
+                        {
+                            $('#' + Select + '').append($('<option>', {
+                                value: json[index].ID,
+                                text: json[index].DESCRIPCION,
+                                valorIndividual: json[index].PRECIO_INDIVIDUAL
+                            }));
+                        }
+                        else
+                        {
+                            if (json[index].ID_SUBPRODUCTO != 7)
+                            {
+                                $('#' + Select + '').append($('<option>', {
+                                    value: json[index].ID,
+                                    text: json[index].DESCRIPCION,
+                                    valorIndividual: json[index].PRECIO_INDIVIDUAL
+                                }));
+                            }
+                        }
                     }
                 }
             },
@@ -513,7 +527,6 @@ function GuardaPlatoVector(e) {
             if (VComposiProducFHA.length > 0)
             {
                 for (var i = 0; i < VComposiProducF.length; i++) {
-                    console.log(VComposiProducF[i]);
                     if (VComposiProducF[i] == VComposiProducFHE || VComposiProducF[i] == {})
                     {
                         VComposiProducF[i] = VComposiProducFHA[0];
@@ -538,7 +551,6 @@ function GuardaPlatoVector(e) {
     {
         VComposiProducF.push(VComposiProducFHR);
     }
-    console.log(VComposiProducF);
 }
 
 function ConsultaComposicionSub()

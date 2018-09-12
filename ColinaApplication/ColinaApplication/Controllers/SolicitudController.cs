@@ -1,4 +1,5 @@
 ﻿using ColinaApplication.Data.Business;
+using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace ColinaApplication.Controllers
 {
+    [Expiring_Filter]
     public class SolicitudController : Controller
     {
         SolicitudBsuiness solicitud;

@@ -18,6 +18,9 @@ namespace Entity
         public string NombreCliente { get; set; }
         public string EstadoSolicitud { get; set; }
         public string Observaciones { get; set; }
+        public decimal? OtrosCobros { get; set; }
+        public decimal? Descuentos { get; set; }
+        public decimal? Total { get; set; }
         public List<ProductosSolicitud> ProductosSolicitud { get; set; }
         
     }

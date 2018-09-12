@@ -32,6 +32,13 @@
           <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" />
           <Property Name="ESTADO" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="TBL_PERFIL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_PERFIL" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="TBL_PRECIOS_SUBPRODUCTOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -76,6 +83,9 @@
           <Property Name="NOMBRE_CLIENTE" Type="varchar" MaxLength="255" />
           <Property Name="ESTADO_SOLICITUD" Type="varchar" MaxLength="255" />
           <Property Name="OBSERVACIONES" Type="ntext" />
+          <Property Name="OTROS_COBROS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DESCUENTOS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_SUBPRODUCTOS">
           <Key>
@@ -86,7 +96,7 @@
           <Property Name="FECHA_INGRESO" Type="datetime" />
           <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
           <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
-          <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CANTIDAD_EXISTENCIA" Type="numeric" Precision="18" Scale="3" />
           <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TBL_SUBPRODUCTOS_LOG">
@@ -110,11 +120,13 @@
           <Property Name="CEDULA" Type="numeric" Precision="18" Scale="0" />
           <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
           <Property Name="CONTRASEÑA" Type="varchar" MaxLength="255" />
+          <Property Name="ID_PERFIL" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityContainer Name="LACOModelStoreContainer">
           <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_COMPOSICION_SUBPRODUCTOS" EntityType="Self.TBL_COMPOSICION_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PRECIOS_SUBPRODUCTOS" EntityType="Self.TBL_PRECIOS_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
@@ -141,12 +153,13 @@
           <EntitySet Name="TBL_PRODUCTOS" EntityType="LACOModel.TBL_PRODUCTOS" />
           <EntitySet Name="TBL_SUBPRODUCTOS" EntityType="LACOModel.TBL_SUBPRODUCTOS" />
           <EntitySet Name="TBL_SUBPRODUCTOS_LOG" EntityType="LACOModel.TBL_SUBPRODUCTOS_LOG" />
-          <EntitySet Name="TBL_SOLICITUD" EntityType="LACOModel.TBL_SOLICITUD" />
           <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="LACOModel.TBL_PRODUCTOS_SOLICITUD" />
-          <EntitySet Name="TBL_USUARIOS" EntityType="LACOModel.TBL_USUARIOS" />
           <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="LACOModel.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" />
           <EntitySet Name="TBL_COMPOSICION_SUBPRODUCTOS" EntityType="LACOModel.TBL_COMPOSICION_SUBPRODUCTOS" />
           <EntitySet Name="TBL_PRECIOS_SUBPRODUCTOS" EntityType="LACOModel.TBL_PRECIOS_SUBPRODUCTOS" />
+          <EntitySet Name="TBL_PERFIL" EntityType="LACOModel.TBL_PERFIL" />
+          <EntitySet Name="TBL_USUARIOS" EntityType="LACOModel.TBL_USUARIOS" />
+          <EntitySet Name="TBL_SOLICITUD" EntityType="LACOModel.TBL_SOLICITUD" />
         </EntityContainer>
         <EntityType Name="TBL_PRODUCTOS">
           <Key>
@@ -165,7 +178,7 @@
           <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
           <Property Name="NOMBRE_SUBPRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PRECIO_UNITARIO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CANTIDAD_EXISTENCIA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CANTIDAD_EXISTENCIA" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBL_SUBPRODUCTOS_LOG">
@@ -181,19 +194,6 @@
           <Property Name="CANTIDAD_EXISTENCIA" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBL_SOLICITUD">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
-          <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
           <Key>
             <PropertyRef Name="ID" />
@@ -206,15 +206,6 @@
           <Property Name="PRECIO_PRODUCTO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="PRECIO_FINAL" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ESTADO_PRODUCTOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TBL_USUARIOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CEDULA" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRASEÑA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
           <Key>
@@ -244,6 +235,39 @@
           <Property Name="PRECIO_INDIVIDUAL" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="CANTIDAD_PORCION" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="VALOR_MEDIDA" Type="Decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="TBL_PERFIL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_USUARIOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CEDULA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRASEÑA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PERFIL" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TBL_SOLICITUD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
+          <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTROS_COBROS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DESCUENTOS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TOTAL" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -297,20 +321,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBL_SOLICITUD">
-            <EntityTypeMapping TypeName="LACOModel.TBL_SOLICITUD">
-              <MappingFragment StoreEntitySet="TBL_SOLICITUD">
-                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
-                <ScalarProperty Name="ESTADO_SOLICITUD" ColumnName="ESTADO_SOLICITUD" />
-                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
-                <ScalarProperty Name="IDENTIFICACION_CLIENTE" ColumnName="IDENTIFICACION_CLIENTE" />
-                <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
-                <ScalarProperty Name="ID_MESA" ColumnName="ID_MESA" />
-                <ScalarProperty Name="FECHA_SOLICITUD" ColumnName="FECHA_SOLICITUD" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_PRODUCTOS_SOLICITUD">
             <EntityTypeMapping TypeName="LACOModel.TBL_PRODUCTOS_SOLICITUD">
               <MappingFragment StoreEntitySet="TBL_PRODUCTOS_SOLICITUD">
@@ -321,16 +331,6 @@
                 <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
                 <ScalarProperty Name="ID_SOLICITUD" ColumnName="ID_SOLICITUD" />
                 <ScalarProperty Name="FECHA_REGISTRO" ColumnName="FECHA_REGISTRO" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBL_USUARIOS">
-            <EntityTypeMapping TypeName="LACOModel.TBL_USUARIOS">
-              <MappingFragment StoreEntitySet="TBL_USUARIOS">
-                <ScalarProperty Name="CONTRASEÑA" ColumnName="CONTRASEÑA" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -363,6 +363,42 @@
                 <ScalarProperty Name="PRECIO_INDIVIDUAL" ColumnName="PRECIO_INDIVIDUAL" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
                 <ScalarProperty Name="ID_SUBPRODUCTO" ColumnName="ID_SUBPRODUCTO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PERFIL">
+            <EntityTypeMapping TypeName="LACOModel.TBL_PERFIL">
+              <MappingFragment StoreEntitySet="TBL_PERFIL">
+                <ScalarProperty Name="NOMBRE_PERFIL" ColumnName="NOMBRE_PERFIL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_USUARIOS">
+            <EntityTypeMapping TypeName="LACOModel.TBL_USUARIOS">
+              <MappingFragment StoreEntitySet="TBL_USUARIOS">
+                <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+                <ScalarProperty Name="CONTRASEÑA" ColumnName="CONTRASEÑA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SOLICITUD">
+            <EntityTypeMapping TypeName="LACOModel.TBL_SOLICITUD">
+              <MappingFragment StoreEntitySet="TBL_SOLICITUD">
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="DESCUENTOS" ColumnName="DESCUENTOS" />
+                <ScalarProperty Name="OTROS_COBROS" ColumnName="OTROS_COBROS" />
+                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
+                <ScalarProperty Name="ESTADO_SOLICITUD" ColumnName="ESTADO_SOLICITUD" />
+                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
+                <ScalarProperty Name="IDENTIFICACION_CLIENTE" ColumnName="IDENTIFICACION_CLIENTE" />
+                <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
+                <ScalarProperty Name="ID_MESA" ColumnName="ID_MESA" />
+                <ScalarProperty Name="FECHA_SOLICITUD" ColumnName="FECHA_SOLICITUD" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

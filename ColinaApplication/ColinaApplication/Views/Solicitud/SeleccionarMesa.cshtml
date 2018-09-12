@@ -31,8 +31,10 @@
 </div>
 
 @section Scripts{
-    
-    <script src="~/ScriptsViews/Solicitud/SeleccionarMesa.js?1.0.7"></script>
+    <script>
+        var Iduser = '@Session["IdUsuario"].ToString()';
+    </script>
+    <script src="~/ScriptsViews/Solicitud/SeleccionarMesa.js?1.0.8"></script>
 
 }
 

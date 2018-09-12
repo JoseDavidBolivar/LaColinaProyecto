@@ -40,6 +40,9 @@ namespace ColinaApplication.Data.Business
                         NombreCliente = ConsultaSolicitud.NOMBRE_CLIENTE,
                         EstadoSolicitud = ConsultaSolicitud.ESTADO_SOLICITUD,
                         Observaciones = ConsultaSolicitud.OBSERVACIONES,
+                        OtrosCobros = ConsultaSolicitud.OTROS_COBROS,
+                        Descuentos = ConsultaSolicitud.DESCUENTOS,
+                        Total = ConsultaSolicitud.TOTAL,
                         ProductosSolicitud = new List<ProductosSolicitud>()
 
                     });                    
@@ -174,9 +177,9 @@ namespace ColinaApplication.Data.Business
             }
             return list;
         }
-        public string InsertaProductos(List<TBL_PRODUCTOS_SOLICITUD> list1, List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> list2)
+        public TBL_SUBPRODUCTOS InsertaProductos(List<TBL_PRODUCTOS_SOLICITUD> list1, List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> list2)
         {
-            string respuesta = "";
+            TBL_SUBPRODUCTOS respuesta = new TBL_SUBPRODUCTOS();
             using (DBLaColina context = new DBLaColina())
             {
                 try
@@ -210,11 +213,42 @@ namespace ColinaApplication.Data.Business
                             model2.VALOR = item3.VALOR;
                             
                             context.TBL_COMPOSICION_PRODUCTOS_SOLICITUD.Add(model2);
+
+                            TBL_PRECIOS_SUBPRODUCTOS consulta = new TBL_PRECIOS_SUBPRODUCTOS();
+                            consulta = context.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.ID_SUBPRODUCTO == 7 && a.DESCRIPCION == model2.DESCRIPCION).FirstOrDefault();
+                            if (consulta != null)
+                            {
+                                consulta.CANTIDAD_PORCION = consulta.CANTIDAD_PORCION - consulta.VALOR_MEDIDA;
+
+                                TBL_SOLICITUD solicitud = new TBL_SOLICITUD();
+                                solicitud = context.TBL_SOLICITUD.FirstOrDefault(a=>a.ID == model1.ID_SOLICITUD);
+                                solicitud.TOTAL = solicitud.TOTAL + solicitud.OTROS_COBROS - solicitud.DESCUENTOS + model2.VALOR;
+                                context.SaveChanges();
+
+                            }
+                            else
+                            {
+                                TBL_PRECIOS_SUBPRODUCTOS consulta2 = new TBL_PRECIOS_SUBPRODUCTOS();
+                                consulta2 = context.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.DESCRIPCION == model2.DESCRIPCION).FirstOrDefault();
+                                if (consulta2 != null)
+                                {
+                                    TBL_SUBPRODUCTOS RegistroActualizar = new TBL_SUBPRODUCTOS();
+                                    RegistroActualizar = context.TBL_SUBPRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
+                                    if (RegistroActualizar != null)
+                                    {
+                                        RegistroActualizar.CANTIDAD_EXISTENCIA = RegistroActualizar.CANTIDAD_EXISTENCIA - consulta2.VALOR_MEDIDA;
+                                    }
+
+                                    TBL_SOLICITUD solicitud = new TBL_SOLICITUD();
+                                    solicitud = context.TBL_SOLICITUD.FirstOrDefault(a => a.ID == model1.ID_SOLICITUD);
+                                    solicitud.TOTAL = solicitud.TOTAL + solicitud.OTROS_COBROS - solicitud.DESCUENTOS + model2.VALOR;
+                                    context.SaveChanges();
+                                }
+                            }
                         }
 
                         context.SaveChanges();
-
-                        respuesta = "Productos insertados exitosamente";
+                        respuesta = context.TBL_SUBPRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
                     }
                 }
                 catch (Exception e)
@@ -224,38 +258,6 @@ namespace ColinaApplication.Data.Business
             }
             return respuesta;
         }
-        public TBL_SUBPRODUCTOS ActualizaCantidadSubProducto(List<ActualizarProductos> lista)
-        {
-            TBL_SUBPRODUCTOS modelActualizar = new TBL_SUBPRODUCTOS();
-            using (DBLaColina contex = new DBLaColina())
-            {
-                foreach (var item in lista)
-                {
-                    if(item.Llave == "TABLA SUBPRODUCTOS")
-                    {
-                        modelActualizar = contex.TBL_SUBPRODUCTOS.FirstOrDefault(a => a.ID == item.Id);
-
-                        if (modelActualizar != null)
-                        {
-                            var CantExist = modelActualizar.CANTIDAD_EXISTENCIA - item.ValorRestar;
-                            modelActualizar.CANTIDAD_EXISTENCIA = CantExist;
-                            contex.SaveChanges();
-                        }
-                    }
-                    else
-                    {
-                        TBL_PRECIOS_SUBPRODUCTOS mod = new TBL_PRECIOS_SUBPRODUCTOS();
-                        mod = contex.TBL_PRECIOS_SUBPRODUCTOS.FirstOrDefault(a=>a.ID_SUBPRODUCTO == item.Id && a.DESCRIPCION == item.Descripcion);
-                        if(mod != null)
-                        {
-                            mod.CANTIDAD_PORCION = (mod.CANTIDAD_PORCION - mod.VALOR_MEDIDA);
-                            contex.SaveChanges();
-                        }
-                    }
-                }                
-                
-            }
-            return modelActualizar;
-        }
+        
     }
 }

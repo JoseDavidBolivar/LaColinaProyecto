@@ -156,9 +156,10 @@
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\MaestroController.cs" />
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Data\Business\HomeBusiness.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
-    <Compile Include="Data\Clases\ActualizarProductos.cs" />
     <Compile Include="Data\Clases\Estados.cs" />
+    <Compile Include="Data\Clases\ExpiringFilter.cs" />
     <Compile Include="Data\Conexion\DBLaColina.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -181,6 +182,9 @@
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_PERFIL.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_PRECIOS_SUBPRODUCTOS.cs">
@@ -1752,6 +1756,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="ScriptsViews\Home\LaColinaLogin.js" />
     <Content Include="ScriptsViews\Shared\AlertasLayout.js" />
     <Content Include="ScriptsViews\Solicitud\Pedido.js" />
     <Content Include="ScriptsViews\Solicitud\PedidoSignalR.js" />
@@ -1855,20 +1860,18 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Inicio\LaColinaLogin.cshtml" />
     <Content Include="Views\Inicio\LaColinaRestaurante.cshtml" />
     <Content Include="Views\Caja\Factura.cshtml" />
     <Content Include="Views\Maestro\Personal.cshtml" />
     <Content Include="Views\Maestro\Configuracion.cshtml" />
     <Content Include="Views\Solicitud\Pedido.cshtml" />
     <Content Include="Views\Solicitud\SeleccionarMesa.cshtml" />
+    <Content Include="Views\Home\LaColinaLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="ScriptsViews\Inicio\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
