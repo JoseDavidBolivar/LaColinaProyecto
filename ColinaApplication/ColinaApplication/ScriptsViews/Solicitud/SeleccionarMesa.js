@@ -10,13 +10,11 @@ $(function SeleccionarMesa() {
 });
 
 function Registra_EventosSeMe(connectsm) {
-
-
-    connectsm.server.listarEstadoMesas();
+    connectsm.server.listarEstadoMesas("NO");
 }
 function Llama_MetodosSeMe(connectsm) {
 
-    connectsm.client.ListaMesas = function (data) {
+    connectsm.client.ListaMesas = function (data, Redirecciona) {
         $("#ListaMesas").empty();
         var contador = 0;
         for (var i = 0; i < data.length; i++)
@@ -66,20 +64,25 @@ function Llama_MetodosSeMe(connectsm) {
             if (contador == 88) { $("#ListaMesas").append('<br/><br/><br/>'); $("#ListaMesas").css("min-height", "1260px"); }
             if (contador == 96) { $("#ListaMesas").append('<br/><br/><br/>'); $("#ListaMesas").css("min-height", "1360px"); }
         }
+        if (Redirecciona == "SI") {
+            window.location.href = '../Solicitud/Pedido?Id=' + Id;
+        }
     }
 }
 
+var Id = 0;
 
 function alerta(id, Estado)
 {
     console.log(Estado);
     if (Estado != "NO")
     {
-        connectSM.server.actualizaMesa(id, Estado);
-        if (Estado == "OCUPADO")
-        {
-            connectSM.server.insertaSolicitud(id, Estado, Iduser);
-        }
+        connectSM.server.actualizaMesa(id, Estado, Iduser);
+        Id = id;
     }
-    window.location.href = '../Solicitud/Pedido?Id='+id;
+    else
+    {
+        window.location.href = '../Solicitud/Pedido?Id=' + id;
+    }
+    
 }

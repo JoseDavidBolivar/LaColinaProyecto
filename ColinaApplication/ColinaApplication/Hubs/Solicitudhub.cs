@@ -20,10 +20,14 @@ namespace ColinaApplication.Hubs
         {
             solicitud = new SolicitudBsuiness();
         }
-        public void ActualizaMesa(string id, string Estado)
+        public void ActualizaMesa(string id, string Estado, string IdUser)
         {
             solicitud.ActualizaEstadoMesa(Convert.ToDecimal(id), Estado);
-            ListarEstadoMesas();
+            if (Estado == "OCUPADO")
+            {
+                InsertaSolicitud(id, Estado, IdUser);
+            }
+            ListarEstadoMesas("SI");
         }
         public void InsertaSolicitud(string IdMesa, string Estado, string IdUser)
         {
@@ -39,14 +43,14 @@ namespace ColinaApplication.Hubs
         }
         public void ListaMesas()
         {
-            ListarEstadoMesas();
+            ListarEstadoMesas("NO");
         }
-        public void ListarEstadoMesas()
+        public void ListarEstadoMesas(string Redirecciona)
         {
             List<TBL_MASTER_MESAS> listamesas = new List<TBL_MASTER_MESAS>();
             List<MasterMesas> mesas = new List<MasterMesas>();
             listamesas = solicitud.ListaMesas();
-            Clients.All.ListaMesas(listamesas);
+            Clients.All.ListaMesas(listamesas, Redirecciona);
         }
 
         public void ConsultaMesaAbierta(string Id)

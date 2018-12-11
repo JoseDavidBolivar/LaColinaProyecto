@@ -3,3 +3,8 @@ C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\b
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb
 C:\Users\jose.gomez\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
+C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.dll
+C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.pdb
+C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
+C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
+C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb

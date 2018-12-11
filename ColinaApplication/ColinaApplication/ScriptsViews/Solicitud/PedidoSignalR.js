@@ -29,6 +29,12 @@ function Registra_EventosPSR(connectpsr) {
             if (CantiDispon >= CantiVender)
             {
                 connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF, $("#ID_MESA").val());
+                VProductosInfo = [];
+                VProductosFinal = [];
+                VComposiProducF = [];
+
+                VListaSelects = [];
+
             }
             else
             {
@@ -319,6 +325,7 @@ function ListaCantidadDisponible(id) {
 }
 
 function CargaProducto() {
+    VProductosFinal = [];
     $.ajax({
         type: "POST",
         url: urlListaProductos,
@@ -348,6 +355,7 @@ function CargaSubProducto() {
     $("#Composicion").empty();
     $("#CantidadPlatos").empty();    
     $("#CantidadDisponible").val('');
+    VProductosFinal = [];
     VComposiProducFH = [];
     document.getElementById("SelectCantidadVender").value = '';
     $("#SelectCantidadVender").attr("disabled", "disabled");
@@ -382,6 +390,7 @@ function CargaSubProducto() {
 
 function ListarPlatosOpciones() {
     VProductosFinal = [];
+    VComposiProducFH = [];
     $("#CantidadPlatos").empty();
     $("#TituloPlatos").empty();
     var CantidadPlatos = $("#SelectCantidadVender").val();
