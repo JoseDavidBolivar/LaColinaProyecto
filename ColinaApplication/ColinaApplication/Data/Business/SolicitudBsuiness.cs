@@ -28,6 +28,8 @@ namespace ColinaApplication.Data.Business
                 var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a=> a.ID_MESA == IdMesa).ToList().LastOrDefault();
                 if(ConsultaSolicitud != null)
                 {
+                    var lista = context.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
+                    var total = lista.Sum(a=>a.PRECIO_FINAL);
                     solicitudMesa.Add(new ConsultaSolicitudGeneral
                     {
                         Id = ConsultaSolicitud.ID,
@@ -35,14 +37,14 @@ namespace ColinaApplication.Data.Business
                         IdMesa = ConsultaSolicitud.ID_MESA,
                         NombreMesa = context.TBL_MASTER_MESAS.Where(z => z.ID == IdMesa).FirstOrDefault().NOMBRE_MESA,
                         IdMesero = ConsultaSolicitud.ID_MESERO,
-                        NombreMesero = context.TBL_USUARIOS.Where(a=>a.ID == ConsultaSolicitud.ID_MESERO).FirstOrDefault().NOMBRE,
+                        NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == ConsultaSolicitud.ID_MESERO).FirstOrDefault().NOMBRE,
                         IdentificacionCliente = ConsultaSolicitud.IDENTIFICACION_CLIENTE,
                         NombreCliente = ConsultaSolicitud.NOMBRE_CLIENTE,
                         EstadoSolicitud = ConsultaSolicitud.ESTADO_SOLICITUD,
                         Observaciones = ConsultaSolicitud.OBSERVACIONES,
                         OtrosCobros = ConsultaSolicitud.OTROS_COBROS,
                         Descuentos = ConsultaSolicitud.DESCUENTOS,
-                        Total = ConsultaSolicitud.TOTAL,
+                        Total = total,
                         ProductosSolicitud = new List<ProductosSolicitud>()
 
                     });                    
@@ -258,6 +260,71 @@ namespace ColinaApplication.Data.Business
             }
             return respuesta;
         }
-        
+        public string ActualizaSolicitud(TBL_SOLICITUD model)
+        {
+            string Respuesta = "";
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_SOLICITUD actualiza = new TBL_SOLICITUD();
+                    actualiza = contex.TBL_SOLICITUD.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.IDENTIFICACION_CLIENTE = model.IDENTIFICACION_CLIENTE;
+                        actualiza.NOMBRE_CLIENTE = model.NOMBRE_CLIENTE;
+                        actualiza.ESTADO_SOLICITUD = model.ESTADO_SOLICITUD;
+                        actualiza.OBSERVACIONES = model.OBSERVACIONES;
+                        actualiza.OTROS_COBROS = model.OTROS_COBROS;
+                        actualiza.DESCUENTOS = model.DESCUENTOS;
+                        actualiza.TOTAL = model.TOTAL;
+                        contex.SaveChanges();
+                        Respuesta = "Solicitud actualizada exitosamente";
+                    }
+                    else
+                    {
+                        Respuesta = "No existe la solicitud " + model.ID;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = "Error Servidor: " + e;
+                }
+
+            }
+            return Respuesta;
+        }
+        public string CancelaProductosSolicitud(decimal IdSolicitud)
+        {
+            string Respuesta = "";
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    List<TBL_PRODUCTOS_SOLICITUD> actualiza = new List<TBL_PRODUCTOS_SOLICITUD>();
+                    actualiza = contex.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == IdSolicitud).ToList();
+                    if (actualiza.Count > 0)
+                    {
+                        foreach (var item in actualiza)
+                        {
+                            item.ESTADO_PRODUCTOS = "CANCELADO";
+                            contex.SaveChanges();
+                        };
+                        
+                        Respuesta = "Productos actualizados exitosamente";
+                    }
+                    else
+                    {
+                        Respuesta = "No existe Productos para esta solicitud";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = "Error Servidor: " + e;
+                }
+
+            }
+            return Respuesta;
+        }
     }
 }

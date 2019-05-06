@@ -69,5 +69,6 @@ namespace ColinaApplication.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
+
     }
 }

@@ -27,7 +27,7 @@ namespace ColinaApplication.Hubs
             {
                 InsertaSolicitud(id, Estado, IdUser);
             }
-            ListarEstadoMesas("SI");
+            ListarEstadoMesas("SI", Convert.ToDecimal(id));
         }
         public void InsertaSolicitud(string IdMesa, string Estado, string IdUser)
         {
@@ -43,14 +43,14 @@ namespace ColinaApplication.Hubs
         }
         public void ListaMesas()
         {
-            ListarEstadoMesas("NO");
+            ListarEstadoMesas("NO", 0);
         }
-        public void ListarEstadoMesas(string Redirecciona)
+        public void ListarEstadoMesas(string Redirecciona, decimal Idmesa)
         {
             List<TBL_MASTER_MESAS> listamesas = new List<TBL_MASTER_MESAS>();
             List<MasterMesas> mesas = new List<MasterMesas>();
             listamesas = solicitud.ListaMesas();
-            Clients.All.ListaMesas(listamesas, Redirecciona);
+            Clients.All.ListaMesas(listamesas, Redirecciona, Idmesa);
         }
 
         public void ConsultaMesaAbierta(string Id)
@@ -76,6 +76,27 @@ namespace ColinaApplication.Hubs
             Clients.Caller.GuardoProductos("Productos Insertados Exitosamente");
             Clients.All.ActualizaCantidadProductos(respuesta);
             ConsultaMesaAbierta(IdMesa);
+        }
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string Total, string Estado, string IdMesa)
+        {
+            TBL_SOLICITUD model = new TBL_SOLICITUD();
+            model.ID = Id;
+            model.IDENTIFICACION_CLIENTE = Cedula;
+            model.NOMBRE_CLIENTE = NombreCliente;
+            model.OBSERVACIONES = Observaciones;
+            model.ESTADO_SOLICITUD = Estado;
+            model.OTROS_COBROS = Convert.ToDecimal(OtrosCobros);
+            model.DESCUENTOS = Convert.ToDecimal(Descuentos);
+            model.TOTAL = Convert.ToDecimal(Total);
+
+            var respuesta = solicitud.ActualizaSolicitud(model);
+            Clients.Caller.GuardoProductos(respuesta);
+            ConsultaMesaAbierta(IdMesa);
+        }
+        public void CancelaPedido(decimal IdSolicitud)
+        {
+            var respuesta = solicitud.CancelaProductosSolicitud(IdSolicitud);
+
         }
 
     }

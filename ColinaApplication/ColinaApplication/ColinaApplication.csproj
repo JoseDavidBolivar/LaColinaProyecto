@@ -1742,6 +1742,7 @@
     <Content Include="Css\fontawesome-free-5.2.0-web\webfonts\fa-regular-400.svg" />
     <Content Include="Css\fontawesome-free-5.2.0-web\webfonts\fa-solid-900.svg" />
     <Content Include="Css\Inicio.css" />
+    <Content Include="Css\Jquery-confirm.css" />
     <Content Include="Data\Conexion\DBLaColina.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DBLaColina.edmx</DependentUpon>
@@ -1835,10 +1836,12 @@
     <Content Include="Content\plugins\datatables\js\extensions\TableTools\images\psd\file_types.psd" />
     <Content Include="Content\plugins\datatables\js\extensions\TableTools\images\psd\printer.psd" />
     <Content Include="Content\plugins\datatables\js\extensions\TableTools\Readme.md" />
+    <Content Include="Content\plugins\datatables\js\Spanish.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Jquery-confirm.js" />
     <Content Include="Scripts\jquery.signalR-2.3.0.js" />
     <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

@@ -4,21 +4,23 @@ var VComposiProducF = [];
 
 var VListaSelects = [];
 var CantidadColumns = 0;
+var TotalGeneral = 0;
+var connectPSR;
 
 $(function PedidoSignalR() {
     
     CargaProducto();
-    var connectPSR = $.connection.solicitudhub;
+    connectPSR = $.connection.solicitudhub;
 
     Llama_MetodosPSR(connectPSR);
 
     $.connection.hub.start().done(function () {
         Registra_EventosPSR(connectPSR);
     });
+    
 });
 
 function Registra_EventosPSR(connectpsr) {
-
     $('#AgregaSubproductos').click(function ()
     {
         cargando();
@@ -28,6 +30,7 @@ function Registra_EventosPSR(connectpsr) {
             var CantiVender = parseInt($("#SelectCantidadVender").val());
             if (CantiDispon >= CantiVender)
             {
+                $('#AgregaSubproductos').attr("disabled", "true");
                 connectpsr.server.insertaProductosSolicitud(VProductosFinal, VComposiProducF, $("#ID_MESA").val());
                 VProductosInfo = [];
                 VProductosFinal = [];
@@ -38,11 +41,45 @@ function Registra_EventosPSR(connectpsr) {
             }
             else
             {
-                alert("Debe seleccionar menos CANTIDAD a vender .....");
+                //alert("Debe seleccionar menos CANTIDAD a vender .....");
+                $.alert({
+                    theme: 'Modern',
+                    icon: 'fa fa-times',
+                    boxWidth: '500px',
+                    useBootstrap: false,
+                    type: 'red',
+                    title: 'Oops',
+                    content: 'Debe seleccionar menos CANTIDAD a vender',
+                    buttons: {
+                        Ok: {
+                            btnClass: 'btn-danger',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
             }
         }
         else {
-            alert("Debe seleccionar primero los productos antes de Guardar .....");
+            //alert("Debe seleccionar primero los productos antes de Guardar .....");
+            $.alert({
+                theme: 'Modern',
+                icon: 'fa fa-times',
+                boxWidth: '500px',
+                useBootstrap: false,
+                type: 'red',
+                title: 'Oops',
+                content: 'Debe seleccionar primero los productos antes de Guardar',
+                buttons: {
+                    Ok: {
+                        btnClass: 'btn-danger',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
         }
         cerrar();
     });
@@ -51,7 +88,7 @@ function Registra_EventosPSR(connectpsr) {
 }
 
 function Llama_MetodosPSR(connectpsr) {
-    connectpsr.client.ListaDetallesMesa = function (data, data2) {
+    connectpsr.client.ListaDetallesMesa = function (data) {
         if (data[0].IdMesa == $('#ID_MESA').val())
         {
             if (data.length > 0) {
@@ -61,75 +98,13 @@ function Llama_MetodosPSR(connectpsr) {
                 $("#ID").val(data[0].Id);
 
             }
-            else {
-                $("#InfoMesa").empty();
-                $("#InfoMesa").append('<div class="col-lg-12">' +
-                        '<div class="small-box bg-green">' +
-                            '<div class="inner">' +
-                                '<h3>' +
-                                    '#' + $('#ID_MESA').val() +
-                                '</h3>' +
-                                '<p>' + + '</p>' +
-                                '<p><b>Mesero:<b/> ' + + '</p>' +
-                                '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
-                                '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
-                            '</div>' +
-                            '<div class="icon">' +
-                                '<i class="fa fa-check"></i>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>');
-                $("#InfoPrecios").empty();
-                $("#InfoPrecios").append('<table class="table table-hover">' +
-                        '<tbody>' +
-                            '<tr>' +
-                                '<td>' +
-                                    '<small>Otros Cobros: </small>' +
-                                    '<input type="text" class="form-control input-sm" name="OtrosCobros"/>' +
-                                '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td>' +
-                                    '<small>Descuentos: </small>' +
-                                    '<input type="text" class="form-control input-sm" name="Descuentos"/>' +
-                                '</td>' +
-                            '</tr>' +
-                            '<tr>' +
-                                '<td>' +
-                                    '<small>Total: </small>' +
-                                    '<input type="text" class="form-control input-sm" name="Total"/>' +
-                                '</td>' +
-                            '</tr>' +
-                        '</tbody>' +
-                    '</table>');
-                $("#InfoProductos").empty();
-                $("#InfoProductos").append('<table id="Tabla2" class="table table-bordered table-hover">' +
-                        '<thead>' +
-                            '<tr>' +
-                                '<th>Id</th>' +
-                                '<th>Producto</th>' +
-                                '<th>Composicion</th>' +
-                                '<th>Cantidad</th>' +
-                                '<th>Precio</th>' +
-                            '</tr>' +
-                        '</thead>' +
-                        '<tbody id="BodyProductos">' +
-
-                        '</tbody>' +
-                        '</table>');
-
-                $('#Tabla2').DataTable();
-
-
-            }
+            $("#GuardaDatosCliente").removeAttr("disabled");
         }
         
     }
     
     connectpsr.client.GuardoProductos = function (data) {
-        alert(data);
-        var x = document.getElementById("CerrarModalAP");
-        x.click();
+        //alert(data);
         document.getElementById("Categoria").value = '';
         $("#Subrpoductos").empty();
         $("#Subrpoductos").append("<option value=''>--SELECCIONE--</option>");
@@ -138,7 +113,7 @@ function Llama_MetodosPSR(connectpsr) {
         $("#CantidadDisponible").val('');
         document.getElementById("SelectCantidadVender").value = '';
         $("#SelectCantidadVender").attr("disabled", "disabled");
-
+        $('#AgregaSubproductos').removeAttr("disabled");
     }
 
     connectpsr.client.ActualizaCantidadProductos = function (data)
@@ -160,8 +135,8 @@ function ActualizaInfoMesa(data) {
                         '</h3>' +
                         '<p>' + data[0].NombreMesa + '</p>' +
                         '<p><b>Mesero:<b/> ' + data[0].NombreMesero + '</p>' +
-                        '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val="' + data[0].IdentificacionCliente + '"/></p>' +
-                        '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val="' + data[0].NombreCliente + '"/></p>' +
+                        '<p><b>C.C Cliente: </b><input id="CCCliente" type="text" class="form-control input-sm" name="CCCliente" value="' + data[0].IdentificacionCliente + '" onkeypress = "return soloNum(event)" onpaste="return false"/></p>' +
+                        '<p><b>Nombre Cliente: </b><input id="NombreCliente" type="text" class="form-control input-sm" name="NombreCliente"  value="' + data[0].NombreCliente + '" /></p>' +
                     '</div>' +
                     '<div class="icon">' +
                         '<i class="fa fa-arrow-down"></i>' +
@@ -169,25 +144,6 @@ function ActualizaInfoMesa(data) {
                 '</div>' +
             '</div>');
     }
-    //if (data[0].EstadoSolicitud == "FINALIZADA") {
-    //    $("#InfoMesa").empty();
-    //    $("#InfoMesa").append('<div class="col-lg-12">' +
-    //            '<div class="small-box bg-green">' +
-    //                '<div class="inner">' +
-    //                    '<h3>' +
-    //                        '#' + data[0].IdMesa +
-    //                    '</h3>' +
-    //                    '<p>' + data[0].NombreMesa + '</p>' +
-    //                    '<p><b>Mesero:<b/> ' + + '</p>' +
-    //                    '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
-    //                    '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
-    //                '</div>' +
-    //                '<div class="icon">' +
-    //                    '<i class="fa fa-check"></i>' +
-    //                '</div>' +
-    //            '</div>' +
-    //        '</div>');
-    //}
     if (data[0].EstadoSolicitud == "LLEVAR") {
         $("#InfoMesa").empty();
         $("#InfoMesa").append('<div class="col-lg-12">' +
@@ -198,8 +154,8 @@ function ActualizaInfoMesa(data) {
                         '</h3>' +
                         '<p>' + data[0].NombreMesa + '</p>' +
                         '<p><b>Mesero:<b/> ' + + '</p>' +
-                        '<p><b>C.C Cliente: </b><input type="text" class="form-control input-sm" name="CCCliente" val=""/></p>' +
-                        '<p><b>Nombre Cliente: </b><input type="text" class="form-control input-sm" name="NombreCliente"  val=""/></p>' +
+                        '<p><b>C.C Cliente: </b><input id="CCCliente" type="text" class="form-control input-sm" name="CCCliente" value="' + data[0].IdentificacionCliente + '" onkeypress = "return soloNum(event)" onpaste="return false"/></p>' +
+                        '<p><b>Nombre Cliente: </b><input id="NombreCliente" type="text" class="form-control input-sm" name="NombreCliente"  value="' + data[0].NombreCliente + '" /></p>' +
                     '</div>' +
                     '<div class="icon">' +
                         '<i class="fa fa-clock-o"></i>' +
@@ -207,6 +163,8 @@ function ActualizaInfoMesa(data) {
                 '</div>' +
             '</div>');
     }
+    $("#ESTADO_SOLICITUD").val(data[0].EstadoSolicitud)
+    $("#OBSERVACIONES").val(data[0].Observaciones);
 }
 function ActualizaInfoPrecios(data) {
     console.log(data);
@@ -216,23 +174,26 @@ function ActualizaInfoPrecios(data) {
                 '<tr>' +
                     '<td>' +
                         '<small>Otros Cobros: </small>' +
-                        '<input type="text" class="form-control input-sm" name="OtrosCobros" value="' + data[0].OtrosCobros + '"/>' +
+                        '<input id="OtrosCobros" type="text" class="form-control input-sm" name="OtrosCobros" value="' + data[0].OtrosCobros + '" onchange="SumaTotal()" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
                     '</td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td>' +
                         '<small>Descuentos: </small>' +
-                        '<input type="text" class="form-control input-sm" name="Descuentos" value="' + data[0].Descuentos + '"/>' +
+                        '<input id="Descuentos" type="text" class="form-control input-sm" name="Descuentos" value="' + data[0].Descuentos + '" onchange="SumaTotal()" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
                     '</td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td>' +
                         '<small>Total: </small>' +
-                        '<input type="text" class="form-control input-sm" name="Total" value="' + data[0].Total + '" ReadOnly="true"/>' +
+                        '<input id="Total" type="text" class="form-control input-sm" name="Total" value="' + data[0].Total + '" ReadOnly="true"/>' +
                     '</td>' +
                 '</tr>' +
             '</tbody>' +
         '</table>');
+    TotalGeneral = data[0].Total;
+    SumaTotal();
+    
 }
 function ActualizaInfoProductos(data) {
     $("#InfoProductos").empty();
@@ -278,7 +239,12 @@ function ActualizaInfoProductos(data) {
                 '</tr>');
         count++;
     }
-    $('#Tabla2').DataTable();
+    $('#Tabla2').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    //Content/plugins/datatables/js/Spanish.json
 }
 
 function TraeComposicionSeleccion(json) {
@@ -595,4 +561,213 @@ function ConsultaComposicionSub()
         $("#SelectCantidadVender").attr("disabled", "disabled");
     }
     ListarPlatosOpciones();
+}
+
+function GuardarDatosCliente()
+{
+    $("#GuardaDatosCliente").attr("disabled","true");
+    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+        $("#Total").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val());
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-check',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'green',
+        title: 'Super!',
+        content: "Datos Guardados !",
+        buttons: {
+            Continuar: {
+                btnClass: 'btn-success',
+                action: function () {
+
+                }
+            }
+        }
+    });
+}
+function PagarFactura()
+{
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-question',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'green',
+        title: 'Vale !',
+        content: 'Desea pagar cuenta ? ',
+        buttons: {
+            Si: {
+                btnClass: 'btn btn-success',
+                action: function () {
+                    $.alert({
+                        theme: 'Modern',
+                        icon: 'fa fa-list-alt',
+                        boxWidth: '500px',
+                        useBootstrap: false,
+                        type: 'orange',
+                        title: 'Factura !',
+                        content: 'Desea Imprimir la Factura ? ',
+                        buttons: {
+                            Si: {
+                                btnClass: 'btn btn-warning',
+                                action: function () {
+                                    //Imprime Factura
+                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                        $("#Total").val(), "FINALIZADA", $("#ID_MESA").val());
+                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'green',
+                                        title: 'Super !',
+                                        content: 'La cuenta fue pagada exitosamente !',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-success',
+                                                action: function () {
+                                                    window.location.href = '../Solicitud/SeleccionarMesa';
+                                                }
+                                            },
+                                        }
+                                    });
+                                }
+                            },
+                            No: {
+                                btnClass: 'btn btn-warning',
+                                action: function () {
+                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                        $("#Total").val(), "FINALIZADA", $("#ID_MESA").val());
+                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'green',
+                                        title: 'Super !',
+                                        content: 'La cuenta fue pagada exitosamente !',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-success',
+                                                action: function () {
+                                                    window.location.href = '../Solicitud/SeleccionarMesa';
+                                                }
+                                            },
+                                        }
+                                    });
+                                    
+                                }
+                            },
+                            Cancelar: {
+                                btnClass: 'btn btn-warning',
+                                action: function () {
+
+                                }
+                            }
+                        }
+                    });
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-success',
+                action: function () {
+
+                }
+            }
+        }
+    });
+}
+function GeneraFactura()
+{
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-list-alt',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'gray',
+        title: 'Factura !',
+        content: 'Desea imprimir la factura !',
+        buttons: {
+            Si: {
+                btnClass: 'btn btn-default',
+                action: function () {
+                    //Imprime Factura
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-default',
+                action: function () {
+                    
+                }
+            },
+        }
+    });
+}
+function CancelaPedido()
+{
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-question',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'red',
+        title: 'Cancelar !',
+        content: 'Desea cancelar todo el pedido ?',
+        buttons: {
+            Si: {
+                btnClass: 'btn btn-danger',
+                action: function () {
+                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                        $("#Total").val(), "CANCELA PEDIDO", $("#ID_MESA").val());
+                    connectPSR.server.cancelaPedido($("#ID").val());
+                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
+                    $.alert({
+                        theme: 'Modern',
+                        icon: 'fa fa-check',
+                        boxWidth: '500px',
+                        useBootstrap: false,
+                        type: 'green',
+                        title: 'Super !',
+                        content: 'La cuenta fue cancelada totalmente !',
+                        buttons: {
+                            Continuar: {
+                                btnClass: 'btn btn-success',
+                                action: function () {
+                                    window.location.href = '../Solicitud/SeleccionarMesa';
+                                }
+                            },
+                        }
+                    });
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-danger',
+                action: function () {
+
+                }
+            },
+        }
+    });
+}
+
+function SumaTotal()
+{
+    if ($("#Descuentos").val() != "" && $("#OtrosCobros").val() != "")
+    {
+        var TotalFinal = parseInt(TotalGeneral) - parseInt($("#Descuentos").val()) + parseInt($("#OtrosCobros").val());
+        $("#Total").val(TotalFinal);
+    }
+    else {
+        if ($("#Descuentos").val() == "") { $("#Descuentos").val(0) }
+        if ($("#OtrosCobros").val() == "") { $("#OtrosCobros").val(0) }
+        SumaTotal();
+    }
+}
+
+function soloNum(e) {
+    var key = window.Event ? e.which : e.keyCode
+    return (key >= 48 && key <= 57)
 }

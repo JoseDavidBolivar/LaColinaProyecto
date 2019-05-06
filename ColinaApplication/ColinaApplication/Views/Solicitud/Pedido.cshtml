@@ -15,7 +15,8 @@
         <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
         <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
         @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })  
-        @Html.HiddenFor(m => m.ID, new { @Id = "ID" })        
+        @Html.HiddenFor(m => m.ID, new { @Id = "ID" })
+        @Html.HiddenFor(m => m.ESTADO_SOLICITUD, new { @Id = "ESTADO_SOLICITUD" })        
     </div>
     <div class="col-md-12">
         <div class="col-md-4">
@@ -32,25 +33,14 @@
             <br />
             <br />
             <div class="box-body" id="InfoProductos">
-                @*<table id="Tabla2" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ProductosMesa">
-                        
-                    </tbody>
-                </table>*@
+                
             </div>
         </div>
         <table class="" style="width: 100%;">
             <tr>
                 <td colspan="6">
                     <h4><b>Observaciones: </b></h4>
-                    @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control input-sm", id = "ObservacionesAsesor", style = "margin-left:5px; width:100%; height:70px; max-width: 100%;" })
+                    @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control input-sm", id = "OBSERVACIONES", style = "margin-left:5px; width:100%; height:70px; max-width: 100%;" })
                 </td>
             </tr>
             <tr>
@@ -58,8 +48,17 @@
             </tr>
         </table>
         <br /><br />
-        <div class="col-md-12">
-            <button type="button" class="btn btn-primary" style="width: 15%; margin-left: 43%;">Guardar</button>
+        <div class="col-md-3">
+            <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();" ><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
+        </div>
+        <div class="col-md-3">
+            <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money" ></i>&nbsp;&nbsp; Pagar</button>
+        </div>
+        <div class="col-md-3">
+            <button id="" type="button" class="btn btn-default" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
+        </div>
+        <div class="col-md-3">
+            <button id="" type="button" class="btn btn-danger" style="width: 90%; margin-left: 5%;" onclick="CancelaPedido();"><i class="fa fa-2x fa-times"></i>&nbsp;&nbsp; Cancelar Pedido</button>
         </div>
         <br /><br />
     </div>
@@ -124,7 +123,7 @@
                         <table style="width: 100%;">
                             <tr>
                                 <td>
-                                    <button id="AgregaSubproductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Agregar</button>
+                                    <button id="AgregaSubproductos" class="btn btn-success" style="width: 20%; margin-left: 40%;" onchange="GuardarDatosCliente();">Agregar</button>
                                 </td>
                             </tr>
                         </table>
@@ -147,11 +146,13 @@
         var urlDatosElementoInventario = '@Url.Action("DatosElementoInventario", "Solicitud")';
         var urlListaPreciosSubproductos = '@Url.Action("ListaPreciosSubproductos", "Solicitud")';
         var urlConsultaComposicionSubProducto = '@Url.Action("ConsultaComposicionSubProducto", "Solicitud")'; 
+        var urlGuardaDatosCliente = '@Url.Action("GuardaDatosCliente", "Solicitud")';
 
+        
     </script>
     
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.14"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.21"></script>
     
     
 

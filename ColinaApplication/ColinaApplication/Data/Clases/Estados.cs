@@ -17,10 +17,12 @@ namespace ColinaApplication.Data.Clases
         private static string abierta = "ABIERTA";
         private static string finalizada = "FINALIZADA";
         private static string llevar = "LLEVAR";
+        private static string cancelaPedido = "CANCELA PEDIDO";
 
         public static string Abierta { get { return abierta; } }
         public static string Finalizada { get { return finalizada; } }
         public static string Llevar { get { return llevar; } }
+        public static string CancelaPedido { get { return cancelaPedido; } }
 
         //ESTADO PRODUCTOS SOLICITUD
         private static string entregado = "ENTREGADO";
