@@ -8,3 +8,8 @@ C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\bin
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.pdb
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csproj.CoreCompileInputs.cache
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb

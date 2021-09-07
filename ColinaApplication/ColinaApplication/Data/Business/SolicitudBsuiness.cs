@@ -62,7 +62,7 @@ namespace ColinaApplication.Data.Business
                                     FechaRegistro = item.FECHA_REGISTRO,
                                     IdSolicitud = item.ID_SOLICITUD,
                                     IdSubProducto = item.ID_SUBPRODUCTO,
-                                    NombreSubProducto = context.TBL_SUBPRODUCTOS.Where(a=> a.ID == item.ID_SUBPRODUCTO).FirstOrDefault().NOMBRE_SUBPRODUCTO,
+                                    NombreSubProducto = context.TBL_PRODUCTOS.Where(a=> a.ID == item.ID_SUBPRODUCTO).FirstOrDefault().NOMBRE,
                                     IdMesero = item.ID_MESERO,
                                     NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == item.ID_MESERO).FirstOrDefault().NOMBRE,
                                     PrecioProducto = item.PRECIO_PRODUCTO,
@@ -88,7 +88,7 @@ namespace ColinaApplication.Data.Business
                             }
                             catch (Exception E)
                             {
-                                
+                                throw E;
                             }
                         }
                     }
@@ -132,56 +132,56 @@ namespace ColinaApplication.Data.Business
             }
             return Respuesta;
         }
-        public List<TBL_PRODUCTOS> ListaProductos()
+        public List<TBL_PRODUCTOS> ListaCategorias()
         {
             List<TBL_PRODUCTOS> listproductos = new List<TBL_PRODUCTOS>();
             using (DBLaColina contex = new DBLaColina())
             {
-                listproductos = contex.TBL_PRODUCTOS.Where(a => a.ESTADO == Estados.Activo).ToList();
+                listproductos = contex.TBL_PRODUCTOS.ToList();
             }
             return listproductos;
         }
-        public List<TBL_SUBPRODUCTOS> ListaSubProductos(decimal IdProducto)
+        public List<TBL_PRODUCTOS> ListaSubProductos(decimal IdProducto)
         {
-            List<TBL_SUBPRODUCTOS> listSubproductos = new List<TBL_SUBPRODUCTOS>();
+            List<TBL_PRODUCTOS> listSubproductos = new List<TBL_PRODUCTOS>();
             using (DBLaColina contex = new DBLaColina())
             {
-                listSubproductos = contex.TBL_SUBPRODUCTOS.Where(a => a.ID_PRODUCTO == IdProducto).ToList();
+                listSubproductos = contex.TBL_PRODUCTOS.Where(a => a.ID == IdProducto).ToList();
             }
             return listSubproductos;
         }
-        public List<TBL_COMPOSICION_SUBPRODUCTOS> ComposicionSubProductos(decimal IdSubProducto)
+        public List<TBL_COMPOSICION_PRODUCTOS> ComposicionSubProductos(decimal IdSubProducto)
         {
-            List<TBL_COMPOSICION_SUBPRODUCTOS> listComposicion = new List<TBL_COMPOSICION_SUBPRODUCTOS>();
+            List<TBL_COMPOSICION_PRODUCTOS> listComposicion = new List<TBL_COMPOSICION_PRODUCTOS>();
             using (DBLaColina context = new DBLaColina())
             {
-                listComposicion = context.TBL_COMPOSICION_SUBPRODUCTOS.Where(a=>a.ID_SUBPRODUCTO == IdSubProducto).ToList();
+                listComposicion = context.TBL_COMPOSICION_PRODUCTOS.Where(a=>a.ID_SUBPRODUCTO == IdSubProducto).ToList();
             }
 
             return listComposicion;
         }
-        public TBL_SUBPRODUCTOS ElementoInventario(decimal Id)
+        public TBL_PRODUCTOS ElementoInventario(decimal Id)
         {
-            TBL_SUBPRODUCTOS subrpoducto = new TBL_SUBPRODUCTOS();
+            TBL_PRODUCTOS subrpoducto = new TBL_PRODUCTOS();
             using (DBLaColina context = new DBLaColina())
             {
-                subrpoducto = context.TBL_SUBPRODUCTOS.Where(a=>a.ID == Id).ToList().LastOrDefault();
+                subrpoducto = context.TBL_PRODUCTOS.Where(a=>a.ID == Id).ToList().LastOrDefault();
             }
 
             return subrpoducto;
         }
-        public List<TBL_PRECIOS_SUBPRODUCTOS> ListaPreciosSubproductos(decimal IdSubProducto)
+        public List<TBL_PRECIOS_PRODUCTOS> ListaPreciosSubproductos(decimal IdSubProducto)
         {
-            List<TBL_PRECIOS_SUBPRODUCTOS> list = new List<TBL_PRECIOS_SUBPRODUCTOS>();
+            List<TBL_PRECIOS_PRODUCTOS> list = new List<TBL_PRECIOS_PRODUCTOS>();
             using (DBLaColina contex = new DBLaColina())
             {
-                list = contex.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.ID_SUBPRODUCTO == IdSubProducto).ToList();
+                list = contex.TBL_PRECIOS_PRODUCTOS.Where(a => a.ID_SUBPRODUCTO == IdSubProducto).ToList();
             }
             return list;
         }
-        public TBL_SUBPRODUCTOS InsertaProductos(List<TBL_PRODUCTOS_SOLICITUD> list1, List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> list2)
+        public TBL_PRODUCTOS InsertaProductos(List<TBL_PRODUCTOS_SOLICITUD> list1, List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> list2)
         {
-            TBL_SUBPRODUCTOS respuesta = new TBL_SUBPRODUCTOS();
+            TBL_PRODUCTOS respuesta = new TBL_PRODUCTOS();
             using (DBLaColina context = new DBLaColina())
             {
                 try
@@ -216,8 +216,8 @@ namespace ColinaApplication.Data.Business
                             
                             context.TBL_COMPOSICION_PRODUCTOS_SOLICITUD.Add(model2);
 
-                            TBL_PRECIOS_SUBPRODUCTOS consulta = new TBL_PRECIOS_SUBPRODUCTOS();
-                            consulta = context.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.ID_SUBPRODUCTO == 7 && a.DESCRIPCION == model2.DESCRIPCION).FirstOrDefault();
+                            TBL_PRECIOS_PRODUCTOS consulta = new TBL_PRECIOS_PRODUCTOS();
+                            consulta = context.TBL_PRECIOS_PRODUCTOS.Where(a => a.ID_SUBPRODUCTO == 7 && a.DESCRIPCION == model2.DESCRIPCION).FirstOrDefault();
                             if (consulta != null)
                             {
                                 consulta.CANTIDAD_PORCION = consulta.CANTIDAD_PORCION - consulta.VALOR_MEDIDA;
@@ -230,12 +230,12 @@ namespace ColinaApplication.Data.Business
                             }
                             else
                             {
-                                TBL_PRECIOS_SUBPRODUCTOS consulta2 = new TBL_PRECIOS_SUBPRODUCTOS();
+                                TBL_PRECIOS_PRODUCTOS consulta2 = new TBL_PRECIOS_PRODUCTOS();
                                 consulta2 = context.TBL_PRECIOS_SUBPRODUCTOS.Where(a => a.DESCRIPCION == model2.DESCRIPCION).FirstOrDefault();
                                 if (consulta2 != null)
                                 {
-                                    TBL_SUBPRODUCTOS RegistroActualizar = new TBL_SUBPRODUCTOS();
-                                    RegistroActualizar = context.TBL_SUBPRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
+                                    TBL_PRODUCTOS RegistroActualizar = new TBL_PRODUCTOS();
+                                    RegistroActualizar = context.TBL_PRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
                                     if (RegistroActualizar != null)
                                     {
                                         RegistroActualizar.CANTIDAD_EXISTENCIA = RegistroActualizar.CANTIDAD_EXISTENCIA - consulta2.VALOR_MEDIDA;
@@ -250,7 +250,7 @@ namespace ColinaApplication.Data.Business
                         }
 
                         context.SaveChanges();
-                        respuesta = context.TBL_SUBPRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
+                        respuesta = context.TBL_PRODUCTOS.FirstOrDefault(a=>a.ID == model1.ID_SUBPRODUCTO);
                     }
                 }
                 catch (Exception e)

@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -158,6 +159,7 @@
     <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="Data\Business\HomeBusiness.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
+    <Compile Include="Data\Business\TBL_COMPOSICION_PRODUCTOS.cs" />
     <Compile Include="Data\Clases\Estados.cs" />
     <Compile Include="Data\Clases\ExpiringFilter.cs" />
     <Compile Include="Data\Conexion\DBLaColina.Context.cs">
@@ -175,10 +177,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBLaColina.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\Conexion\TBL_COMPOSICION_PRODUCTOS_SOLICITUD.cs">
+    <Compile Include="Data\Conexion\TBL_CATEGORIAS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Conexion\TBL_COMPOSICION_SUBPRODUCTOS.cs">
+    <Compile Include="Data\Conexion\TBL_COMPOSICION_PRODUCTOS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_COMPOSICION_PRODUCTOS_SOLICITUD.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
@@ -187,22 +192,19 @@
     <Compile Include="Data\Conexion\TBL_PERFIL.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Conexion\TBL_PRECIOS_SUBPRODUCTOS.cs">
+    <Compile Include="Data\Conexion\TBL_PRECIOS_PRODUCTOS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_PRODUCTOS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Conexion\TBL_PRODUCTOS_LOG.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_PRODUCTOS_SOLICITUD.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_SOLICITUD.cs">
-      <DependentUpon>DBLaColina.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Conexion\TBL_SUBPRODUCTOS.cs">
-      <DependentUpon>DBLaColina.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Conexion\TBL_SUBPRODUCTOS_LOG.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Conexion\TBL_USUARIOS.cs">
@@ -1764,13 +1766,6 @@
     <Content Include="ScriptsViews\Solicitud\SeleccionarMesa.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Data\Conexion\DBLaColina.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBLaColina.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Data\Conexion\DBLaColina.edmx.diagram">
-      <DependentUpon>DBLaColina.edmx</DependentUpon>
-    </Content>
     <Content Include="Css\fontawesome-free-5.2.0-web\less\brands.less" />
     <Content Include="Css\fontawesome-free-5.2.0-web\less\fontawesome.less" />
     <Content Include="Css\fontawesome-free-5.2.0-web\less\regular.less" />
@@ -1837,6 +1832,13 @@
     <Content Include="Content\plugins\datatables\js\extensions\TableTools\images\psd\printer.psd" />
     <Content Include="Content\plugins\datatables\js\extensions\TableTools\Readme.md" />
     <Content Include="Content\plugins\datatables\js\Spanish.json" />
+    <EntityDeploy Include="Data\Conexion\DBLaColina.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DBLaColina.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\Conexion\DBLaColina.edmx.diagram">
+      <DependentUpon>DBLaColina.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

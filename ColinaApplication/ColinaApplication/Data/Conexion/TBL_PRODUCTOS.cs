@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ColinaApplication.Data.Conexion
+namespace ColinaApplication
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,11 @@ namespace ColinaApplication.Data.Conexion
     public partial class TBL_PRODUCTOS
     {
         public decimal ID { get; set; }
-        public string PRODUCTO { get; set; }
-        public string ESTADO { get; set; }
+        public decimal ID_CATEGORIA { get; set; }
+        public Nullable<System.DateTime> FECHA_INGRESO { get; set; }
+        public string NOMBRE { get; set; }
+        public string PRECIO_UNITARIO { get; set; }
+        public Nullable<decimal> CANTIDAD_EXISTENCIA { get; set; }
+        public string DESCRIPCION { get; set; }
     }
 }

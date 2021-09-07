@@ -159,3 +159,5 @@ C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaAppl
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojResolveAssemblyReference.cache
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csprojAssemblyReference.cache
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csproj.CoreCompileInputs.cache

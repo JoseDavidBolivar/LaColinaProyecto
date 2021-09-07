@@ -1,5 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="LACOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="COLINADBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TBL_CATEGORIAS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CATEGORIA" Type="varchar" MaxLength="255" />
+    <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_COMPOSICION_PRODUCTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+    <Property Name="VARIOS" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
     <Key>
       <PropertyRef Name="ID" />
@@ -9,24 +26,17 @@
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
     <Property Name="VALOR" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
-  <EntityType Name="TBL_COMPOSICION_SUBPRODUCTOS">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
-    <Property Name="VARIOS" Type="numeric" Precision="18" Scale="0" />
-  </EntityType>
   <EntityType Name="TBL_MASTER_MESAS">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NOMBRE_MESA" Type="varchar" MaxLength="255" />
-    <Property Name="DESCRIPCION" Type="varchar" MaxLength="500" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
   </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="TBL_PERFIL">
     <Key>
       <PropertyRef Name="ID" />
@@ -34,12 +44,12 @@
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NOMBRE_PERFIL" Type="varchar" MaxLength="255" />
   </EntityType>
-  <EntityType Name="TBL_PRECIOS_SUBPRODUCTOS">
+  <EntityType Name="TBL_PRECIOS_PRODUCTOS">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_SUBPRODUCTO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
     <Property Name="PRECIO_INDIVIDUAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="CANTIDAD_PORCION" Type="numeric" Precision="18" Scale="3" />
@@ -50,8 +60,25 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PRODUCTO" Type="varchar" MaxLength="255" />
-    <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+    <Property Name="ID_CATEGORIA" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="FECHA_INGRESO" Type="datetime" />
+    <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
+    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
+    <Property Name="CANTIDAD_EXISTENCIA" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TBL_PRODUCTOS_LOG">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_PRINCIPAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="FECHA_INGRESO" Type="datetime" />
+    <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
+    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
+    <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
     <Key>
@@ -82,31 +109,6 @@
     <Property Name="DESCUENTOS" Type="numeric" Precision="18" Scale="0" />
     <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
-  <EntityType Name="TBL_SUBPRODUCTOS">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="FECHA_INGRESO" Type="datetime" />
-    <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
-    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
-    <Property Name="CANTIDAD_EXISTENCIA" Type="numeric" Precision="18" Scale="3" />
-    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
-  </EntityType>
-  <EntityType Name="TBL_SUBPRODUCTOS_LOG">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_PRINCIPAL" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="ID_PRODUCTO" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="FECHA_INGRESO" Type="datetime" />
-    <Property Name="NOMBRE_SUBPRODUCTO" Type="varchar" MaxLength="255" />
-    <Property Name="PRECIO_UNITARIO" Type="varchar" MaxLength="255" />
-    <Property Name="CANTIDAD_EXISTENCIA" Type="decimal" Precision="18" Scale="0" />
-    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
-  </EntityType>
   <EntityType Name="TBL_USUARIOS">
     <Key>
       <PropertyRef Name="ID" />
@@ -117,17 +119,22 @@
     <Property Name="CONTRASEÑA" Type="varchar" MaxLength="255" />
     <Property Name="ID_PERFIL" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
-  <EntityContainer Name="LACOModelStoreContainer">
+  <EntityContainer Name="COLINADBModelStoreContainer">
+    <EntitySet Name="TBL_CATEGORIAS" EntityType="Self.TBL_CATEGORIAS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_COMPOSICION_PRODUCTOS" EntityType="Self.TBL_COMPOSICION_PRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TBL_COMPOSICION_SUBPRODUCTOS" EntityType="Self.TBL_COMPOSICION_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TBL_PRECIOS_SUBPRODUCTOS" EntityType="Self.TBL_PRECIOS_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PRECIOS_PRODUCTOS" EntityType="Self.TBL_PRECIOS_PRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PRODUCTOS_LOG" EntityType="Self.TBL_PRODUCTOS_LOG" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TBL_SUBPRODUCTOS" EntityType="Self.TBL_SUBPRODUCTOS" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="TBL_SUBPRODUCTOS_LOG" EntityType="Self.TBL_SUBPRODUCTOS_LOG" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[TBL_PERFIL].[ID] AS [ID], 
+[TBL_PERFIL].[NOMBRE_PERFIL] AS [NOMBRE_PERFIL]
+FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
+    </EntitySet>
   </EntityContainer>
 </Schema>

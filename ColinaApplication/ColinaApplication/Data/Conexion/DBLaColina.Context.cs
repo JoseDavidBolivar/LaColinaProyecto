@@ -25,16 +25,16 @@ namespace ColinaApplication.Data.Conexion
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<TBL_MASTER_MESAS> TBL_MASTER_MESAS { get; set; }
-        public DbSet<TBL_PRODUCTOS> TBL_PRODUCTOS { get; set; }
-        public DbSet<TBL_SUBPRODUCTOS> TBL_SUBPRODUCTOS { get; set; }
-        public DbSet<TBL_SUBPRODUCTOS_LOG> TBL_SUBPRODUCTOS_LOG { get; set; }
-        public DbSet<TBL_PRODUCTOS_SOLICITUD> TBL_PRODUCTOS_SOLICITUD { get; set; }
+        public DbSet<TBL_CATEGORIAS> TBL_CATEGORIAS { get; set; }
+        public DbSet<TBL_COMPOSICION_PRODUCTOS> TBL_COMPOSICION_PRODUCTOS { get; set; }
         public DbSet<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> TBL_COMPOSICION_PRODUCTOS_SOLICITUD { get; set; }
-        public DbSet<TBL_COMPOSICION_SUBPRODUCTOS> TBL_COMPOSICION_SUBPRODUCTOS { get; set; }
-        public DbSet<TBL_PRECIOS_SUBPRODUCTOS> TBL_PRECIOS_SUBPRODUCTOS { get; set; }
-        public DbSet<TBL_PERFIL> TBL_PERFIL { get; set; }
-        public DbSet<TBL_USUARIOS> TBL_USUARIOS { get; set; }
+        public DbSet<TBL_MASTER_MESAS> TBL_MASTER_MESAS { get; set; }
+        public DbSet<TBL_PRECIOS_PRODUCTOS> TBL_PRECIOS_PRODUCTOS { get; set; }
+        public DbSet<TBL_PRODUCTOS> TBL_PRODUCTOS { get; set; }
+        public DbSet<TBL_PRODUCTOS_LOG> TBL_PRODUCTOS_LOG { get; set; }
+        public DbSet<TBL_PRODUCTOS_SOLICITUD> TBL_PRODUCTOS_SOLICITUD { get; set; }
         public DbSet<TBL_SOLICITUD> TBL_SOLICITUD { get; set; }
+        public DbSet<TBL_USUARIOS> TBL_USUARIOS { get; set; }
+        public DbSet<TBL_PERFIL> TBL_PERFIL { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ColinaApplication.Data.Conexion
+namespace ColinaApplication
 {
     using System;
     using System.Collections.Generic;
