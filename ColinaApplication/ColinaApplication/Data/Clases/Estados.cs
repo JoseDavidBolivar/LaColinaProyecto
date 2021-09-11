@@ -7,7 +7,7 @@ namespace ColinaApplication.Data.Clases
 {
     public static class Estados
     {
-        //ESTADO PRODUCTOS
+        //ESTADO CATEGORIAS
         private static string activo = "ACTIVO";
         private static string inactivo = "INACTIVO";
 

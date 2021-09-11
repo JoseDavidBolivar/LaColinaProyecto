@@ -41,11 +41,11 @@ namespace ColinaApplication.Controllers
         {
             return View();
         }
-        public JsonResult InicioSesion(decimal Cedula, string Contraseña)
+        public JsonResult InicioSesion(decimal Codigo)
         {
             Session.Clear();
             TBL_USUARIOS user = new TBL_USUARIOS();
-            user = inicio.Login(Cedula, Contraseña);
+            user = inicio.Login(Codigo);
             if (user.ID > 0)
             {
                 Session["IdUsuario"] = user.ID;

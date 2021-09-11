@@ -5,8 +5,8 @@
 }
 
 @*@section Menu {
-    @Scripts.Render("~/Content/Scripts/Tables/Data/menu")
-}*@
+        @Scripts.Render("~/Content/Scripts/Tables/Data/menu")
+    }*@
 
 @Styles.Render("~/Content/plugins/datatables/css")
 
@@ -14,17 +14,19 @@
     <div class="col-xs-12">
         <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
         <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
-        @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })  
+        @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })
         @Html.HiddenFor(m => m.ID, new { @Id = "ID" })
-        @Html.HiddenFor(m => m.ESTADO_SOLICITUD, new { @Id = "ESTADO_SOLICITUD" })        
+        @Html.HiddenFor(m => m.ESTADO_SOLICITUD, new { @Id = "ESTADO_SOLICITUD" })
+        <input id="ID_PRODUCTO" type="hidden" />
+        <input id="PRECIO_PRODUCTO" type="hidden" />
     </div>
     <div class="col-md-12">
         <div class="col-md-4">
             <div class="box-body" id="InfoMesa">
-                
+
             </div>
             <div class="box-body table-responsive" id="InfoPrecios">
-                
+
             </div>
         </div>
         <div class="col-md-8">
@@ -33,7 +35,7 @@
             <br />
             <br />
             <div class="box-body" id="InfoProductos">
-                
+
             </div>
         </div>
         <table class="" style="width: 100%;">
@@ -49,10 +51,10 @@
         </table>
         <br /><br />
         <div class="col-md-3">
-            <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();" ><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
+            <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();"><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
         </div>
         <div class="col-md-3">
-            <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money" ></i>&nbsp;&nbsp; Pagar</button>
+            <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money"></i>&nbsp;&nbsp; Pagar</button>
         </div>
         <div class="col-md-3">
             <button id="" type="button" class="btn btn-default" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
@@ -74,56 +76,50 @@
             <div class="modal-body" style="width:1010px;">
                 <br />
                 <div class="row">
-                    <div class="col-lg-offset-1" style="width:950px; margin-left:25px;">
-                        <table class="table" style="width: 100%;">
+                    <div class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
+                        <table class="table" style="background-color: #dcdcdc;">
                             <tr>
-                                <td>
-                                    <p>Elija una categoria: </p>
-                                    <select id="Categoria" class="form-control input-sm" onchange="CargaSubProducto()">
-                                        <option value="">--SELECCIONE--</option>
-                                    </select>
-                                </td>
-                                <td><p>Elija un producto: </p>
-                                    <select id="Subrpoductos" class="form-control input-sm" onchange="ConsultaComposicionSub();">
-                                        <option value="">--SELECCIONE--</option>
-                                    </select>
-                                </td>
-                                <td style="width: 200px;">
-                                    <p><b>Cantidad Disponible: </b></p>
-                                    <input id="CantidadDisponible" type="text" class="form-control input-sm" readonly="readonly" />
-                                </td>
-                                <td>
-                                    <p><b>Cantidad: </b></p>
-                                    <select id="SelectCantidadVender" onchange="ListarPlatosOpciones()" disabled class="form-control input-sm">
-                                        <option value="">--SELECCIONE--</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                    </select>
-                                </td>
+                                <td style="width: 25%;"><h4><b>Elija una categoria: </b></h4></td>
                             </tr>
-                            <tr>
-                                <td><h3>Este Plato Contiene: </h3></td>
+                            <tr id="setCategoria">
                             </tr>
-                            <tr id="Composicion">
-                                
-                            </tr>
-                            <tbody id="CantidadPlatos">
-                                
-                            </tbody>
                         </table>
                         <br />
+                        <table id="tableProductos" class="table" style="background-color: #dcdcdc; display: none">
+                            <tr>
+                                <td style="width: 25%;"><h4><b>Elija un producto: </b></h4></td>
+                            </tr>
+                            <tr id="setProducto">
+                            </tr>
+                        </table>
                         <br />
+                        <table id="tableAdiciones" class="table" style="background-color: #dcdcdc; display: none">
+                            <tr>
+                                <td style="width: 2%;"><h4><b>Digite las adiciones (Acompañamientos, salsas, termino): </b></h4></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <textarea id="Adiciones" class="form-control input-sm" style="margin-left: 5px; width: 100%; height: 70px; max-width: 100%;"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div>
+                            <h4><b>Cantidad: </b></h4>
+                            <span class="input-group-btn" style="float: left;">
+                                <button class="btn btn-warning" id="menos" type="button" onclick="menos()"><b>-</b></button>
+                            </span>
+                            <input type="text" style="width:50px;text-align: center; float: left; margin-left: 3%;" id="contador" class="form-control" value="1" min="1" readonly />
+                            <span class="input-group-btn" style="float: left; margin-left: 1%;">
+                                <button class="btn btn-warning" id="mas" type="button" onclick="mas()"><b>+</b></button>
+                            </span>
+                        </div>
                         <br />
                         <br />
                         <table style="width: 100%;">
                             <tr>
                                 <td>
-                                    <button id="AgregaSubproductos" class="btn btn-success" style="width: 20%; margin-left: 40%;" onchange="GuardarDatosCliente();">Agregar</button>
+                                    <button id="AgregaProductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Agregar</button>
                                 </td>
                             </tr>
                         </table>
@@ -140,21 +136,22 @@
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
     <script>
         var User = '@Session["IdUsuario"].ToString()';
+        var urlListaCategorias = '@Url.Action("ListaCategorias", "Solicitud")';
         var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
-        var urlListaSubProductos = '@Url.Action("ListaSubProductos", "Solicitud")';
+
         var urlListaComposicionSubProductos = '@Url.Action("ListaComposicionSubProductos", "Solicitud")';
         var urlDatosElementoInventario = '@Url.Action("DatosElementoInventario", "Solicitud")';
         var urlListaPreciosSubproductos = '@Url.Action("ListaPreciosSubproductos", "Solicitud")';
-        var urlConsultaComposicionSubProducto = '@Url.Action("ConsultaComposicionSubProducto", "Solicitud")'; 
+        var urlConsultaComposicionSubProducto = '@Url.Action("ConsultaComposicionSubProducto", "Solicitud")';
         var urlGuardaDatosCliente = '@Url.Action("GuardaDatosCliente", "Solicitud")';
 
-        
+
     </script>
-    
+
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.21"></script>
-    
-    
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.27"></script>
+
+
 
 }
 

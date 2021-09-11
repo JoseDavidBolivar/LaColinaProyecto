@@ -11,13 +11,12 @@ namespace Entity
         public decimal Id { get; set; }
         public System.DateTime? FechaRegistro { get; set; }
         public decimal? IdSolicitud { get; set; }
-        public decimal? IdSubProducto { get; set; }
-        public string NombreSubProducto { get; set; }
+        public decimal? IdProducto { get; set; }
+        public string NombreProducto { get; set; }
         public decimal? IdMesero { get; set; }
         public string NombreMesero { get; set; }
         public decimal? PrecioProducto { get; set; }
-        public decimal? PrecioFinal { get; set; }
-        public string EstadoProductos { get; set; }
-        public List<ComposiconProductosSolicitud> CompoProductSolicitud { get; set; }
+        public string EstadoProducto { get; set; }
+        public string Descripcion { get; set; }
     }
 }

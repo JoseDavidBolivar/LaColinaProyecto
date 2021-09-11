@@ -1,94 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="COLINADBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBLaColina" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TBL_CATEGORIAS" EntityType="COLINADBModel.TBL_CATEGORIAS" />
+    <EntitySet Name="TBL_MASTER_MESAS" EntityType="COLINADBModel.TBL_MASTER_MESAS" />
+    <EntitySet Name="TBL_PRODUCTOS" EntityType="COLINADBModel.TBL_PRODUCTOS" />
+    <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="COLINADBModel.TBL_PRODUCTOS_SOLICITUD" />
+    <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
+    <EntitySet Name="TBL_USUARIOS" EntityType="COLINADBModel.TBL_USUARIOS" />
+    <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
+  </EntityContainer>
   <EntityType Name="TBL_CATEGORIAS">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CATEGORIA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="TBL_COMPOSICION_PRODUCTOS">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_SUBPRODUCTO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="VARIOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_PRODUCTO_SOLICITUD" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="VALOR" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_MASTER_MESAS">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="NOMBRE_MESA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="TBL_PRECIOS_PRODUCTOS">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_PRODUCTO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="PRECIO_INDIVIDUAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="CANTIDAD_PORCION" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="VALOR_MEDIDA" Type="Decimal" Precision="18" Scale="3" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_CATEGORIA" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_CATEGORIA" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
     <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
-    <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="PRECIO_UNITARIO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="CANTIDAD_EXISTENCIA" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="TBL_PRODUCTOS_LOG">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_PRINCIPAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ID_PRODUCTO" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
-    <Property Name="NOMBRE_SUBPRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="PRECIO_UNITARIO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="CANTIDAD_EXISTENCIA" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="NOMBRE_PRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PRECIO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CANTIDAD" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FECHA_REGISTRO" Type="DateTime" Precision="3" />
     <Property Name="ID_SOLICITUD" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ID_SUBPRODUCTO" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ID_PRODUCTO" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="PRECIO_PRODUCTO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="PRECIO_FINAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ESTADO_PRODUCTOS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ESTADO_PRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DESCRIPCION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TBL_SOLICITUD">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
     <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
@@ -104,7 +71,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="CEDULA" Type="Decimal" Precision="18" Scale="0" />
     <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="CONTRASEÑA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -114,20 +81,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityContainer Name="COLINADBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="TBL_CATEGORIAS" EntityType="Self.TBL_CATEGORIAS" />
-    <EntitySet Name="TBL_COMPOSICION_PRODUCTOS" EntityType="Self.TBL_COMPOSICION_PRODUCTOS" />
-    <EntitySet Name="TBL_COMPOSICION_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_COMPOSICION_PRODUCTOS_SOLICITUD" />
-    <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" />
-    <EntitySet Name="TBL_PRECIOS_PRODUCTOS" EntityType="Self.TBL_PRECIOS_PRODUCTOS" />
-    <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" />
-    <EntitySet Name="TBL_PRODUCTOS_LOG" EntityType="Self.TBL_PRODUCTOS_LOG" />
-    <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" />
-    <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" />
-    <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" />
-    <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" />
-  </EntityContainer>
 </Schema>

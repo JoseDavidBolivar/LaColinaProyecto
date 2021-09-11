@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ColinaApplication
+namespace ColinaApplication.Data.Conexion
 {
     using System;
     using System.Collections.Generic;
@@ -17,10 +17,10 @@ namespace ColinaApplication
         public decimal ID { get; set; }
         public Nullable<System.DateTime> FECHA_REGISTRO { get; set; }
         public Nullable<decimal> ID_SOLICITUD { get; set; }
-        public Nullable<decimal> ID_SUBPRODUCTO { get; set; }
+        public Nullable<decimal> ID_PRODUCTO { get; set; }
         public Nullable<decimal> ID_MESERO { get; set; }
         public Nullable<decimal> PRECIO_PRODUCTO { get; set; }
-        public Nullable<decimal> PRECIO_FINAL { get; set; }
-        public string ESTADO_PRODUCTOS { get; set; }
+        public string ESTADO_PRODUCTO { get; set; }
+        public string DESCRIPCION { get; set; }
     }
 }

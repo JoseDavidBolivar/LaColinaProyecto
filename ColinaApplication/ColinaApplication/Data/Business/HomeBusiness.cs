@@ -8,28 +8,21 @@ namespace ColinaApplication.Data.Business
 {
     public class HomeBusiness
     {
-        public TBL_USUARIOS Login (decimal Cedula, string Contraseña)
+        public TBL_USUARIOS Login (decimal Codigo)
         {
             TBL_USUARIOS user = new TBL_USUARIOS();
             using (DBLaColina context = new DBLaColina())
             {
-                
-                user = context.TBL_USUARIOS.FirstOrDefault(a=>a.CEDULA == Cedula);
+                var cod = Convert.ToString(Codigo);
+                user = context.TBL_USUARIOS.FirstOrDefault(a=>a.CONTRASEÑA == cod);
                 if (user != null)
                 {
-                    if(user.CONTRASEÑA == Contraseña)
-                    {
-
-                    }
-                    else
-                    {
-                        user = new TBL_USUARIOS();
-                        user.ID = -1;
-                    }
+                    
                 }
                 else
                 {
                     user = new TBL_USUARIOS();
+                    user.ID = -1;
                 }
                 context.TBL_MASTER_MESAS.ToList();
             }

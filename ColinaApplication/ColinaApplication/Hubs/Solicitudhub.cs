@@ -59,23 +59,36 @@ namespace ColinaApplication.Hubs
             ConsultaMesa = solicitud.ConsultaSolicitudMesa(Convert.ToDecimal(Id));
             Clients.All.ListaDetallesMesa(ConsultaMesa);
         }
-        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> list1, List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> list2, string IdMesa)
+        public void InsertaProductosSolicitud(TBL_PRODUCTOS_SOLICITUD model, int CantidadPlatos, string idMesa)
         {
-            List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>> model = new List<List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD>>();
-            var count = (from a in list2 select new { a.ID}).Distinct().Count();
-            
-            for (int i = 0; i < count; i++)
+            TBL_PRODUCTOS_SOLICITUD modelo = new TBL_PRODUCTOS_SOLICITUD();
+            modelo = model;
+            var cantidaddisponible = solicitud.ConsultaCantidadProducto(modelo.ID_PRODUCTO);
+            if (cantidaddisponible >= CantidadPlatos)
             {
-                var fila = Convert.ToInt32(list2[i].ID);
-                
-                List<TBL_COMPOSICION_PRODUCTOS_SOLICITUD> arrays = list2.Where(a => a.ID == fila && (a.DESCRIPCION != null || a.VALOR != null)).ToList();
-                model.Add(arrays);                
-            }
-            var respuesta = solicitud.InsertaProductos(list1, model);
+                //IMPRIMIR TICKET
 
-            Clients.Caller.GuardoProductos("Productos Insertados Exitosamente");
-            Clients.All.ActualizaCantidadProductos(respuesta);
-            ConsultaMesaAbierta(IdMesa);
+                //ACTUALIZA CANTIDAD PRODUCTO
+                var ActualizaCantidadProducto = solicitud.ActualizaCantidadProducto(modelo.ID_PRODUCTO, (cantidaddisponible - CantidadPlatos));
+                for (int i = 0; i < CantidadPlatos; i++)
+                {
+                    //INSERTA LOS PRODUCTOS EN LA SOLICITUD
+                    var InsertaSolicitud = solicitud.InsertaProductosSolicitud(modelo);
+                    if (InsertaSolicitud.ID != 0)
+                    {                        
+                        //ACTUALIZA TOTAL SOLICITUD
+                        var ActualizaSolicitud = solicitud.ActualizaTotalSolicitud(modelo.ID_SOLICITUD, modelo.PRECIO_PRODUCTO);
+                    }
+                    
+                }
+                Clients.Caller.GuardoProductos("Productos Insertados Exitosamente !");
+                ConsultaMesaAbierta(idMesa);
+            }
+            else
+            {
+                Clients.Caller.GuardoProductos("Producto agotado. Elige menos o tal vez el inventario ya se acabo !");
+                ConsultaMesaAbierta(idMesa);
+            }
         }
         public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string Total, string Estado, string IdMesa)
         {
@@ -90,7 +103,7 @@ namespace ColinaApplication.Hubs
             model.TOTAL = Convert.ToDecimal(Total);
 
             var respuesta = solicitud.ActualizaSolicitud(model);
-            Clients.Caller.GuardoProductos(respuesta);
+            Clients.Caller.GuardoCliente(respuesta);
             ConsultaMesaAbierta(IdMesa);
         }
         public void CancelaPedido(decimal IdSolicitud)
