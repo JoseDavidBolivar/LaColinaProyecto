@@ -26,11 +26,11 @@ namespace ColinaApplication.Data.Clases
 
         //ESTADO PRODUCTOS SOLICITUD
         private static string entregado = "ENTREGADO";
-        private static string proceso = "PROCESO";
+        private static string noEntregado = "NO ENTREGADO";
         private static string cancelado = "CANCELADO";
 
         public static string Entregado { get { return entregado; } }
-        public static string Proceso { get { return proceso; } }
+        public static string NoEntregado { get { return noEntregado; } }
         public static string Cancelado { get { return cancelado; } }
 
         //ESTADO MESAS

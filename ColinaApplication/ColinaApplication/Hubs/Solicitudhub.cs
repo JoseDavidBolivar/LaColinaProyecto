@@ -37,7 +37,10 @@ namespace ColinaApplication.Hubs
             model.ESTADO_SOLICITUD = Estado;
             model.OTROS_COBROS = 0;
             model.DESCUENTOS = 0;
-            model.TOTAL = 0;
+            model.SUBTOTAL = 0;
+            model.IVA_TOTAL = 0;
+            model.I_CONSUMO_TOTAL = 0;
+            model.SERVICIO_TOTAL = 0;
             solicitud.InsertaSolicitud(model);
 
         }
@@ -67,6 +70,11 @@ namespace ColinaApplication.Hubs
             if (cantidaddisponible >= CantidadPlatos)
             {
                 //IMPRIMIR TICKET
+                bool resp = ImprimeProductos(Convert.ToString(CantidadPlatos), Convert.ToString(modelo.ID_PRODUCTO), modelo.DESCRIPCION);
+                if (resp)
+                    modelo.ESTADO_PRODUCTO = Estados.Entregado;
+                else
+                    modelo.ESTADO_PRODUCTO = Estados.NoEntregado;
 
                 //ACTUALIZA CANTIDAD PRODUCTO
                 var ActualizaCantidadProducto = solicitud.ActualizaCantidadProducto(modelo.ID_PRODUCTO, (cantidaddisponible - CantidadPlatos));
@@ -90,7 +98,7 @@ namespace ColinaApplication.Hubs
                 ConsultaMesaAbierta(idMesa);
             }
         }
-        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string Total, string Estado, string IdMesa)
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
             model.ID = Id;
@@ -98,19 +106,31 @@ namespace ColinaApplication.Hubs
             model.NOMBRE_CLIENTE = NombreCliente;
             model.OBSERVACIONES = Observaciones;
             model.ESTADO_SOLICITUD = Estado;
-            model.OTROS_COBROS = Convert.ToDecimal(OtrosCobros);
-            model.DESCUENTOS = Convert.ToDecimal(Descuentos);
-            model.TOTAL = Convert.ToDecimal(Total);
-
+            model.OTROS_COBROS = string.IsNullOrEmpty(OtrosCobros) ? 0 : Convert.ToDecimal(OtrosCobros);
+            model.DESCUENTOS = string.IsNullOrEmpty(Descuentos) ? 0 : Convert.ToDecimal(Descuentos);
+            model.SUBTOTAL = Convert.ToDecimal(SubTotal);
+            model.PORCENTAJE_SERVICIO = Convert.ToDecimal( porcentajeServicio);
             var respuesta = solicitud.ActualizaSolicitud(model);
             Clients.Caller.GuardoCliente(respuesta);
             ConsultaMesaAbierta(IdMesa);
         }
-        public void CancelaPedido(decimal IdSolicitud)
+        public void CancelaPedido(decimal IdSolicitud, bool RetornaInventario)
         {
-            var respuesta = solicitud.CancelaProductosSolicitud(IdSolicitud);
+            var respuesta = solicitud.CancelaProductosSolicitud(IdSolicitud, RetornaInventario);
 
         }
-
+        public void CancelaPedidoXId(decimal IdProductoSolicitud, bool RetornaInventario)
+        {
+            var respuesta = solicitud.CancelaProductoSolicitudXId(IdProductoSolicitud, RetornaInventario);
+        }
+        public void ImprimirFactura(string idSolicitud)
+        {
+            bool respuesta = solicitud.ImprimirFactura(idSolicitud);
+        }
+        public bool ImprimeProductos(string cantidad, string idproducto, string descripcion)
+        {
+            bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion);
+            return respuesta;
+        }
     }
 }

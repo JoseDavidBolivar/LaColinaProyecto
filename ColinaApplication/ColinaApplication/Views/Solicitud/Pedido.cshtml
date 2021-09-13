@@ -134,22 +134,16 @@
 
     @Scripts.Render("~/Content/plugins/datatables/js")
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
-    <script>
+<script>
         var User = '@Session["IdUsuario"].ToString()';
+        var IdPerfil = '@Session["IdPerfil"].ToString()';
         var urlListaCategorias = '@Url.Action("ListaCategorias", "Solicitud")';
         var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
 
-        var urlListaComposicionSubProductos = '@Url.Action("ListaComposicionSubProductos", "Solicitud")';
-        var urlDatosElementoInventario = '@Url.Action("DatosElementoInventario", "Solicitud")';
-        var urlListaPreciosSubproductos = '@Url.Action("ListaPreciosSubproductos", "Solicitud")';
-        var urlConsultaComposicionSubProducto = '@Url.Action("ConsultaComposicionSubProducto", "Solicitud")';
-        var urlGuardaDatosCliente = '@Url.Action("GuardaDatosCliente", "Solicitud")';
-
-
-    </script>
+</script>
 
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.27"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.33"></script>
 
 
 

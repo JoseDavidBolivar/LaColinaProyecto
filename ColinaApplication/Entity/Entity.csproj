@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ComposiconProductosSolicitud.cs" />
     <Compile Include="ConsultaSolicitudGeneral.cs" />
+    <Compile Include="Impuestos.cs" />
     <Compile Include="MasterMesas.cs" />
     <Compile Include="ProductosSolicitud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

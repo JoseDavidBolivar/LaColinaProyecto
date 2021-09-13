@@ -24,6 +24,13 @@ namespace ColinaApplication.Data.Conexion
         public string OBSERVACIONES { get; set; }
         public Nullable<decimal> OTROS_COBROS { get; set; }
         public Nullable<decimal> DESCUENTOS { get; set; }
+        public Nullable<decimal> SUBTOTAL { get; set; }
+        public Nullable<decimal> PORCENTAJE_IVA { get; set; }
+        public Nullable<decimal> IVA_TOTAL { get; set; }
+        public Nullable<decimal> PORCENTAJE_I_CONSUMO { get; set; }
+        public Nullable<decimal> I_CONSUMO_TOTAL { get; set; }
+        public Nullable<decimal> PORCENTAJE_SERVICIO { get; set; }
+        public Nullable<decimal> SERVICIO_TOTAL { get; set; }
         public Nullable<decimal> TOTAL { get; set; }
     }
 }

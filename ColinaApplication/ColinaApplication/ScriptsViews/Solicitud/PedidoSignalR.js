@@ -1,5 +1,5 @@
 ﻿
-var TotalGeneral = 0;
+//var TotalGeneral = 0;
 var connectPSR;
 
 $(function PedidoSignalR() {
@@ -29,9 +29,9 @@ function Registra_EventosPSR(connectpsr) {
                 PRECIO_PRODUCTO: $('#PRECIO_PRODUCTO').val(),
                 DESCRIPCION: $('#Adiciones').val()
             };
-            //ENVIA AL METODO GUARDAR
+            //ENVIA AL METODO INSERTAR
             connectpsr.server.insertaProductosSolicitud(model, CantiVender, $('#ID_MESA').val());
-            
+
         }
         else {
             $.alert({
@@ -115,7 +115,7 @@ function Llama_MetodosPSR(connectpsr) {
                 }
             });
         }
-        
+
     }
 
     //RECIBE DEL METODO CUANDO GUARDA CLIENTE
@@ -170,31 +170,72 @@ function ActualizaInfoMesa(data) {
 }
 function ActualizaInfoPrecios(data) {
     console.log(data);
+    var IVA = '';
+    var ICONSUMO = '';
+    var SERVICIO = '';
+    if (data[0].Impuestos[0].Estado == "ACTIVO")
+        IVA = '<tr> ' +
+            '<td>' +
+            '<small><b>I.V.A (' + data[0].PorcentajeIVA + '%) : <b></small>' +
+            '<input id="Iva" type="text" class="form-control input-sm" name="Total" value="' + data[0].IVATotal + '" ReadOnly="true"/>' +
+            '</td>' +
+            '</tr>';
+    if (data[0].Impuestos[1].Estado == "ACTIVO")
+        ICONSUMO = '<tr> ' +
+            '<td>' +
+            '<small><b>Impuesto Consumo (' + data[0].PorcentajeIConsumo + '%) : <b></small>' +
+            '<input id="SubTotal" type="text" class="form-control input-sm" name="Total" value="' + data[0].IConsumoTotal + '" ReadOnly="true"/>' +
+            '</td>' +
+            '</tr>';
+    if (data[0].Impuestos[2].Estado == "ACTIVO")
+        SERVICIO = '<tr>' +
+            '<td>' +
+            '<small><b>Servicio (' + data[0].Impuestos[2].Porcentaje + '% Máx.) :</b></small><small style="color: white; font-weight: bold; font-size: 20px; padding: 5px; border-radius: 5px; background-color: #30a630;">    $' + data[0].ServicioTotal +'</small><br>' +
+            '<span class="input-group-btn" style="float: left;">' +
+            '<button class="btn btn-success" id="menosServicio" type="button" onclick="menosServicio()"><b>-</b></button>' +
+            '</span>' +
+            '<input type="text" style="width:50px;text-align: center; float: left; margin-left: 10%;" id="servicio" class="form-control" value="' + data[0].PorcentajeServicio + '" readonly />' +
+            '<span class="input-group-btn" style="float: left; margin-left: 2%;">' +
+            '<button class="btn btn-success" id="masServicio" type="button" onclick="masServicio('+data[0].Impuestos[2].Porcentaje+')"><b>+</b></button>' +
+            '</span>' +
+            
+            '</td>' +
+            '</tr>';
+
     $("#InfoPrecios").empty();
-    $("#InfoPrecios").append('<table class="table table-hover">' +
+    $("#InfoPrecios").append('<table class="table table-hover" style="font-size: 18px;">' +
         '<tbody>' +
         '<tr>' +
         '<td>' +
-        '<small>Otros Cobros: </small>' +
-        '<input id="OtrosCobros" type="text" class="form-control input-sm" name="OtrosCobros" value="' + data[0].OtrosCobros + '" onchange="SumaTotal()" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
+        '<small><b>Otros Cobros: </b></small>' +
+        '<input id="OtrosCobros" type="text" class="form-control input-sm" name="OtrosCobros" value="' + data[0].OtrosCobros + '" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
         '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>' +
-        '<small>Descuentos: </small>' +
-        '<input id="Descuentos" type="text" class="form-control input-sm" name="Descuentos" value="' + data[0].Descuentos + '" onchange="SumaTotal()" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
+        '<small><b>Descuentos: </b></small>' +
+        '<input id="Descuentos" type="text" class="form-control input-sm" name="Descuentos" value="' + data[0].Descuentos + '" onkeypress = "return soloNum(event)" onpaste="return false"/>' +
         '</td>' +
         '</tr>' +
         '<tr>' +
         '<td>' +
-        '<small>Total: </small>' +
+        '<small><b>SubTotal: <b></small>' +
+        '<input id="SubTotal" type="text" class="form-control input-sm" name="Total" value="' + data[0].Subtotal + '" ReadOnly="true"/>' +
+        '</td>' +
+        '</tr>' +
+        IVA +
+        ICONSUMO +
+        SERVICIO +
+        '<tr>' +
+        '<td>' +
+        '<small><b>Total: <b></small>' +
         '<input id="Total" type="text" class="form-control input-sm" name="Total" value="' + data[0].Total + '" ReadOnly="true"/>' +
         '</td>' +
         '</tr>' +
         '</tbody>' +
         '</table>');
-    TotalGeneral = data[0].Total;
-    SumaTotal();
+    //TotalGeneral = data[0].Total;
+    //SumaTotal();
 
 }
 function ActualizaInfoProductos(data) {
@@ -205,7 +246,6 @@ function ActualizaInfoProductos(data) {
         '<th>Editar</th>' +
         '<th>Producto</th>' +
         '<th>Descripcion</th>' +
-        //'<th>Cantidad</th>' +
         '<th>Precio</th>' +
         '</tr>' +
         '</thead>' +
@@ -217,16 +257,27 @@ function ActualizaInfoProductos(data) {
     $("#BodyProductos").empty();
 
     for (var i = 0; i < data[0].ProductosSolicitud.length; i++) {
+        var code = '';
+        var color = '#a90000';
+        if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
+            color = '#5cb85c';
+        if (IdPerfil == 1) {
+            code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].IdProducto+',' + data[0].ProductosSolicitud[i].Id + ')">' +
+                '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto()"></i >';
+        }
+        else {
+            code = '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto +',' + data[0].ProductosSolicitud[i].NombreProducto + ', ' + data[0].ProductosSolicitud[i].Descripcion +')"></i >';
+        }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
-                
+            code +
             '</<td>' +
             '<td>' +
             data[0].ProductosSolicitud[i].NombreProducto +
             '</<td>' +
             '<td>' +
             data[0].ProductosSolicitud[i].Descripcion +
-            '</<td>' +                
+            '</<td>' +
             '<td>' +
             data[0].ProductosSolicitud[i].PrecioProducto +
             '</<td>' +
@@ -239,6 +290,94 @@ function ActualizaInfoProductos(data) {
     });
     //Content/plugins/datatables/js/Spanish.json
 }
+//FUNCION DE CANCELAR PRODUCTO POR ID
+function CancelaProductoxId(idProducto) {
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-question',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'red',
+        title: 'Cancelar !',
+        content: 'Esta seguro que desea cancelar este producto ?',
+        buttons: {
+            Si: {
+                btnClass: 'btn btn-danger',
+                action: function () {
+                    $.alert({
+                        theme: 'Modern',
+                        icon: 'fa fa-warning',
+                        boxWidth: '500px',
+                        useBootstrap: false,
+                        type: 'red',
+                        title: 'Cancelar !',
+                        content: 'Desea retornar el elemento al inventario ?',
+                        buttons: {
+                            Si: {
+                                btnClass: 'btn btn-danger',
+                                action: function () {
+                                    console.log(idProducto);
+                                    connectPSR.server.cancelaPedidoXId(idProducto, true);
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'green',
+                                        title: 'Super !',
+                                        content: 'El producto fue eliminado !',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-success',
+                                                action: function () {
+                                                    connectPSR.server.consultaMesaAbierta($('#ID_MESA').val());
+                                                }
+                                            },
+                                        }
+                                    });
+                                }
+                            },
+                            No: {
+                                btnClass: 'btn btn-danger',
+                                action: function () {
+                                    connectPSR.server.cancelaPedidoXId(idProducto, false);
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'green',
+                                        title: 'Super !',
+                                        content: 'El producto fue eliminado !',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-success',
+                                                action: function () {
+                                                    connectPSR.server.consultaMesaAbierta($('#ID_MESA').val());
+                                                }
+                                            },
+                                        }
+                                    });
+                                }
+                            },
+                        }
+                    });
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-danger',
+                action: function () {
+
+                }
+            },
+        }
+    });
+}
+//REENVIA PRODUCTOS A IMPRESORAS
+function ReEnviaProducto(idproducto, producto, descripcion) {
+    connectPSR.server.imprimeProductos(1, idproducto, producto, descripcion);
+}
+
 
 //METODOS DE CARGA DE CATEGORIA, PRODUCTO Y ADICIONES. 
 function CargaCategorias() {
@@ -336,7 +475,7 @@ function CargaAdiciones(id, precio) {
 function GuardarDatosCliente() {
     $("#GuardaDatosCliente").attr("disabled", "true");
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#Total").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val());
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val());
     $.alert({
         theme: 'Modern',
         icon: 'fa fa-check',
@@ -364,7 +503,7 @@ function PagarFactura() {
         useBootstrap: false,
         type: 'green',
         title: 'Vale !',
-        content: 'Desea pagar cuenta ? ',
+        content: 'Desea pagar la cuenta ? ',
         buttons: {
             Si: {
                 btnClass: 'btn btn-success',
@@ -381,11 +520,10 @@ function PagarFactura() {
                             Si: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
-                                    //IMPRIME FACTURA
-
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#Total").val(), "FINALIZADA", $("#ID_MESA").val());
-                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
+                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val());
+                                    connectPSR.server.imprimirFactura($("#ID").val());
+                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);                                    
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-check',
@@ -409,7 +547,7 @@ function PagarFactura() {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#Total").val(), "FINALIZADA", $("#ID_MESA").val());
+                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val());
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
                                     $.alert({
                                         theme: 'Modern',
@@ -464,7 +602,7 @@ function GeneraFactura() {
                 btnClass: 'btn btn-default',
                 action: function () {
                     //IMPRIME FACTURA
-
+                    connectPSR.server.imprimirFactura();
                 }
             },
             Cancelar: {
@@ -490,23 +628,45 @@ function CancelaPedido() {
             Si: {
                 btnClass: 'btn btn-danger',
                 action: function () {
-                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#Total").val(), "CANCELA PEDIDO", $("#ID_MESA").val());
-                    connectPSR.server.cancelaPedido($("#ID").val());
-                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
                     $.alert({
                         theme: 'Modern',
-                        icon: 'fa fa-check',
+                        icon: 'fa fa-question',
                         boxWidth: '500px',
                         useBootstrap: false,
-                        type: 'green',
-                        title: 'Super !',
-                        content: 'La cuenta fue cancelada totalmente !',
+                        type: 'red',
+                        title: 'Cancelar !',
+                        content: 'Desea cancelar todo el pedido ?',
                         buttons: {
-                            Continuar: {
-                                btnClass: 'btn btn-success',
+                            Si: {
+                                btnClass: 'btn btn-danger',
                                 action: function () {
-                                    window.location.href = '../Solicitud/SeleccionarMesa';
+                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val());
+                                    connectPSR.server.cancelaPedido($("#ID").val(), true);
+                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User);
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'green',
+                                        title: 'Super !',
+                                        content: 'La cuenta fue cancelada totalmente !',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-success',
+                                                action: function () {
+                                                    window.location.href = '../Solicitud/SeleccionarMesa';
+                                                }
+                                            },
+                                        }
+                                    });
+                                }
+                            },
+                            Cancelar: {
+                                btnClass: 'btn btn-danger',
+                                action: function () {
+
                                 }
                             },
                         }
@@ -523,21 +683,8 @@ function CancelaPedido() {
     });
 }
 
-//METODO DE SUMA EN OTROS COBROS, DESCUENTOS Y TOTAL 
-function SumaTotal() {
-    if ($("#Descuentos").val() != "" && $("#OtrosCobros").val() != "") {
-        var TotalFinal = parseInt(TotalGeneral) - parseInt($("#Descuentos").val()) + parseInt($("#OtrosCobros").val());
-        $("#Total").val(TotalFinal);
-    }
-    else {
-        if ($("#Descuentos").val() == "") { $("#Descuentos").val(0) }
-        if ($("#OtrosCobros").val() == "") { $("#OtrosCobros").val(0) }
-        SumaTotal();
-    }
-}
 
-
-
+//FUNCIONES ADICIONALES
 function soloNum(e) {
     var key = window.Event ? e.which : e.keyCode
     return (key >= 48 && key <= 57)
@@ -550,5 +697,15 @@ function menos() {
 function mas() {
     if ($("#contador").val() < 5) {
         $("#contador").val(Number($("#contador").val()) + 1);
+    }
+}
+function menosServicio() {
+    if ($("#servicio").val() > 0) {
+        $("#servicio").val(Number($("#servicio").val()) - 1);
+    }
+}
+function masServicio(porcentajeMaximo) {
+    if ($("#servicio").val() < porcentajeMaximo) {
+        $("#servicio").val(Number($("#servicio").val()) + 1);
     }
 }

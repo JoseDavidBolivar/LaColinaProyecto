@@ -13,6 +13,17 @@
           <Property Name="CATEGORIA" Type="varchar" MaxLength="255" />
           <Property Name="ESTADO" Type="varchar" MaxLength="255" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_IMPUESTOS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="TBL_IMPUESTOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE_IMPUESTO" Type="varchar" MaxLength="255" />
+          <Property Name="PORCENTAJE" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="TBL_MASTER_MESAS">
           <Key>
             <PropertyRef Name="ID" />
@@ -40,7 +51,7 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
           <Property Name="FECHA_INGRESO" Type="datetime" />
           <Property Name="NOMBRE_PRODUCTO" Type="varchar" MaxLength="255" />
           <Property Name="PRECIO" Type="varchar" MaxLength="255" />
-          <Property Name="CANTIDAD" Type="numeric" Precision="18" Scale="3" />
+          <Property Name="CANTIDAD" Type="numeric" Precision="18" Scale="0" />
           <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
@@ -70,6 +81,13 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
           <Property Name="OBSERVACIONES" Type="ntext" />
           <Property Name="OTROS_COBROS" Type="numeric" Precision="18" Scale="0" />
           <Property Name="DESCUENTOS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SUBTOTAL" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_IVA" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IVA_TOTAL" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_I_CONSUMO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="I_CONSUMO_TOTAL" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SERVICIO_TOTAL" Type="numeric" Precision="18" Scale="0" />
           <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_USUARIOS">
@@ -89,6 +107,14 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
           <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[TBL_IMPUESTOS].[ID] AS [ID], 
+[TBL_IMPUESTOS].[NOMBRE_IMPUESTO] AS [NOMBRE_IMPUESTO], 
+[TBL_IMPUESTOS].[PORCENTAJE] AS [PORCENTAJE], 
+[TBL_IMPUESTOS].[ESTADO] AS [ESTADO]
+FROM [dbo].[TBL_IMPUESTOS] AS [TBL_IMPUESTOS]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [TBL_PERFIL].[ID] AS [ID], 
@@ -105,9 +131,10 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="COLINADBModel.TBL_MASTER_MESAS" />
           <EntitySet Name="TBL_PRODUCTOS" EntityType="COLINADBModel.TBL_PRODUCTOS" />
           <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="COLINADBModel.TBL_PRODUCTOS_SOLICITUD" />
-          <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
           <EntitySet Name="TBL_USUARIOS" EntityType="COLINADBModel.TBL_USUARIOS" />
           <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
+          <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
+          <EntitySet Name="TBL_IMPUESTOS" EntityType="COLINADBModel.TBL_IMPUESTOS" />
         </EntityContainer>
         <EntityType Name="TBL_CATEGORIAS">
           <Key>
@@ -135,7 +162,7 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
           <Property Name="FECHA_INGRESO" Type="DateTime" Precision="3" />
           <Property Name="NOMBRE_PRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PRECIO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CANTIDAD" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="CANTIDAD" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
@@ -150,22 +177,6 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
           <Property Name="PRECIO_PRODUCTO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ESTADO_PRODUCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPCION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TBL_SOLICITUD">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
-          <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OTROS_COBROS" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="DESCUENTOS" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TOTAL" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_USUARIOS">
           <Key>
@@ -183,6 +194,38 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
           </Key>
           <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBL_SOLICITUD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
+          <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTROS_COBROS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DESCUENTOS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SUBTOTAL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_IVA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IVA_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_I_CONSUMO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="I_CONSUMO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PORCENTAJE_SERVICIO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SERVICIO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TOTAL" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TBL_IMPUESTOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_IMPUESTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PORCENTAJE" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -236,23 +279,6 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBL_SOLICITUD">
-            <EntityTypeMapping TypeName="COLINADBModel.TBL_SOLICITUD">
-              <MappingFragment StoreEntitySet="TBL_SOLICITUD">
-                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
-                <ScalarProperty Name="DESCUENTOS" ColumnName="DESCUENTOS" />
-                <ScalarProperty Name="OTROS_COBROS" ColumnName="OTROS_COBROS" />
-                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
-                <ScalarProperty Name="ESTADO_SOLICITUD" ColumnName="ESTADO_SOLICITUD" />
-                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
-                <ScalarProperty Name="IDENTIFICACION_CLIENTE" ColumnName="IDENTIFICACION_CLIENTE" />
-                <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
-                <ScalarProperty Name="ID_MESA" ColumnName="ID_MESA" />
-                <ScalarProperty Name="FECHA_SOLICITUD" ColumnName="FECHA_SOLICITUD" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_USUARIOS">
             <EntityTypeMapping TypeName="COLINADBModel.TBL_USUARIOS">
               <MappingFragment StoreEntitySet="TBL_USUARIOS">
@@ -268,6 +294,40 @@ FROM [dbo].[TBL_PERFIL] AS [TBL_PERFIL]</DefiningQuery>
             <EntityTypeMapping TypeName="COLINADBModel.TBL_PERFIL">
               <MappingFragment StoreEntitySet="TBL_PERFIL">
                 <ScalarProperty Name="NOMBRE_PERFIL" ColumnName="NOMBRE_PERFIL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SOLICITUD">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_SOLICITUD">
+              <MappingFragment StoreEntitySet="TBL_SOLICITUD">
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="SERVICIO_TOTAL" ColumnName="SERVICIO_TOTAL" />
+                <ScalarProperty Name="PORCENTAJE_SERVICIO" ColumnName="PORCENTAJE_SERVICIO" />
+                <ScalarProperty Name="I_CONSUMO_TOTAL" ColumnName="I_CONSUMO_TOTAL" />
+                <ScalarProperty Name="PORCENTAJE_I_CONSUMO" ColumnName="PORCENTAJE_I_CONSUMO" />
+                <ScalarProperty Name="IVA_TOTAL" ColumnName="IVA_TOTAL" />
+                <ScalarProperty Name="PORCENTAJE_IVA" ColumnName="PORCENTAJE_IVA" />
+                <ScalarProperty Name="SUBTOTAL" ColumnName="SUBTOTAL" />
+                <ScalarProperty Name="DESCUENTOS" ColumnName="DESCUENTOS" />
+                <ScalarProperty Name="OTROS_COBROS" ColumnName="OTROS_COBROS" />
+                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
+                <ScalarProperty Name="ESTADO_SOLICITUD" ColumnName="ESTADO_SOLICITUD" />
+                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
+                <ScalarProperty Name="IDENTIFICACION_CLIENTE" ColumnName="IDENTIFICACION_CLIENTE" />
+                <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
+                <ScalarProperty Name="ID_MESA" ColumnName="ID_MESA" />
+                <ScalarProperty Name="FECHA_SOLICITUD" ColumnName="FECHA_SOLICITUD" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_IMPUESTOS">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_IMPUESTOS">
+              <MappingFragment StoreEntitySet="TBL_IMPUESTOS">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="PORCENTAJE" ColumnName="PORCENTAJE" />
+                <ScalarProperty Name="NOMBRE_IMPUESTO" ColumnName="NOMBRE_IMPUESTO" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

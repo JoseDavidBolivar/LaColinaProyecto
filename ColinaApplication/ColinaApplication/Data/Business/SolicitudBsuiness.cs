@@ -3,6 +3,8 @@ using ColinaApplication.Data.Conexion;
 using Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Web;
 
@@ -29,7 +31,6 @@ namespace ColinaApplication.Data.Business
                 if (ConsultaSolicitud != null)
                 {
                     var lista = context.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
-                    var total = lista.Sum(a => a.PRECIO_PRODUCTO);
                     solicitudMesa.Add(new ConsultaSolicitudGeneral
                     {
                         Id = ConsultaSolicitud.ID,
@@ -44,12 +45,20 @@ namespace ColinaApplication.Data.Business
                         Observaciones = ConsultaSolicitud.OBSERVACIONES,
                         OtrosCobros = ConsultaSolicitud.OTROS_COBROS,
                         Descuentos = ConsultaSolicitud.DESCUENTOS,
-                        Total = total,
-                        ProductosSolicitud = new List<ProductosSolicitud>()
+                        Subtotal = ConsultaSolicitud.SUBTOTAL,
+                        PorcentajeIVA = ConsultaSolicitud.PORCENTAJE_IVA,
+                        IVATotal = ConsultaSolicitud.IVA_TOTAL,
+                        PorcentajeIConsumo = ConsultaSolicitud.PORCENTAJE_I_CONSUMO,
+                        IConsumoTotal = ConsultaSolicitud.I_CONSUMO_TOTAL,
+                        PorcentajeServicio = ConsultaSolicitud.PORCENTAJE_SERVICIO,
+                        ServicioTotal = ConsultaSolicitud.SERVICIO_TOTAL,
+                        Total = ConsultaSolicitud.TOTAL,
+                        ProductosSolicitud = new List<ProductosSolicitud>(),
+                        Impuestos = new List<Impuestos>()
 
                     });
-                    var ConsultaProductosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(b => b.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
-                    if (ConsultaProductosSolicitud != null)
+                    var ConsultaProductosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(b => b.ID_SOLICITUD == ConsultaSolicitud.ID && b.ESTADO_PRODUCTO != Estados.Cancelado).ToList();
+                    if (ConsultaProductosSolicitud.Count > 0)
                     {
                         foreach (var item in ConsultaProductosSolicitud)
                         {
@@ -74,6 +83,20 @@ namespace ColinaApplication.Data.Business
                             {
                                 throw E;
                             }
+                        }
+                    }
+                    var ConsultaImpuesto = context.TBL_IMPUESTOS.ToList();
+                    if (ConsultaImpuesto.Count > 0)
+                    {
+                        foreach (var item in ConsultaImpuesto)
+                        {
+                            solicitudMesa[0].Impuestos.Add(new Impuestos
+                            {
+                                Id = item.ID,
+                                NombreImpuesto = item.NOMBRE_IMPUESTO,
+                                Porcentaje = item.PORCENTAJE,
+                                Estado = item.ESTADO
+                            });
                         }
                     }
                 }
@@ -104,6 +127,11 @@ namespace ColinaApplication.Data.Business
                 {
                     model.FECHA_SOLICITUD = DateTime.Now;
                     model.ESTADO_SOLICITUD = Estados.Abierta;
+                    model.IDENTIFICACION_CLIENTE = "";
+                    model.NOMBRE_CLIENTE = "";
+                    model.PORCENTAJE_IVA = contex.TBL_IMPUESTOS.Where(x => x.ID == 1 && x.ESTADO == Estados.Activo).FirstOrDefault() != null ? contex.TBL_IMPUESTOS.Where(x => x.ID == 1).FirstOrDefault().PORCENTAJE : 0;
+                    model.PORCENTAJE_I_CONSUMO = contex.TBL_IMPUESTOS.Where(x => x.ID == 2 && x.ESTADO == Estados.Activo).FirstOrDefault() != null ? contex.TBL_IMPUESTOS.Where(x => x.ID == 2).FirstOrDefault().PORCENTAJE : 0;
+                    model.PORCENTAJE_SERVICIO = contex.TBL_IMPUESTOS.Where(x => x.ID == 3 && x.ESTADO == Estados.Activo).FirstOrDefault() != null ? contex.TBL_IMPUESTOS.Where(x => x.ID == 3).FirstOrDefault().PORCENTAJE : 0;
                     contex.TBL_SOLICITUD.Add(model);
                     contex.SaveChanges();
                     Respuesta = "Solicitud Insertada exitosamente";
@@ -144,9 +172,9 @@ namespace ColinaApplication.Data.Business
             }
             return Convert.ToInt32(CantidadDisponible);
         }
-        public TBL_PRODUCTOS InsertaProductosSolicitud(TBL_PRODUCTOS_SOLICITUD model)
+        public TBL_PRODUCTOS_SOLICITUD InsertaProductosSolicitud(TBL_PRODUCTOS_SOLICITUD model)
         {
-            TBL_PRODUCTOS respuesta = new TBL_PRODUCTOS();
+            TBL_PRODUCTOS_SOLICITUD respuesta = new TBL_PRODUCTOS_SOLICITUD();
             using (DBLaColina context = new DBLaColina())
             {
                 try
@@ -161,9 +189,8 @@ namespace ColinaApplication.Data.Business
                     modelo.DESCRIPCION = model.DESCRIPCION;
 
                     context.TBL_PRODUCTOS_SOLICITUD.Add(modelo);
-                    context.SaveChanges();
-
-                    //respuesta = context.TBL_PRODUCTOS.FirstOrDefault(a => a.ID == model1.ID_SUBPRODUCTO);
+                    var r = context.SaveChanges();
+                    respuesta = modelo;
 
                 }
                 catch (Exception e)
@@ -190,7 +217,10 @@ namespace ColinaApplication.Data.Business
                         actualiza.OBSERVACIONES = model.OBSERVACIONES;
                         actualiza.OTROS_COBROS = model.OTROS_COBROS;
                         actualiza.DESCUENTOS = model.DESCUENTOS;
-                        actualiza.TOTAL = model.TOTAL;
+                        actualiza.SUBTOTAL = model.SUBTOTAL;
+                        actualiza.PORCENTAJE_SERVICIO = model.PORCENTAJE_SERVICIO;
+                        actualiza.SERVICIO_TOTAL = (model.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
+                        actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL + actualiza.OTROS_COBROS - actualiza.DESCUENTOS;
                         contex.SaveChanges();
                         Respuesta = "Solicitud actualizada exitosamente";
                     }
@@ -207,7 +237,7 @@ namespace ColinaApplication.Data.Business
             }
             return Respuesta;
         }
-        public string ActualizaTotalSolicitud(decimal? Id, decimal? Total)
+        public string ActualizaTotalSolicitud(decimal? Id, decimal? SubTotal)
         {
             string Respuesta = "";
             using (DBLaColina contex = new DBLaColina())
@@ -218,7 +248,11 @@ namespace ColinaApplication.Data.Business
                     actualiza = contex.TBL_SOLICITUD.Where(a => a.ID == Id).FirstOrDefault();
                     if (actualiza != null)
                     {
-                        actualiza.TOTAL += Total;
+                        actualiza.SUBTOTAL += SubTotal;
+                        actualiza.IVA_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_IVA) / 100;
+                        actualiza.I_CONSUMO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_I_CONSUMO) / 100;
+                        actualiza.SERVICIO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
+                        actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL;
                         contex.SaveChanges();
                         Respuesta = "Total Actualizado exitosamente";
                     }
@@ -263,7 +297,7 @@ namespace ColinaApplication.Data.Business
             }
             return Respuesta;
         }
-        public string CancelaProductosSolicitud(decimal IdSolicitud)
+        public string CancelaProductosSolicitud(decimal IdSolicitud, bool RetornaInventario)
         {
             string Respuesta = "";
             using (DBLaColina contex = new DBLaColina())
@@ -276,10 +310,11 @@ namespace ColinaApplication.Data.Business
                     {
                         foreach (var item in actualiza)
                         {
-                            item.ESTADO_PRODUCTO = "CANCELADO";
+                            item.ESTADO_PRODUCTO = Estados.Cancelado;
                             contex.SaveChanges();
+                            if (RetornaInventario)
+                                ActualizaCantidadProducto(item.ID_PRODUCTO, (ConsultaCantidadProducto(item.ID_PRODUCTO) + 1));
                         };
-                        Respuesta = "Productos actualizados exitosamente";
                     }
                     else
                     {
@@ -294,7 +329,95 @@ namespace ColinaApplication.Data.Business
             }
             return Respuesta;
         }
+        public string CancelaProductoSolicitudXId(decimal IdProductoSolicitud, bool RetornaInventario)
+        {
+            string Respuesta = "";
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_PRODUCTOS_SOLICITUD actualiza = new TBL_PRODUCTOS_SOLICITUD();
+                    actualiza = contex.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID == IdProductoSolicitud).FirstOrDefault();
+                    if (actualiza.ID > 0)
+                    {
+                        actualiza.ESTADO_PRODUCTO = Estados.Cancelado;
+                        contex.SaveChanges();
+                        if (RetornaInventario)
+                            ActualizaCantidadProducto(actualiza.ID_PRODUCTO, (ConsultaCantidadProducto(actualiza.ID_PRODUCTO) + 1));
+                        Respuesta = ActualizaTotalSolicitud(actualiza.ID_SOLICITUD, -actualiza.PRECIO_PRODUCTO);
 
+                    }
+                    else
+                    {
+                        Respuesta = "No existe Productos para esta solicitud";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = "Error Servidor: " + e;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ImprimirFactura(string idSolicitud)
+        {
+            bool respuesta;
+            PrintDocument printDocument1 = new PrintDocument();
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            printDocument1.PrinterSettings.PrinterName = "IMPRESORA DONDE DEBE SALIR";
+            printDocument1.PrintPage += ImprimirFact;
+            printDocument1.Print();
+            respuesta = true;
+            return respuesta;
+        }
+        public void ImprimirFact(object sender, PrintPageEventArgs e)
+        {
+            Font font = new Font("Arial", 14);
+            int ancho = 150;
+            int y = 20;
+
+            e.Graphics.DrawString("----- La Colina Restaurante Campestre ------", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString(" Orden # 123", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString(" Cliente: Juan Lopez ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString("Productos ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            //lista los productos
+            //foreach (var item in collection)
+            //{
+
+            //}
+            e.Graphics.DrawString("Subtotal ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString("Impuestos ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString("Productos ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+        }
+        public bool ImprimirPedido(string cantidad, string idproducto, string descripcion)
+        {
+            bool respuesta;
+            PrintDocument printDocument1 = new PrintDocument();
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            printDocument1.PrinterSettings.PrinterName = "IMPRESORA DONDE DEBE SALIR";
+            printDocument1.PrintPage += ImprimirPed;
+            printDocument1.Print();
+            respuesta = true;
+            return respuesta;
+        }
+        public void ImprimirPed(object sender, PrintPageEventArgs e)
+        {
+            Font font = new Font("Arial", 14);
+            int ancho = 150;
+            int y = 20;
+
+            e.Graphics.DrawString(" Mesero: ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString(" Mesa: ", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            e.Graphics.DrawString(" --- Productos ---", font, Brushes.Black, new RectangleF(0, y + 20, ancho, 20));
+            //lista los productos
+            //foreach (var item in collection)
+            //{
+
+            //}
+
+        }
 
 
         public TBL_PRODUCTOS ElementoInventario(decimal Id)

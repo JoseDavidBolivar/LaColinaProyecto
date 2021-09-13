@@ -8,6 +8,17 @@
     <Property Name="CATEGORIA" Type="varchar" MaxLength="255" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
   </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_IMPUESTOS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="TBL_IMPUESTOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOMBRE_IMPUESTO" Type="varchar" MaxLength="255" />
+    <Property Name="PORCENTAJE" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="TBL_MASTER_MESAS">
     <Key>
       <PropertyRef Name="ID" />
@@ -35,7 +46,7 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
     <Property Name="FECHA_INGRESO" Type="datetime" />
     <Property Name="NOMBRE_PRODUCTO" Type="varchar" MaxLength="255" />
     <Property Name="PRECIO" Type="varchar" MaxLength="255" />
-    <Property Name="CANTIDAD" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="CANTIDAD" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
@@ -65,6 +76,13 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
     <Property Name="OBSERVACIONES" Type="ntext" />
     <Property Name="OTROS_COBROS" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DESCUENTOS" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SUBTOTAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_IVA" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="IVA_TOTAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_I_CONSUMO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="I_CONSUMO_TOTAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SERVICIO_TOTAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_USUARIOS">
@@ -84,6 +102,14 @@ advertencia 6002: La tabla o vista 'COLINADB.dbo.TBL_PERFIL' no tiene definida n
     <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[TBL_IMPUESTOS].[ID] AS [ID], 
+[TBL_IMPUESTOS].[NOMBRE_IMPUESTO] AS [NOMBRE_IMPUESTO], 
+[TBL_IMPUESTOS].[PORCENTAJE] AS [PORCENTAJE], 
+[TBL_IMPUESTOS].[ESTADO] AS [ESTADO]
+FROM [dbo].[TBL_IMPUESTOS] AS [TBL_IMPUESTOS]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
 [TBL_PERFIL].[ID] AS [ID], 

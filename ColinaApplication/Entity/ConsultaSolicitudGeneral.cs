@@ -20,8 +20,16 @@ namespace Entity
         public string Observaciones { get; set; }
         public decimal? OtrosCobros { get; set; }
         public decimal? Descuentos { get; set; }
+        public decimal? Subtotal { get; set; }
+        public decimal? PorcentajeIVA { get; set; }
+        public decimal? IVATotal { get; set; }
+        public decimal? PorcentajeIConsumo { get; set; }
+        public decimal? IConsumoTotal { get; set; }
+        public decimal? PorcentajeServicio { get; set; }
+        public decimal? ServicioTotal { get; set; }
         public decimal? Total { get; set; }
         public List<ProductosSolicitud> ProductosSolicitud { get; set; }
-        
+        public List<Impuestos> Impuestos { get; set; }
+
     }
 }
