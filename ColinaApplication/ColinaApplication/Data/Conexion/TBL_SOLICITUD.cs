@@ -32,5 +32,7 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> PORCENTAJE_SERVICIO { get; set; }
         public Nullable<decimal> SERVICIO_TOTAL { get; set; }
         public Nullable<decimal> TOTAL { get; set; }
+        public string METODO_PAGO { get; set; }
+        public string VOUCHER { get; set; }
     }
 }

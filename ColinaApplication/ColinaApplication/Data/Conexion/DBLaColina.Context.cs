@@ -31,7 +31,7 @@ namespace ColinaApplication.Data.Conexion
         public DbSet<TBL_PRODUCTOS_SOLICITUD> TBL_PRODUCTOS_SOLICITUD { get; set; }
         public DbSet<TBL_USUARIOS> TBL_USUARIOS { get; set; }
         public DbSet<TBL_PERFIL> TBL_PERFIL { get; set; }
-        public DbSet<TBL_SOLICITUD> TBL_SOLICITUD { get; set; }
         public DbSet<TBL_IMPUESTOS> TBL_IMPUESTOS { get; set; }
+        public DbSet<TBL_SOLICITUD> TBL_SOLICITUD { get; set; }
     }
 }

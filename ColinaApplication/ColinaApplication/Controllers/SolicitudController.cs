@@ -45,12 +45,5 @@ namespace ColinaApplication.Controllers
         }
         
 
-
-        public JsonResult DatosElementoInventario(string Id)
-        {
-            var jsonResult = Json(JsonConvert.SerializeObject(solicitud.ElementoInventario(Convert.ToDecimal(Id))), JsonRequestBehavior.AllowGet);
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
-        }
     }
 }

@@ -4,28 +4,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .estilo:hover 
-    {
-        /*padding: 1px;*/
+    .estilo:hover {
         border: 1px solid #006f24;
         transition: 0.3s;
     }
+    
+}
 </style>
 <div class="row">
     <div class="col-md-12">
         <h1 class="page-header"><i class="fas fa-utensils"></i> Mesas </h1>
         <p>
             Seleccione una mesa para continuar:
-            <div style="float: right;">
-                <i class="fa fa-check text-success" style="float:left; margin:5px;"> Disponible </i>
-                <i class="fa fa-arrow-down text-danger" style="float:left; margin:5px;"> Ocupado</i>
-                <i class="fa fa-clock-o text-warning" style="float:left; margin:5px;"> Para Llevar</i>
-                <i class="fa fa-times-circle text-primary" style="float:left; margin:5px;"> No Habilitada</i>
-            </div>
         </p>
-        
-        <div id="ListaMesas" class="jumbotron" >
-            
+        <div style="float: right;">
+            <i class="fa fa-check text-success" style="float:left; margin:5px;"> Disponible </i>
+            <i class="fa fa-arrow-down text-danger" style="float:left; margin:5px;"> Ocupado</i>
+            <i class="fa fa-clock-o text-warning" style="float:left; margin:5px;"> Para Llevar</i>
+            <i class="fa fa-times-circle text-primary" style="float:left; margin:5px;"> No Habilitada</i>
+        </div>
+        <br />
+        <br />
+        <div id="ListaMesas" class="jumbotron col-md-12" style="">
+
         </div>
     </div>
 </div>
@@ -34,7 +35,7 @@
     <script>
         var Iduser = '@Session["IdUsuario"].ToString()';
     </script>
-    <script src="~/ScriptsViews/Solicitud/SeleccionarMesa.js?1.0.14"></script>
+    <script src="~/ScriptsViews/Solicitud/SeleccionarMesa.js?1.0.18"></script>
 
 }
 

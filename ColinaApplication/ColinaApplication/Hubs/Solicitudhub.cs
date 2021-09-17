@@ -20,14 +20,14 @@ namespace ColinaApplication.Hubs
         {
             solicitud = new SolicitudBsuiness();
         }
-        public void ActualizaMesa(string id, string Estado, string IdUser)
+        public void ActualizaMesa(string id, string Estado, string IdUser, string Redirecciona, string Ruta)
         {
             solicitud.ActualizaEstadoMesa(Convert.ToDecimal(id), Estado);
-            if (Estado == "OCUPADO")
+            if (Estado == Estados.Ocupado && Redirecciona == "SI")
             {
-                InsertaSolicitud(id, Estado, IdUser);
+                InsertaSolicitud(id, Estados.Ocupado, IdUser);
             }
-            ListarEstadoMesas("SI", Convert.ToDecimal(id));
+            ListarEstadoMesas(Redirecciona, Convert.ToDecimal(id), Ruta);
         }
         public void InsertaSolicitud(string IdMesa, string Estado, string IdUser)
         {
@@ -44,16 +44,12 @@ namespace ColinaApplication.Hubs
             solicitud.InsertaSolicitud(model);
 
         }
-        public void ListaMesas()
-        {
-            ListarEstadoMesas("NO", 0);
-        }
-        public void ListarEstadoMesas(string Redirecciona, decimal Idmesa)
+        public void ListarEstadoMesas(string Redirecciona, decimal Idmesa, string Ruta)
         {
             List<TBL_MASTER_MESAS> listamesas = new List<TBL_MASTER_MESAS>();
             List<MasterMesas> mesas = new List<MasterMesas>();
             listamesas = solicitud.ListaMesas();
-            Clients.All.ListaMesas(listamesas, Redirecciona, Idmesa);
+            Clients.All.ListaMesas(listamesas, Redirecciona, Idmesa, Ruta);
         }
 
         public void ConsultaMesaAbierta(string Id)
@@ -98,10 +94,11 @@ namespace ColinaApplication.Hubs
                 ConsultaMesaAbierta(idMesa);
             }
         }
-        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio)
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
             model.ID = Id;
+            model.ID_MESA = Convert.ToDecimal(IdMesa);
             model.IDENTIFICACION_CLIENTE = Cedula;
             model.NOMBRE_CLIENTE = NombreCliente;
             model.OBSERVACIONES = Observaciones;
@@ -110,6 +107,8 @@ namespace ColinaApplication.Hubs
             model.DESCUENTOS = string.IsNullOrEmpty(Descuentos) ? 0 : Convert.ToDecimal(Descuentos);
             model.SUBTOTAL = Convert.ToDecimal(SubTotal);
             model.PORCENTAJE_SERVICIO = Convert.ToDecimal( porcentajeServicio);
+            model.METODO_PAGO = MetodoPago;
+            model.VOUCHER = Voucher;
             var respuesta = solicitud.ActualizaSolicitud(model);
             Clients.Caller.GuardoCliente(respuesta);
             ConsultaMesaAbierta(IdMesa);
@@ -131,6 +130,10 @@ namespace ColinaApplication.Hubs
         {
             bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion);
             return respuesta;
+        }
+        public void ActualizaIdmesaHTML(string idmesa, string idmesaAnterior)
+        {
+            Clients.All.CambiaIdMesa(idmesa, idmesaAnterior);
         }
     }
 }

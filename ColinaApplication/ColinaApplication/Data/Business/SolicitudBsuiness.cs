@@ -19,7 +19,6 @@ namespace ColinaApplication.Data.Business
             {
                 ListMesas = context.TBL_MASTER_MESAS.ToList();
             }
-
             return ListMesas;
         }
         public List<ConsultaSolicitudGeneral> ConsultaSolicitudMesa(decimal IdMesa)
@@ -211,6 +210,7 @@ namespace ColinaApplication.Data.Business
                     actualiza = contex.TBL_SOLICITUD.Where(a => a.ID == model.ID).FirstOrDefault();
                     if (actualiza != null)
                     {
+                        actualiza.ID_MESA = model.ID_MESA;
                         actualiza.IDENTIFICACION_CLIENTE = model.IDENTIFICACION_CLIENTE;
                         actualiza.NOMBRE_CLIENTE = model.NOMBRE_CLIENTE;
                         actualiza.ESTADO_SOLICITUD = model.ESTADO_SOLICITUD;
@@ -221,6 +221,8 @@ namespace ColinaApplication.Data.Business
                         actualiza.PORCENTAJE_SERVICIO = model.PORCENTAJE_SERVICIO;
                         actualiza.SERVICIO_TOTAL = (model.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
                         actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL + actualiza.OTROS_COBROS - actualiza.DESCUENTOS;
+                        actualiza.METODO_PAGO = model.METODO_PAGO;
+                        actualiza.VOUCHER = model.VOUCHER;
                         contex.SaveChanges();
                         Respuesta = "Solicitud actualizada exitosamente";
                     }
@@ -398,7 +400,7 @@ namespace ColinaApplication.Data.Business
             printDocument1.PrinterSettings = ps;
             printDocument1.PrinterSettings.PrinterName = "IMPRESORA DONDE DEBE SALIR";
             printDocument1.PrintPage += ImprimirPed;
-            printDocument1.Print();
+            //printDocument1.Print();
             respuesta = true;
             return respuesta;
         }

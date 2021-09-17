@@ -30,7 +30,19 @@
             </div>
         </div>
         <div class="col-md-8">
-            <a class="AgregProd" href="#AgregaProducto" data-toggle="modal" data-backdrop="static" data-keyboard="false">Agregar Producto</a>
+            <a class="AgregProd" href="#AgregaProducto" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-2x fa-plus-circle"></i> Agregar</a>
+            <a class="AgregProd" href="#CambioMesa" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="CargaMesas()"> <i class="fa fa-2x fa-exchange"></i> Cambio</a>
+            <div id="DivLlevar" style="display: none;">
+                <a class="AgregProd" style="background-color: #e3a200; cursor: pointer;" onclick="AsignarLlevar()"> <i class="fa fa-2x fa-arrow-up"></i> Llevar</a>
+            </div>
+            <div id="DivAsignar" style="display: none">
+                <a class="AgregProd" style="background-color:#5cb85c; cursor: pointer;" onclick="AsignarAsignaMesa()"> <i class="fa fa-2x fa-arrow-up"></i> Asignar</a>
+            </div>
+            @if (@Session["IdPerfil"].ToString() == "1")
+            {
+                <a class="AgregProd" style="background-color: #008dc9; cursor: pointer;" onclick="ConsumoInterno()"> <i class="fa fa-2x fa-users"></i> Interno</a>
+            }
+            <a class="AgregProd" style="cursor: pointer;" onclick="InhabilitarMesa()"> <i class="fa fa-2x fa-times"></i> Inhabilitar</a>
             <br />
             <br />
             <br />
@@ -53,25 +65,54 @@
         <div class="col-md-3">
             <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();"><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
         </div>
-        <div class="col-md-3">
-            <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money"></i>&nbsp;&nbsp; Pagar</button>
-        </div>
+        @if (@Session["IdPerfil"].ToString() == "1")
+        {
+            <div class="col-md-3">
+                <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money"></i>&nbsp;&nbsp; Pagar</button>
+            </div>
+        }
         <div class="col-md-3">
             <button id="" type="button" class="btn btn-default" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
         </div>
-        <div class="col-md-3">
-            <button id="" type="button" class="btn btn-danger" style="width: 90%; margin-left: 5%;" onclick="CancelaPedido();"><i class="fa fa-2x fa-times"></i>&nbsp;&nbsp; Cancelar Pedido</button>
-        </div>
+        @if (@Session["IdPerfil"].ToString() == "1")
+        {
+            <div class="col-md-3">
+                <button id="" type="button" class="btn btn-danger" style="width: 90%; margin-left: 5%;" onclick="CancelaPedido();"><i class="fa fa-2x fa-times"></i>&nbsp;&nbsp; Cancelar Pedido</button>
+            </div>
+        }
         <br /><br />
     </div>
 </div>
 
+<div id="CambioMesa" class="modal">
+    <div class="modal-dialog" style="width:1000px;">
+        <div class="modal-content" style="width:1000px;">
+            <div class="modal-header" style="width:1000px; background-color:#006512;">
+                <button type="button" id="CerrarModalCM" class="close" data-dismiss="modal" style="color: white;" onclick="CierraModalCM()"><i class="fa fa-times"></i></button>
+                <h3 class="modal-title" style="color: white;"><i class="fa fa-exchange" aria-hidden="true" style="color: white;"></i><b> Cambio de mesa</b></h3>
+            </div>
+            <div class="modal-body" style="width:1010px;">
+                <br />
+                <div class="row">
+                    <table class="table" style="width:950px; margin-left:25px; font-size: 16px;">
+                        <tr>
+                            <td ><b>Seleccione la nueva mesa:</b></td>
+                        </tr>
+                    </table>
+                    <div id="ListaMesas" class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="AgregaProducto" class="modal">
     <div class="modal-dialog" style="width:1000px;">
         <div class="modal-content" style="width:1000px;">
-            <div class="modal-header" style="width:1000px; background-color:#202020; ">
+            <div class="modal-header" style="width:1000px; background-color:#006512;">
                 <button type="button" id="CerrarModalAP" class="close" data-dismiss="modal" style="color: white;"><i class="fa fa-times"></i></button>
-                <h3 class="modal-title" style="color: white;"><i class="fa fa-plus-circle" aria-hidden="true" style="color:#006512;"></i> Agregar Productos</h3>
+                <h3 class="modal-title" style="color: white;"><i class="fa fa-plus-circle" aria-hidden="true" style="color: white"></i><b> Agregar Productos</b></h3>
             </div>
             <div class="modal-body" style="width:1010px;">
                 <br />
@@ -134,16 +175,16 @@
 
     @Scripts.Render("~/Content/plugins/datatables/js")
     @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
-<script>
+    <script>
         var User = '@Session["IdUsuario"].ToString()';
         var IdPerfil = '@Session["IdPerfil"].ToString()';
         var urlListaCategorias = '@Url.Action("ListaCategorias", "Solicitud")';
         var urlListaProductos = '@Url.Action("ListaProductos", "Solicitud")';
 
-</script>
+    </script>
 
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.33"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.41"></script>
 
 
 

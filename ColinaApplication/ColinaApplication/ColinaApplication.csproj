@@ -151,11 +151,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CajaController.cs" />
+    <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
-    <Compile Include="Controllers\MaestroController.cs" />
     <Compile Include="Controllers\SolicitudController.cs" />
+    <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Data\Business\HomeBusiness.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
     <Compile Include="Data\Clases\Estados.cs" />
@@ -1855,12 +1855,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\LaColinaRestaurante.cshtml" />
-    <Content Include="Views\Caja\Factura.cshtml" />
-    <Content Include="Views\Maestro\Personal.cshtml" />
-    <Content Include="Views\Maestro\Configuracion.cshtml" />
     <Content Include="Views\Solicitud\Pedido.cshtml" />
     <Content Include="Views\Solicitud\SeleccionarMesa.cshtml" />
     <Content Include="Views\Home\LaColinaLogin.cshtml" />
+    <Content Include="Views\Configuracion\Configuraciones.cshtml" />
+    <Content Include="Views\Ventas\Ingresos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
