@@ -187,7 +187,7 @@ function Llama_MetodosPSR(connectpsr) {
 
 
 //METODOS DE ACTUALIZACION DE MESA, PRECIOS Y SOLICITUD EN GENERAL
-function ActualizaInfoMesa(data) {
+function ActualizaInfoMesa(data)  {
     if (data[0].EstadoSolicitud == "ABIERTA") {
         $("#DivLlevar").css("display", "block");
         $("#DivAsignar").css("display", "none");
@@ -353,7 +353,6 @@ function ActualizaInfoProductos(data) {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         }
     });
-    //Content/plugins/datatables/js/Spanish.json
 }
 //FUNCION DE CANCELAR PRODUCTO POR ID
 function CancelaProductoxId(idProducto) {

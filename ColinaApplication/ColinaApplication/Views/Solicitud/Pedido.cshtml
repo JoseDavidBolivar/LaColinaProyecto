@@ -8,7 +8,7 @@
         @Scripts.Render("~/Content/Scripts/Tables/Data/menu")
     }*@
 
-@Styles.Render("~/Content/plugins/datatables/css")
+
 
 <div class="row">
     <div class="col-xs-12">
@@ -172,9 +172,6 @@
 </div>
 
 @section Scripts{
-
-    @Scripts.Render("~/Content/plugins/datatables/js")
-    @*@Scripts.Render("~/Content/Scripts/Tables/Data")*@
     <script>
         var User = '@Session["IdUsuario"].ToString()';
         var IdPerfil = '@Session["IdPerfil"].ToString()';

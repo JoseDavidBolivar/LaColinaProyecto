@@ -156,10 +156,12 @@
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\SolicitudController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="Data\Business\ConfiguracionesBusiness.cs" />
     <Compile Include="Data\Business\HomeBusiness.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
     <Compile Include="Data\Clases\Estados.cs" />
     <Compile Include="Data\Clases\ExpiringFilter.cs" />
+    <Compile Include="Data\Clases\SuperViewModels.cs" />
     <Compile Include="Data\Conexion\DBLaColina.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1748,6 +1750,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="ScriptsViews\Configuracion\Configuraciones.js" />
     <Content Include="ScriptsViews\Home\LaColinaLogin.js" />
     <Content Include="ScriptsViews\Shared\AlertasLayout.js" />
     <Content Include="ScriptsViews\Solicitud\Pedido.js" />

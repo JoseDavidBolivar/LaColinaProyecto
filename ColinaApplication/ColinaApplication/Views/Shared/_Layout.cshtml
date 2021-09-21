@@ -10,9 +10,10 @@
     @*<link href="~/Css/fontawesome-free-5.2.0-web/css/all.css" rel="stylesheet" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>*@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/plugins/datatables/css")
 </head>
 <body>
-    <div id="Cargando" style="background-color: rgba(64, 63, 63, 0.77); position: absolute; width: 100%; 
+    <div id="Cargando" style="background-color: rgba(64, 63, 63, 0.77); position: absolute; width: 100%;
         height: 100%; top: 0; left: 0; z-index: 9999; display: none;">
         <div id="fountainG">
             <div id="fountainG_1" class="fountainG"></div>
@@ -61,17 +62,19 @@
         @RenderBody()
         <hr />
         <footer style="text-align:center;">
-            <p>&copy; @DateTime.Now.Year <b><h3>La Colina Restaurante</h3></b>
-            Km. 6.5 Via Siberia -Tenjo
+            <p>
+                &copy; @DateTime.Now.Year <b><h3>La Colina Restaurante</h3></b>
+                Km. 6.5 Via Siberia -Tenjo
             </p>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/plugins/datatables/js")
     @RenderSection("scripts", required: false)
 
-    
+
     <script src="~/Scripts/jquery.signalR-2.3.0.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/Jquery-confirm.js"></script>

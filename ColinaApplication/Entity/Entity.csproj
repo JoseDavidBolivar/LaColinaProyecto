@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComposiconProductosSolicitud.cs" />
     <Compile Include="ConsultaSolicitudGeneral.cs" />
     <Compile Include="Impuestos.cs" />
     <Compile Include="MasterMesas.cs" />
