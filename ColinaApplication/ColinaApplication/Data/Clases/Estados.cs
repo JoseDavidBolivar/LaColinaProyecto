@@ -7,7 +7,7 @@ namespace ColinaApplication.Data.Clases
 {
     public static class Estados
     {
-        //ESTADO CATEGORIAS
+        //ESTADO CATEGORIAS E IMPUESTOS
         private static string activo = "ACTIVO";
         private static string inactivo = "INACTIVO";
 
@@ -41,11 +41,14 @@ namespace ColinaApplication.Data.Clases
         private static string ocupado = "OCUPADO";
         private static string espera = "ESPERA";
         private static string noDisponible = "NO DISPONIBLE";
+        private static string cerrado = "CERRADO";
+
 
         public static string Libre { get { return libre; } }
         public static string Ocupado { get { return ocupado; } }
         public static string Espera { get { return espera; } }
         public static string NoDisponible { get { return noDisponible; } }
+        public static string Cerrado { get { return cerrado; } }
 
 
 

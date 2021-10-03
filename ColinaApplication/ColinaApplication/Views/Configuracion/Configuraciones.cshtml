@@ -10,7 +10,7 @@
     <div class="col-md-12">
         <h1 class="page-header"><i class="fa fa-cogs"></i> Configuraciones </h1>
     </div>
-    <div class="col-md-12">
+    <div id="DivCategoria" class="col-md-12">
         <h3 class="page-header"><i class="fa fa-th-list"></i> Inventarios </h3>
         @using (Html.BeginForm("AgregarEditarCategoria", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
         {
@@ -18,7 +18,7 @@
                 <h4><b>Categorias </b></h4>
             </div>
             <div class="col-md-12">
-                <table id="TablaList" class="table table-bordered table-hover" style=" width: 100%; background-color: white;" data-page-length='5'>
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -70,18 +70,18 @@
                 new { @Id = "EstadoCategoria", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
             </div>
             <br />
-            <div class="col-md-12">
+            <div id = "DivProductos" class="col-md-12">
                 <input type="submit" class="btn btn-success" value="Guardar" />
             </div>
         }
         <br />
-        @using (Html.BeginForm("AgregarEditarProducto", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+        @using (Html.BeginForm("AgregarEditarProducto", "Configuracion", FormMethod.Post, new {@style = "padding: 10px; background-color: #eeeeee;" }))
         {
             <div class="col-md-12">
                 <h4><b>Productos </b></h4>
             </div>
             <div class="col-md-12">
-                <table id="TablaList" class="table table-bordered table-hover" style=" width: 100%; background-color: white;" data-page-length='5'>
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -120,7 +120,7 @@
                                     @Model.Productos[i].DESCRIPCION
                                 </td>
                                 <td style=" text-align: center;">
-                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarProducto()"></i>
+                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarProducto('@Model.Productos[i].ID', '@Model.Productos[i].ID_CATEGORIA', '@Model.Productos[i].NOMBRE_PRODUCTO', '@Model.Productos[i].PRECIO', '@Model.Productos[i].CANTIDAD', '@Model.Productos[i].DESCRIPCION')"></i>
                                 </td>
                             </tr>
                         }
@@ -135,12 +135,7 @@
             <div class="col-md-12">
                 <small><b>Categoria: </b></small>
                 @Html.HiddenFor(x => x.ProductosModel.ID, new { @Id = "IdProducto", Value = "" })
-                @Html.DropDownListFor(x => x.ProductosModel.ID_CATEGORIA, new List<SelectListItem>
-                {
-                        new SelectListItem() {Text = "-- SELECCIONE --", Value=""},
-                        new SelectListItem() {Text = "ACTIVO", Value="ACTIVO"},
-                        new SelectListItem() {Text = "INACTIVO", Value="INACTIVO"}
-                },
+                @Html.DropDownListFor(x => x.ProductosModel.ID_CATEGORIA, (List<SelectListItem>)ViewBag.listaCategoriasDDL, "-- SELECCIONE --",
                 new { @Id = "IdCategoriaProducto", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
             </div>
             <div class="col-md-12">
@@ -149,31 +144,184 @@
             </div>
             <div class="col-md-12">
                 <small><b>Precio Producto:</b></small>
-                @Html.TextBoxFor(x => x.ProductosModel.PRECIO, new { @Id = "PrecioProducto", Placeholder = "Digite el precio del producto", type="number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+                @Html.TextBoxFor(x => x.ProductosModel.PRECIO, new { @Id = "PrecioProducto", Placeholder = "Digite el precio del producto", type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
             </div>
             <div class="col-md-12">
                 <small><b>Cantidad a inventario:</b></small>
-                @Html.TextBoxFor(x => x.ProductosModel.CANTIDAD, new { @Id = "CantidadProducto", Placeholder = "Digite la cantidad existente", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+                @Html.TextBoxFor(x => x.ProductosModel.CANTIDAD, new { @Id = "CantidadProducto", Placeholder = "Digite la cantidad existente", type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
             </div>
             <div class="col-md-12">
                 <small><b>Descripcion:</b></small>
-                @Html.TextBoxFor(x => x.ProductosModel.CANTIDAD, new { @Id = "CantidadProducto", Placeholder = "Digite la cantidad existente", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+                @Html.TextBoxFor(x => x.ProductosModel.DESCRIPCION, new { @Id = "DescripcionProducto", Placeholder = "Digite una descripción", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
             </div>
             <br />
-            <div class="col-md-12">
+            <div id="DivMesas" class="col-md-12">
                 <input type="submit" class="btn btn-primary" value="Guardar" />
             </div>
         }
     </div>
     <div class="col-md-6">
         <h3 class="page-header"><i class="fa fa-table"></i> Mesas </h3>
-        
+        @using (Html.BeginForm("AgregarEditarMesas", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+        {
+            <div class="col-md-12" style="overflow-x:auto;">
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th># MESA</th>
+                            <th>ID USUARIO</th>
+                            <th>NOMBRE MESA</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>ESTADO</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Mesas.Count; i++)
+                        {
+                            <tr>
+                                <td data_val="Elemento_@i">
+                                    @Model.Mesas[i].ID
+                                </td>
+                                <td>
+                                    @Model.Mesas[i].NUMERO_MESA
+                                </td>
+                                <td>
+                                    @Model.Mesas[i].ID_USUARIO
+                                </td>
+                                <td>
+                                    @Model.Mesas[i].NOMBRE_MESA
+                                </td>
+                                <td>
+                                    @Model.Mesas[i].DESCRIPCION
+                                </td>
+                                <td>
+                                    @Model.Mesas[i].ESTADO
+                                </td>
+                                <td style=" text-align: center;">
+                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarMesa('@Model.Mesas[i].ID', '@Model.Mesas[i].NUMERO_MESA', '@Model.Mesas[i].ID_USUARIO', '@Model.Mesas[i].NOMBRE_MESA', '@Model.Mesas[i].DESCRIPCION', '@Model.Mesas[i].ESTADO')"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <div class="col-md-12">
+                <i class="fa fa-2x fa-trash-o" style="float: right; cursor: pointer;" onclick="LimpiaCamposMesa()"></i>
+                <br />
+            </div>
+            <div class="col-md-12">
+                <small><b>Nombre Mesa:</b></small>
+                @Html.HiddenFor(x => x.MesasModel.ID, new { @Id = "IdMesa", Value = "" })
+                @Html.TextBoxFor(x => x.MesasModel.NOMBRE_MESA, new { @Id = "NombreMesa", Placeholder = "Digite el nombre de la mesa", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b># Mesa:</b></small>
+                @Html.TextBoxFor(x => x.MesasModel.NUMERO_MESA, new { @Id = "NumeroMesa", Placeholder = "Digite el número de la mesa", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Usuario Asiganar: </b></small>
+                @Html.DropDownListFor(x => x.MesasModel.ID_USUARIO, (List<SelectListItem>)ViewBag.listaUsuariosAdmin, "-- SELECCIONE --",
+                new { @Id = "IdUsuarioMesa", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
+            </div>
+            <div class="col-md-12">
+                <small><b>Descripción Mesa:</b></small>
+                @Html.TextBoxFor(x => x.MesasModel.DESCRIPCION, new { @Id = "DescripcionMesa", Placeholder = "Digite la descripcion de la mesa", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Estado:</b></small>
+                @Html.DropDownListFor(x => x.MesasModel.ESTADO, new List<SelectListItem>
+                {
+                        new SelectListItem() {Text = "-- SELECCIONE --", Value=""},
+                        new SelectListItem() {Text = "LIBRE", Value="LIBRE"},
+                        new SelectListItem() {Text = "OCUPADO", Value="OCUPADO"},
+                        new SelectListItem() {Text = "ESPERA", Value="ESPERA"},
+                        new SelectListItem() {Text = "NO DISPONIBLE", Value="NO DISPONIBLE"},
+
+                },
+                new { @Id = "EstadoMesa", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
+            </div>
+            <br />
+            <div id="DivUsuarios" class="col-md-12">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
     </div>
     <div class="col-md-6">
         <h3 class="page-header"><i class="fa fa-user"></i> Usuarios </h3>
-        <p>
-            123
-        </p>
+        @using (Html.BeginForm("AgregarEditarUsuarios", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+        {
+            <div class="col-md-12">
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CÉDULA</th>
+                            <th>NOMBRE</th>
+                            <th>CODIGO</th>
+                            <th>ID PERFIL</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Usuarios.Count; i++)
+                        {
+                            <tr>
+                                <td data_val="Elemento_@i">
+                                    @Model.Usuarios[i].ID
+                                </td>
+                                <td>
+                                    @Model.Usuarios[i].CEDULA
+                                </td>
+                                <td>
+                                    @Model.Usuarios[i].NOMBRE
+                                </td>
+                                <td>
+                                    @Model.Usuarios[i].CONTRASEÑA
+                                </td>
+                                <td>
+                                    @Model.Usuarios[i].ID_PERFIL
+                                </td>
+                                <td style=" text-align: center;">
+                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarUsuario('@Model.Usuarios[i].ID', '@Model.Usuarios[i].CEDULA', '@Model.Usuarios[i].NOMBRE', '@Model.Usuarios[i].CONTRASEÑA', '@Model.Usuarios[i].ID_PERFIL')"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <div class="col-md-12">
+                <i class="fa fa-2x fa-trash-o" style="float: right; cursor: pointer;" onclick="LimpiaCamposUsuario()"></i>
+                <br />
+            </div>
+            <div class="col-md-12">
+                <small><b>Numero cédula:</b></small>
+                @Html.HiddenFor(x => x.UsuariosModel.ID, new { @Id = "IdUsuario", Value = "" })
+                @Html.TextBoxFor(x => x.UsuariosModel.CEDULA, new { @Id = "CedulaUsuario", Placeholder = "Digite el número de cédula", @type = "numeric", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Nombre:</b></small>
+                @Html.TextBoxFor(x => x.UsuariosModel.NOMBRE, new { @Id = "NombreUsuario", Placeholder = "Digite nombre del usuario", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Código:</b></small>
+                @Html.TextBoxFor(x => x.UsuariosModel.CONTRASEÑA, new { @Id = "CodigoUsuario", Placeholder = "Asigne un código al usuario", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Perfíl: </b></small>
+                @Html.DropDownListFor(x => x.UsuariosModel.ID_PERFIL, (List<SelectListItem>)ViewBag.listaIdPerfilDDL, "-- SELECCIONE --",
+                new { @Id = "IdPerfilUsuario", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
+            </div>
+            <br />
+            <div id="DivImpresoras" class="col-md-12">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
     </div>
     <div class="col-md-6">
         <h3 class="page-header"><i class="fa fa-print"></i> Impresoras </h3>
@@ -181,22 +329,132 @@
             123
         </p>
     </div>
-    <div class="col-md-6">
+    <div id="DivImpuestos" class="col-md-6">
         <h3 class="page-header"><i class="fa fa-money"></i> Impuestos </h3>
-        <p>
-            123
-        </p>
+        @using (Html.BeginForm("AgregarEditarImpuestos", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+        {
+            <div class="col-md-12">
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>IMPUESTO</th>
+                            <th>PORCENTAJE</th>
+                            <th>ESTADO</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Impuestos.Count; i++)
+                        {
+                            <tr>
+                                <td data_val="Elemento_@i">
+                                    @Model.Impuestos[i].ID
+                                </td>
+                                <td>
+                                    @Model.Impuestos[i].NOMBRE_IMPUESTO
+                                </td>
+                                <td>
+                                    @Model.Impuestos[i].PORCENTAJE
+                                </td>
+                                <td>
+                                    @Model.Impuestos[i].ESTADO
+                                </td>
+                                <td style=" text-align: center;">
+                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarImpuesto('@Model.Impuestos[i].ID', '@Model.Impuestos[i].NOMBRE_IMPUESTO', '@Model.Impuestos[i].PORCENTAJE', '@Model.Impuestos[i].ESTADO')"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <div class="col-md-12">
+                <i class="fa fa-2x fa-trash-o" style="float: right; cursor: pointer;" onclick="LimpiaCamposImpuesto()"></i>
+                <br />
+            </div>
+            <div class="col-md-12">
+                <small><b>Nombre Categoria:</b></small>
+                @Html.HiddenFor(x => x.ImpuestosModel.ID, new { @Id = "IdImpuesto", Value = "" })
+                @Html.TextBoxFor(x => x.ImpuestosModel.NOMBRE_IMPUESTO, new { @Id = "NombreImpuesto", Placeholder = "Digite el nombre del impuesto", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Porcentaje:</b></small>
+                @Html.TextBoxFor(x => x.ImpuestosModel.PORCENTAJE, new { @Id = "PorcentajeImpuesto", Placeholder = "Digite el porcentaje", @type="numeric", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <div class="col-md-12">
+                <small><b>Estado:</b></small>
+                @Html.DropDownListFor(x => x.ImpuestosModel.ESTADO, new List<SelectListItem>
+                {
+                        new SelectListItem() {Text = "-- SELECCIONE --", Value=""},
+                        new SelectListItem() {Text = "ACTIVO", Value="ACTIVO"},
+                        new SelectListItem() {Text = "INACTIVO", Value="INACTIVO"}
+                },
+                new { @Id = "EstadoImpuesto", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true })
+            </div>
+            <br />
+            <div id="DivPerfiles" class="col-md-12">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
     </div>
     <div class="col-md-6">
         <h3 class="page-header"><i class="fa fa-users"></i> Perfiles </h3>
-        <p>
-            123
-        </p>
+        @using (Html.BeginForm("AgregarEditarPerfiles", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+        {
+            <div class="col-md-12">
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;" data-page-length='5'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>PERFIL</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Perfiles.Count; i++)
+                        {
+                            <tr>
+                                <td data_val="Elemento_@i">
+                                    @Model.Perfiles[i].ID
+                                </td>
+                                <td>
+                                    @Model.Perfiles[i].NOMBRE_PERFIL
+                                </td>
+                                <td style=" text-align: center;">
+                                    <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarPerfil('@Model.Perfiles[i].ID', '@Model.Perfiles[i].NOMBRE_PERFIL')"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <div class="col-md-12">
+                <i class="fa fa-2x fa-trash-o" style="float: right; cursor: pointer;" onclick="LimpiaCamposPerfil()"></i>
+                <br />
+            </div>
+            <div class="col-md-12">
+                <small><b>Perfil:</b></small>
+                @Html.HiddenFor(x => x.PerfilesModel.ID, new { @Id = "IdPerfil", Value = "" })
+                @Html.TextBoxFor(x => x.PerfilesModel.NOMBRE_PERFIL, new { @Id = "NombrePerfil", Placeholder = "Digite el nombre del perfil", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+            </div>
+            <br />
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-success" value="Guardar" />
+            </div>
+        }
     </div>
 </div>
 
 @section Scripts{
+    <script>
+        var Resultado = '@TempData["Resultado"]';
+        var Posicion = '@TempData["Posicion"]';
+    </script>
 
-    <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.5"></script>
+    <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.7"></script>
 }
 

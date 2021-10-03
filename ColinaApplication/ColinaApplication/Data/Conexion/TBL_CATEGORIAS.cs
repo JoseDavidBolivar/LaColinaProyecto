@@ -11,8 +11,7 @@ namespace ColinaApplication.Data.Conexion
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TBL_CATEGORIAS
     {
         public decimal ID { get; set; }

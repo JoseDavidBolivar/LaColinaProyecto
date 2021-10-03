@@ -26,5 +26,302 @@ namespace ColinaApplication.Data.Business
             }
             return listProductos;
         }
+        public List<TBL_MASTER_MESAS> ListaMesas()
+        {
+            List<TBL_MASTER_MESAS> listMesas = new List<TBL_MASTER_MESAS>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listMesas = contex.TBL_MASTER_MESAS.ToList();
+            }
+            return listMesas;
+        }
+        public List<TBL_PERFIL> ListaPerfiles()
+        {
+            List<TBL_PERFIL> listPerfiles = new List<TBL_PERFIL>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listPerfiles = contex.TBL_PERFIL.ToList();
+            }
+            return listPerfiles;
+        }
+        public List<TBL_USUARIOS> ListaUsuarios()
+        {
+            List<TBL_USUARIOS> listMesas = new List<TBL_USUARIOS>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listMesas = contex.TBL_USUARIOS.ToList();
+            }
+            return listMesas;
+        }
+        public List<TBL_IMPUESTOS> ListaImpuestos()
+        {
+            List<TBL_IMPUESTOS> listImpuestos = new List<TBL_IMPUESTOS>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listImpuestos = contex.TBL_IMPUESTOS.ToList();
+            }
+            return listImpuestos;
+        }
+        public bool InsertaCategoria(TBL_CATEGORIAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_CATEGORIAS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaCategoria(TBL_CATEGORIAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_CATEGORIAS actualiza = new TBL_CATEGORIAS();
+                    actualiza = contex.TBL_CATEGORIAS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.CATEGORIA = model.CATEGORIA;
+                        actualiza.ESTADO = model.ESTADO;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaProducto(TBL_PRODUCTOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    model.FECHA_INGRESO = DateTime.Now;
+                    contex.TBL_PRODUCTOS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaProducto(TBL_PRODUCTOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_PRODUCTOS actualiza = new TBL_PRODUCTOS();
+                    actualiza = contex.TBL_PRODUCTOS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.ID_CATEGORIA = model.ID_CATEGORIA;
+                        actualiza.NOMBRE_PRODUCTO = model.NOMBRE_PRODUCTO;
+                        actualiza.PRECIO = model.PRECIO;
+                        actualiza.CANTIDAD = model.CANTIDAD;
+                        actualiza.DESCRIPCION = model.DESCRIPCION;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaMesa(TBL_MASTER_MESAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_MASTER_MESAS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaMesa(TBL_MASTER_MESAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_MASTER_MESAS actualiza = new TBL_MASTER_MESAS();
+                    actualiza = contex.TBL_MASTER_MESAS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.NOMBRE_MESA = model.NOMBRE_MESA;
+                        actualiza.DESCRIPCION = model.DESCRIPCION;
+                        actualiza.ESTADO = model.ESTADO;
+                        actualiza.ID_USUARIO = model.ID_USUARIO;
+                        actualiza.NUMERO_MESA = model.NUMERO_MESA;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaUsuario(TBL_USUARIOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_USUARIOS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaUsuario(TBL_USUARIOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_USUARIOS actualiza = new TBL_USUARIOS();
+                    actualiza = contex.TBL_USUARIOS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.CEDULA = model.CEDULA;
+                        actualiza.NOMBRE = model.NOMBRE;
+                        actualiza.CONTRASEÑA = model.CONTRASEÑA;
+                        actualiza.ID_PERFIL = model.ID_PERFIL;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaImpuesto(TBL_IMPUESTOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_IMPUESTOS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaImpuesto(TBL_IMPUESTOS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_IMPUESTOS actualiza = new TBL_IMPUESTOS();
+                    actualiza = contex.TBL_IMPUESTOS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.NOMBRE_IMPUESTO = model.NOMBRE_IMPUESTO;
+                        actualiza.PORCENTAJE = model.PORCENTAJE;
+                        actualiza.ESTADO = model.ESTADO;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaPerfil(TBL_PERFIL model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_PERFIL.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaPerfil(TBL_PERFIL model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_PERFIL actualiza = new TBL_PERFIL();
+                    actualiza = contex.TBL_PERFIL.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.NOMBRE_PERFIL = model.NOMBRE_PERFIL;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace ColinaApplication.Data.Conexion
         public string NOMBRE_MESA { get; set; }
         public string DESCRIPCION { get; set; }
         public string ESTADO { get; set; }
+        public Nullable<decimal> ID_USUARIO { get; set; }
+        public Nullable<decimal> NUMERO_MESA { get; set; }
     }
 }

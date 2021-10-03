@@ -55,3 +55,7 @@ C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplicat
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.csproj.CopyComplete
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.dll
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\obj\Debug\ColinaApplication.pdb
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EPPlus.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EPPlus.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.IO.RecyclableMemoryStream.xml
