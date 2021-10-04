@@ -7,7 +7,6 @@
     <link href="~/Css/FaIcons.css" rel="stylesheet" />
     <link href="~/Content/Estilos.css?1.0.6" rel="stylesheet" />
     <link href="~/Css/Jquery-confirm.css" rel="stylesheet" />
-    @*<link href="~/Css/fontawesome-free-5.2.0-web/css/all.css" rel="stylesheet" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>*@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/plugins/datatables/css")
@@ -47,8 +46,14 @@
                         @Html.ActionLink("Inicio", "LaColinaRestaurante", "Inicio")
                     </li>
                     <li style="padding: 5px;">@Html.ActionLink("Pedido", "SeleccionarMesa", "Solicitud")</li>
-                    <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuraciones", "Configuracion")</li>
-                    <li style="padding: 5px;">@Html.ActionLink("Ventas", "Ingresos", "Ventas")</li>
+                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
+                    {
+                        <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuraciones", "Configuracion")</li>
+                    }
+                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
+                    {
+                        <li style="padding: 5px;">@Html.ActionLink("Ventas", "Ingresos", "Ventas")</li>
+                    }
                     @*<li style="padding: 5px;">@Html.ActionLink("Cuentas", "Personal", "Maestro")</li>*@
                     <li style="padding: 5px;">
                         <a href="@Url.Action("Salir", "Home")">

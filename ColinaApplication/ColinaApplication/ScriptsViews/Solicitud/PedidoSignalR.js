@@ -1,5 +1,6 @@
 ﻿
 var connectPSR;
+var ProductosSolicitudVector;
 
 $(function PedidoSignalR() {
 
@@ -196,7 +197,7 @@ function ActualizaInfoMesa(data)  {
             '<div class="small-box bg-danger">' +
             '<div class="inner">' +
             '<h3>' +
-            '#' + data[0].IdMesa +
+            '#' + data[0].NumeroMesa +
             '</h3>' +
             '<p>' + data[0].NombreMesa + '</p>' +
             '<p><b>Mesero:<b/> ' + data[0].NombreMesero + '</p>' +
@@ -235,6 +236,7 @@ function ActualizaInfoMesa(data)  {
 }
 function ActualizaInfoPrecios(data) {
     console.log(data);
+    ProductosSolicitudVector = data[0].ProductosSolicitud;
     var IVA = '';
     var ICONSUMO = '';
     var SERVICIO = '';
@@ -326,12 +328,12 @@ function ActualizaInfoProductos(data) {
         var color = '#a90000';
         if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
             color = '#5cb85c';
-        if (IdPerfil == 1) {
-            code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].ProductosSolicitud[i].Id + ')">' +
+        if (IdPerfil == 1 || IdPerfil == 2) {
+            code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')">' +
                 '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto()"></i >';
         }
         else {
-            code = '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].ProductosSolicitud[i].NombreProducto + ', ' + data[0].ProductosSolicitud[i].Descripcion + ')"></i >';
+            code = '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].Id+ ',' + data[0].ProductosSolicitud[i].NombreProducto + ', ' + data[0].ProductosSolicitud[i].Descripcion + ')"></i >';
         }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
@@ -462,13 +464,15 @@ function CargaCategorias() {
         dataType: "JSON",
         success: function (result) {
             var json = JSON.parse(result);
+            var br = '<br/><br/><br/><br/>';
             if (json.length > 0) {
                 for (var index = 0, len = json.length; index < len; index++) {
-                    $("#setCategoria").append('<td style="width: 25 %; text - align: left; " >' +
-                        '<div class="Categ" id="' + json[index].ID + '_Categ" style = "border: 3px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer;" onclick="CargaProducto(' + json[index].ID + ')">' +
-                        '<div style="width: 100%;">' + json[index].CATEGORIA + '</div>' +
-                        '</div >' +
-                        '</td >');
+                    $("#setCategoria").append('<div class="Categ" id="' + json[index].ID + '_Categ" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #ffc93163" onclick="CargaProducto(' + json[index].ID + ')">' +
+                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].CATEGORIA + '</b></div>' +
+                        '</div >');
+                    if (index == 6 || index == 13 || index == 21) {
+                        $("#setCategoria").append(br);
+                    }
                 }
             }
         },
@@ -482,8 +486,8 @@ function CargaProducto(id) {
     $("#setProducto").empty();
     $("#tableProductos").css("display", "block");
     $("#tableAdiciones").css("display", "none");
-    $(".Categ").css("background-color", "transparent");
-    $("#" + id + "_Categ").css("background-color", "white");
+    $(".Categ").css("background-color", "#ffc93163");
+    $("#" + id + "_Categ").css("background-color", "#d4d4d4");
     $("#Adiciones").val('');
     $("#contador").val('1');
     $("#ID_PRODUCTO").val('');
@@ -497,21 +501,21 @@ function CargaProducto(id) {
         dataType: "JSON",
         success: function (result) {
             var json = JSON.parse(result);
+            var br = '<br/><br/><br/><br/>';
             if (json.length > 0) {
                 for (var index = 0, len = json.length; index < len; index++) {
                     if (json[index].CANTIDAD >= 1) {
-                        $("#setProducto").append('<td style="width: 25 %; text - align: left; " >' +
-                            '<div class="Prod" id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "border: 3px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer;" onclick="CargaAdiciones(' + json[index].ID + ', ' + json[index].PRECIO + ')">' +
-                            '<div style="width: 100%;">' + json[index].NOMBRE_PRODUCTO + '</div>' +
-                            '</div >' +
-                            '</td >');
+                        $("#setProducto").append('<div class="Prod" id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #f4a1247d;" onclick="CargaAdiciones(' + json[index].ID + ', ' + json[index].PRECIO + ')">' +
+                                '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                            '</div >');
                     }
                     else {
-                        $("#setProducto").append('<td style="width: 25 %; text - align: left; " >' +
-                            '<div id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "border: 3px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #aa020273" ">' +
-                            '<div style="width: 100%;">' + json[index].NOMBRE_PRODUCTO + '</div>' +
-                            '</div >' +
-                            '</td >');
+                        $("#setProducto").append('<div id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: not-allowed; background-color: #aa020273;">' +
+                                '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                            '</div >');
+                    }
+                    if (index == 6 || index == 13 || index == 21) {
+                        $("#setProducto").append(br);
                     }
                 }
             }
@@ -524,8 +528,8 @@ function CargaProducto(id) {
 }
 function CargaAdiciones(id, precio) {
     $("#tableAdiciones").css("display", "block");
-    $(".Prod").css("background-color", "transparent");
-    $("#" + id + "_Producto").css("background-color", "white");
+    $(".Prod").css("background-color", "#f4a1247d");
+    $("#" + id + "_Producto").css("background-color", "#d4d4d4");
     $("#Adiciones").val('');
     $("#contador").val('1');
 
@@ -841,32 +845,53 @@ function ConsumoInterno() {
 }
 //METODO PARA INHABILITAR MESA
 function InhabilitarMesa() {
-    $.alert({
-        theme: 'Modern',
-        icon: 'fa fa-times',
-        boxWidth: '500px',
-        useBootstrap: false,
-        type: 'default',
-        title: 'Inhabilitar Mesa !',
-        content: 'Desea Inhabilitar esta mesa ?',
-        buttons: {
-            Si: {
-                btnClass: 'btn btn-default',
-                action: function () {
-                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "");
-                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "NO DISPONIBLE", User, "NO", "");
-                    connectPSR.server.listarEstadoMesas("SI", $("#ID_MESA").val(), "../Solicitud/SeleccionarMesa");
-                }
-            },
-            Cancelar: {
-                btnClass: 'btn btn-default',
-                action: function () {
+    if (ProductosSolicitudVector.length == 0) {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'default',
+            title: 'Inhabilitar Mesa !',
+            content: 'Desea Inhabilitar esta mesa ?',
+            buttons: {
+                Si: {
+                    btnClass: 'btn btn-default',
+                    action: function () {
+                        connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                            $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "");
+                        connectPSR.server.actualizaMesa($("#ID_MESA").val(), "NO DISPONIBLE", User, "NO", "");
+                        connectPSR.server.listarEstadoMesas("SI", $("#ID_MESA").val(), "../Solicitud/SeleccionarMesa");
+                    }
+                },
+                Cancelar: {
+                    btnClass: 'btn btn-default',
+                    action: function () {
 
+                    }
+                },
+            }
+        });
+    }
+    else {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Inhabilitar Mesa Prohibido !',
+            content: 'Ud. ya no puede inhabilitar esta mesa. Revise con el Cajero/Administrador',
+            buttons: {
+                Continuar: {
+                    btnClass: 'btn btn-danger',
+                    action: function () {
+                    }
                 }
-            },
-        }
-    });
+            }
+        });
+    }
+    
 }
 //METODOS PARA HACER CAMBIO DE MESA
 function CargaMesas() {

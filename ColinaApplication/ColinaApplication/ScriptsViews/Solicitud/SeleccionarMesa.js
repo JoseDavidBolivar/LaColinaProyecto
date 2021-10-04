@@ -51,6 +51,14 @@ function Llama_MetodosSeMe(connectsm) {
                         '<i class="fa fa-3x fa-times-circle text-primary"></i>' +
                         '</div>');
                     break;
+                case "CERRADO":
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
+                        '<div class="panel-heading">' +
+                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '</div>' +
+                        '<i class="fa fa-3x fa-times text-muted"></i>' +
+                        '</div>');
+                    break;
 
                 default:
                     break;

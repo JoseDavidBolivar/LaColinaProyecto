@@ -111,7 +111,7 @@ namespace ColinaApplication.Data.Business
             using (DBLaColina context = new DBLaColina())
             {
                 var mesasACargos = context.TBL_MASTER_MESAS.Where(x => x.ID_USUARIO == idusuario).Select(y => y.ID).ToList();
-                solicitudes = context.TBL_SOLICITUD.Where(x => mesasACargos.Any(w => x.ID_MESA == w)).ToList();
+                solicitudes = context.TBL_SOLICITUD.Where(x => mesasACargos.Any(w => x.ID_MESA == w) && x.FECHA_SOLICITUD >= fechaApertura).ToList();
             }
             return solicitudes;
         }

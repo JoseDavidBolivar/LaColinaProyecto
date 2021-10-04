@@ -33,8 +33,9 @@ namespace ColinaApplication.Data.Business
                     solicitudMesa.Add(new ConsultaSolicitudGeneral
                     {
                         Id = ConsultaSolicitud.ID,
-                        //FechaSolicitud = ConsultaSolicitud.FECHA_SOLICITUD,
+                        FechaSolicitud = ConsultaSolicitud.FECHA_SOLICITUD,
                         IdMesa = ConsultaSolicitud.ID_MESA,
+                        NumeroMesa = context.TBL_MASTER_MESAS.Where(z => z.ID == IdMesa).FirstOrDefault().NUMERO_MESA,
                         NombreMesa = context.TBL_MASTER_MESAS.Where(z => z.ID == IdMesa).FirstOrDefault().NOMBRE_MESA,
                         IdMesero = ConsultaSolicitud.ID_MESERO,
                         NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == ConsultaSolicitud.ID_MESERO).FirstOrDefault().NOMBRE,

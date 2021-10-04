@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*@section Menu {
-        @Scripts.Render("~/Content/Scripts/Tables/Data/menu")
-    }*@
-
-
-
 <div class="row">
     <div class="col-xs-12">
         <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
@@ -38,7 +32,7 @@
             <div id="DivAsignar" style="display: none">
                 <a class="AgregProd" style="background-color:#5cb85c; cursor: pointer;" onclick="AsignarAsignaMesa()"> <i class="fa fa-2x fa-arrow-up"></i> Asignar</a>
             </div>
-            @if (@Session["IdPerfil"].ToString() == "1")
+            @if (@Session["IdPerfil"].ToString() == "1" || @Session["IdPerfil"].ToString() == "2")
             {
                 <a class="AgregProd" style="background-color: #008dc9; cursor: pointer;" onclick="ConsumoInterno()"> <i class="fa fa-2x fa-users"></i> Interno</a>
             }
@@ -65,7 +59,7 @@
         <div class="col-md-3">
             <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();"><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
         </div>
-        @if (@Session["IdPerfil"].ToString() == "1")
+        @if (@Session["IdPerfil"].ToString() == "1" || @Session["IdPerfil"].ToString() == "2")
         {
             <div class="col-md-3">
                 <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money"></i>&nbsp;&nbsp; Pagar</button>
@@ -74,7 +68,7 @@
         <div class="col-md-3">
             <button id="" type="button" class="btn btn-default" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
         </div>
-        @if (@Session["IdPerfil"].ToString() == "1")
+        @if (@Session["IdPerfil"].ToString() == "1" || @Session["IdPerfil"].ToString() == "2")
         {
             <div class="col-md-3">
                 <button id="" type="button" class="btn btn-danger" style="width: 90%; margin-left: 5%;" onclick="CancelaPedido();"><i class="fa fa-2x fa-times"></i>&nbsp;&nbsp; Cancelar Pedido</button>
@@ -96,7 +90,7 @@
                 <div class="row">
                     <table class="table" style="width:950px; margin-left:25px; font-size: 16px;">
                         <tr>
-                            <td ><b>Seleccione la nueva mesa:</b></td>
+                            <td><b>Seleccione la nueva mesa:</b></td>
                         </tr>
                     </table>
                     <div id="ListaMesas" class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
@@ -117,24 +111,20 @@
             <div class="modal-body" style="width:1010px;">
                 <br />
                 <div class="row">
-                    <div class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
-                        <table class="table" style="background-color: #dcdcdc;">
-                            <tr>
-                                <td style="width: 25%;"><h4><b>Elija una categoria: </b></h4></td>
-                            </tr>
-                            <tr id="setCategoria">
-                            </tr>
-                        </table>
-                        <br />
-                        <table id="tableProductos" class="table" style="background-color: #dcdcdc; display: none">
-                            <tr>
-                                <td style="width: 25%;"><h4><b>Elija un producto: </b></h4></td>
-                            </tr>
-                            <tr id="setProducto">
-                            </tr>
-                        </table>
-                        <br />
-                        <table id="tableAdiciones" class="table" style="background-color: #dcdcdc; display: none">
+                    <div class="col-md-12" style="width:950px; margin-left:25px; font-size: 16px;">
+                        <h4><b>Elija una categoria: </b></h4>
+                        <div id="setCategoria">
+
+                        </div>
+                        <br /><br /><br /><br /><br /><br />
+                        <div id="tableProductos" class="table" style=" display: none">
+                            <h4><b>Elija un producto: </b></h4>
+                            <div id="setProducto">
+
+                            </div>
+                        </div>
+                        <br /><br /><br /><br /><br /><br />
+                        <table id="tableAdiciones" class="table" style="display: none">
                             <tr>
                                 <td style="width: 2%;"><h4><b>Digite las adiciones (Acompañamientos, salsas, termino): </b></h4></td>
                             </tr>
@@ -181,7 +171,7 @@
     </script>
 
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.41"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.47"></script>
 
 
 

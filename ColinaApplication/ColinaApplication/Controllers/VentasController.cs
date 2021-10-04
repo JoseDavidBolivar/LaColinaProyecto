@@ -50,8 +50,8 @@ namespace ColinaApplication.Controllers
                     TempData["CierraCaja"] = ventas.InsertaNuevoCierre(modelCierres);
                     break;
                 case "Cerrar Caja":
-                    var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), DateTime.Now);
-                    if (solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Abierta).ToList().Count == 0)
+                    var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString())).FECHA_HORA_APERTURA);
+                    if (solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Abierta || x.ESTADO_SOLICITUD == Estados.Llevar).ToList().Count == 0)
                     {
                         mesas = ventas.ConsultaMesasCargo(Convert.ToDecimal(Session["IdUsuario"].ToString()));
                         foreach (var item in mesas)
@@ -68,18 +68,18 @@ namespace ColinaApplication.Controllers
                         modelCierres2.ID_USUARIO = Convert.ToDecimal(Session["IdUsuario"].ToString());
                         modelCierres2.CANT_MESAS_ATENDIDAS = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Count();
                         modelCierres2.CANT_FINALIZADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Finalizada).Count();
-                        modelCierres2.TOTAL_FINALIZADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Finalizada).Sum(a => a.TOTAL);
+                        modelCierres2.TOTAL_FINALIZADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Finalizada).Sum(a => a.TOTAL);
                         modelCierres2.CANT_LLEVAR = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Llevar).Count();
                         modelCierres2.TOTAL_LLEVAR = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Llevar).Sum(a => a.TOTAL);
                         modelCierres2.CANT_CANCELADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.CancelaPedido).Count();
                         modelCierres2.TOTAL_CANCELADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.CancelaPedido).Sum(a => a.TOTAL);
                         modelCierres2.CANT_CONSUMO_INTERNO = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.ConsumoInterno).Count();
                         modelCierres2.TOTAL_CONSUMO_INTERNO = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.ConsumoInterno).Sum(a => a.TOTAL);
-                        modelCierres2.OTROS_COBROS_TOTAL = solicitudes.Sum(a => a.OTROS_COBROS);
-                        modelCierres2.DESCUENTOS_TOTAL = solicitudes.Sum(a => a.DESCUENTOS);
-                        modelCierres2.IVA_TOTAL = solicitudes.Sum(a => a.IVA_TOTAL);
-                        modelCierres2.I_CONSUMO_TOTAL = solicitudes.Sum(a => a.I_CONSUMO_TOTAL);
-                        modelCierres2.SERVICIO_TOTAL = solicitudes.Sum(a => a.SERVICIO_TOTAL);
+                        modelCierres2.OTROS_COBROS_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.OTROS_COBROS);
+                        modelCierres2.DESCUENTOS_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.DESCUENTOS);
+                        modelCierres2.IVA_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.IVA_TOTAL);
+                        modelCierres2.I_CONSUMO_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.I_CONSUMO_TOTAL);
+                        modelCierres2.SERVICIO_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.SERVICIO_TOTAL);
                         modelCierres2.TOTAL_EFECTIVO = solicitudes.Where(x => x.METODO_PAGO == "EFECTIVO").Sum(a => a.TOTAL);
                         modelCierres2.TOTAL_TARJETA = solicitudes.Where(x => x.METODO_PAGO == "TARJETA").Sum(a => a.TOTAL);
                         modelCierres2.VENTA_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Sum(a => a.TOTAL);

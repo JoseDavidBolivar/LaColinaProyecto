@@ -11,6 +11,7 @@ namespace Entity
         public decimal Id { get; set; }
         public System.DateTime? FechaSolicitud { get; set; }
         public decimal? IdMesa { get; set; }
+        public decimal? NumeroMesa { get; set; }
         public string NombreMesa { get; set; }
         public decimal? IdMesero { get; set; }
         public string NombreMesero { get; set; }
