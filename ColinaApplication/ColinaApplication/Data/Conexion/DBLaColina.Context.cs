@@ -34,5 +34,6 @@ namespace ColinaApplication.Data.Conexion
         public DbSet<TBL_PERFIL> TBL_PERFIL { get; set; }
         public DbSet<TBL_MASTER_MESAS> TBL_MASTER_MESAS { get; set; }
         public DbSet<TBL_CIERRES> TBL_CIERRES { get; set; }
+        public DbSet<TBL_NOMINA> TBL_NOMINA { get; set; }
     }
 }

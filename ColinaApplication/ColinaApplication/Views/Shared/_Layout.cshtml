@@ -54,7 +54,10 @@
                     {
                         <li style="padding: 5px;">@Html.ActionLink("Ventas", "Ingresos", "Ventas")</li>
                     }
-                    @*<li style="padding: 5px;">@Html.ActionLink("Cuentas", "Personal", "Maestro")</li>*@
+                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
+                    {
+                        <li style="padding: 5px;">@Html.ActionLink("Ventas", "Gastos", "Nomina")</li>
+                    }
                     <li style="padding: 5px;">
                         <a href="@Url.Action("Salir", "Home")">
                             <i class="fa fa-2x fa-sign-out" style="color: white; cursor: pointer;"></i>

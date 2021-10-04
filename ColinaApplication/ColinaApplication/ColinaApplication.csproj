@@ -198,6 +198,9 @@
     <Compile Include="Data\Conexion\TBL_MASTER_MESAS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Conexion\TBL_NOMINA.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Conexion\TBL_PERFIL.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
@@ -1876,6 +1879,7 @@
     <Content Include="Views\Home\LaColinaLogin.cshtml" />
     <Content Include="Views\Configuracion\Configuraciones.cshtml" />
     <Content Include="Views\Ventas\Ingresos.cshtml" />
+    <Content Include="Views\Ventas\Gastos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

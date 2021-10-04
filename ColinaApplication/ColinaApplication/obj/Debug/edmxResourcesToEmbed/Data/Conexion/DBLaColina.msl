@@ -131,5 +131,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TBL_NOMINA">
+      <EntityTypeMapping TypeName="COLINADBModel.TBL_NOMINA">
+        <MappingFragment StoreEntitySet="TBL_NOMINA">
+          <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+          <ScalarProperty Name="DIRECCION_RESIDENCIA" ColumnName="DIRECCION_RESIDENCIA" />
+          <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+          <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+          <ScalarProperty Name="ULTIMO_DIA_TRABAJADO" ColumnName="ULTIMO_DIA_TRABAJADO" />
+          <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
+          <ScalarProperty Name="DIAS_TRABAJADOS" ColumnName="DIAS_TRABAJADOS" />
+          <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
+          <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+          <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+          <ScalarProperty Name="ID_USUARIO_SISTEMA" ColumnName="ID_USUARIO_SISTEMA" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

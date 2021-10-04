@@ -59,6 +59,26 @@
           <Property Name="ID_USUARIO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="NUMERO_MESA" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="TBL_NOMINA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_USUARIO_SISTEMA" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ID_PERFIL" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CEDULA" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
+          <Property Name="CARGO" Type="varchar" MaxLength="255" />
+          <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DIAS_TRABAJADOS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ULTIMO_DIA_TRABAJADO" Type="datetime" />
+          <Property Name="FECHA_PAGO" Type="datetime" />
+          <Property Name="FECHA_NACIMIENTO" Type="date" />
+          <Property Name="DIRECCION_RESIDENCIA" Type="varchar" MaxLength="255" />
+          <Property Name="TELEFONO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="TBL_PERFIL">
           <Key>
             <PropertyRef Name="ID" />
@@ -131,6 +151,7 @@
           <EntitySet Name="TBL_CIERRES" EntityType="Self.TBL_CIERRES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_NOMINA" EntityType="Self.TBL_NOMINA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
@@ -151,6 +172,7 @@
           <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="COLINADBModel.TBL_MASTER_MESAS" />
           <EntitySet Name="TBL_CIERRES" EntityType="COLINADBModel.TBL_CIERRES" />
+          <EntitySet Name="TBL_NOMINA" EntityType="COLINADBModel.TBL_NOMINA" />
         </EntityContainer>
         <EntityType Name="TBL_CATEGORIAS">
           <Key>
@@ -272,6 +294,26 @@
           <Property Name="TOTAL_EFECTIVO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="TOTAL_TARJETA" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="VENTA_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TBL_NOMINA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO_SISTEMA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_PERFIL" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CEDULA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CARGO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SUELDO_DIARIO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DIAS_TRABAJADOS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ULTIMO_DIA_TRABAJADO" Type="DateTime" Precision="3" />
+          <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
+          <Property Name="FECHA_NACIMIENTO" Type="DateTime" Precision="0" />
+          <Property Name="DIRECCION_RESIDENCIA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -405,6 +447,27 @@
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="FECHA_HORA_CIERRE" ColumnName="FECHA_HORA_CIERRE" />
                 <ScalarProperty Name="FECHA_HORA_APERTURA" ColumnName="FECHA_HORA_APERTURA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_NOMINA">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_NOMINA">
+              <MappingFragment StoreEntitySet="TBL_NOMINA">
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="DIRECCION_RESIDENCIA" ColumnName="DIRECCION_RESIDENCIA" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+                <ScalarProperty Name="ULTIMO_DIA_TRABAJADO" ColumnName="ULTIMO_DIA_TRABAJADO" />
+                <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
+                <ScalarProperty Name="DIAS_TRABAJADOS" ColumnName="DIAS_TRABAJADOS" />
+                <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+                <ScalarProperty Name="ID_USUARIO_SISTEMA" ColumnName="ID_USUARIO_SISTEMA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

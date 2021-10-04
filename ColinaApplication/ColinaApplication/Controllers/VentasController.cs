@@ -130,7 +130,11 @@ namespace ColinaApplication.Controllers
             return View("Ingresos", model);
 
         }
-
+        [HttpGet]
+        public ActionResult Gastos()
+        {
+            return View();
+        }
 
 
         public string UltimoCierre()

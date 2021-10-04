@@ -28,12 +28,15 @@ namespace ColinaApplication.Controllers
             model.Usuarios = configuraciones.ListaUsuarios();
             model.Perfiles = configuraciones.ListaPerfiles();
             model.Impuestos = configuraciones.ListaImpuestos();
+            model.NominaEmpleados = configuraciones.ListaNominaEmpleados();
             //LISTA DE SELECCIONABLE CATEGORIA
             ViewBag.listaCategoriasDDL = (model.Categorias.Where(x => x.ESTADO == Estados.Activo).Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.CATEGORIA }).ToList<SelectListItem>());
             //LISTA DE USUARIOS ADMINS PARA ASIGNAR MESAS
             ViewBag.listaUsuariosAdmin = (model.Usuarios.Where(x => x.ID_PERFIL == 1 || x.ID_PERFIL == 2).Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE }).ToList<SelectListItem>());
             //LISTA DE SELECCIONABLE PERFILES
             ViewBag.listaIdPerfilDDL = (model.Perfiles.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE_PERFIL }).ToList<SelectListItem>());
+            //LISTA DE SELECCIONABLE USUARIOS SISTEMA
+            ViewBag.listaUsuariosSistemaDDL = (model.Usuarios.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE }).ToList<SelectListItem>());
 
             return View(model);
         }
@@ -101,6 +104,22 @@ namespace ColinaApplication.Controllers
                 TempData["Resultado"] = configuraciones.InsertaPerfil(model.PerfilesModel);
 
             TempData["Posicion"] = "DivPerfiles";
+            return RedirectToAction("Configuraciones");
+        }
+        [HttpPost]
+        public ActionResult AgregarEditarNomina(SuperViewModels model)
+        {
+            if (model.NominaEmpleadosModel.ID > 0)
+                TempData["Resultado"] = configuraciones.ActualizaNominaEmpleados(model.NominaEmpleadosModel);                
+            else
+            {
+                model.NominaEmpleadosModel.DIAS_TRABAJADOS = 0;
+                model.NominaEmpleadosModel.PROPINAS = 0;
+                model.NominaEmpleadosModel.ULTIMO_DIA_TRABAJADO = null;
+                model.NominaEmpleadosModel.FECHA_PAGO = null;
+                TempData["Resultado"] = configuraciones.InsertaNominaEmpleados(model.NominaEmpleadosModel);
+            }
+            TempData["Posicion"] = "DivNomina";
             return RedirectToAction("Configuraciones");
         }
 

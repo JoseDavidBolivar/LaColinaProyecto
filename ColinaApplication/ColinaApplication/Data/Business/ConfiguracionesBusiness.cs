@@ -62,6 +62,15 @@ namespace ColinaApplication.Data.Business
             }
             return listImpuestos;
         }
+        public List<TBL_NOMINA> ListaNominaEmpleados()
+        {
+            List<TBL_NOMINA> listImpuestos = new List<TBL_NOMINA>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listImpuestos = contex.TBL_NOMINA.ToList();
+            }
+            return listImpuestos;
+        }
         public bool InsertaCategoria(TBL_CATEGORIAS model)
         {
             bool Respuesta = false;
@@ -312,6 +321,55 @@ namespace ColinaApplication.Data.Business
                     if (actualiza != null)
                     {
                         actualiza.NOMBRE_PERFIL = model.NOMBRE_PERFIL;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaNominaEmpleados(TBL_NOMINA model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_NOMINA.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaNominaEmpleados(TBL_NOMINA model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_NOMINA actualiza = new TBL_NOMINA();
+                    actualiza = contex.TBL_NOMINA.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.ID_USUARIO_SISTEMA = model.ID_USUARIO_SISTEMA;
+                        actualiza.ID_PERFIL = model.ID_PERFIL;
+                        actualiza.CEDULA = model.CEDULA;
+                        actualiza.NOMBRE = model.NOMBRE;
+                        actualiza.CARGO = model.CARGO;
+                        actualiza.SUELDO_DIARIO = model.SUELDO_DIARIO;
+                        actualiza.FECHA_NACIMIENTO = model.FECHA_NACIMIENTO;
+                        actualiza.DIRECCION_RESIDENCIA = model.DIRECCION_RESIDENCIA;
+                        actualiza.TELEFONO = model.TELEFONO;
                         contex.SaveChanges();
                         Respuesta = true;
                     }

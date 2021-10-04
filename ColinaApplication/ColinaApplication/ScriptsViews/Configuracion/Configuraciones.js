@@ -143,3 +143,31 @@ function LimpiaCamposPerfil() {
     $("#NombrePerfil").val("");
 }
 
+function EditarNomina(id, idusuariosistema, idperfil, cedula, nombre, cargo, sueldodiario, fechanacimiento, direccion, telefono, estado) {
+    $("#IdNomina").val(id);
+    $("#IdUsuarioSistemaNomina").val(idusuariosistema);
+    $("#IdPerfilNomina").val(idperfil);
+    $("#CedulaNomina").val(cedula);
+    $("#NombreNomina").val(nombre);
+    $("#CargoNomina").val(cargo);
+    $("#SueldoDiaNomina").val(sueldodiario);
+    $("#FechaNacimientoDiaNomina").val(fechanacimiento);
+    $("#DireccionResidenciaNomina").val(direccion);
+    $("#TelefonoNomina").val(telefono);
+    $("#EstadoNomina").val(estado);
+}
+function LimpiaCamposNomina() {
+    $("#IdNomina").val("");
+    $("#IdUsuarioSistemaNomina").val("");
+    $("#IdPerfilNomina").val("");
+    $("#CedulaNomina").val("");
+    $("#NombreNomina").val("");
+    $("#CargoNomina").val("");
+    $("#SueldoDiaNomina").val("");
+    $("#FechaNacimientoDiaNomina").val("");
+    $("#DireccionResidenciaNomina").val("");
+    $("#TelefonoNomina").val("");
+    $("#EstadoNomina").val("");
+}
+
+

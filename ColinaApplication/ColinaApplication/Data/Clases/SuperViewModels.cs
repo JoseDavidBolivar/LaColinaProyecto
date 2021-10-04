@@ -21,7 +21,10 @@ namespace ColinaApplication.Data.Clases
         public List<TBL_IMPUESTOS> Impuestos { get; set; }
         public TBL_IMPUESTOS ImpuestosModel { get; set; }
         public List<TBL_PERFIL> Perfiles { get; set; }
-        public TBL_PERFIL PerfilesModel { get; set; }        
+        public TBL_PERFIL PerfilesModel { get; set; }
+        public List<TBL_NOMINA> NominaEmpleados { get; set; }
+        public TBL_NOMINA NominaEmpleadosModel { get; set; }
+
 
         public List<ConsultaSolicitud> Solicitudes { get; set; }
         public ConsultaSolicitud SolicitudModel { get; set; }
