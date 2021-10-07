@@ -321,6 +321,7 @@ namespace ColinaApplication.Data.Business
                     if (actualiza != null)
                     {
                         actualiza.NOMBRE_PERFIL = model.NOMBRE_PERFIL;
+                        actualiza.PORCENTAJE_PROPINA = model.PORCENTAJE_PROPINA;
                         contex.SaveChanges();
                         Respuesta = true;
                     }
@@ -370,6 +371,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.FECHA_NACIMIENTO = model.FECHA_NACIMIENTO;
                         actualiza.DIRECCION_RESIDENCIA = model.DIRECCION_RESIDENCIA;
                         actualiza.TELEFONO = model.TELEFONO;
+                        actualiza.ESTADO = model.ESTADO;
                         contex.SaveChanges();
                         Respuesta = true;
                     }

@@ -23,11 +23,11 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> SUELDO_DIARIO { get; set; }
         public Nullable<decimal> DIAS_TRABAJADOS { get; set; }
         public Nullable<decimal> PROPINAS { get; set; }
-        public Nullable<System.DateTime> ULTIMO_DIA_TRABAJADO { get; set; }
         public Nullable<System.DateTime> FECHA_PAGO { get; set; }
         public Nullable<System.DateTime> FECHA_NACIMIENTO { get; set; }
         public string DIRECCION_RESIDENCIA { get; set; }
         public Nullable<decimal> TELEFONO { get; set; }
         public string ESTADO { get; set; }
+        public Nullable<decimal> TOTAL_PAGAR { get; set; }
     }
 }

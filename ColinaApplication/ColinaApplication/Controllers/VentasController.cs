@@ -2,6 +2,7 @@
 using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
 using Entity;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -133,7 +134,27 @@ namespace ColinaApplication.Controllers
         [HttpGet]
         public ActionResult Gastos()
         {
-            return View();
+            SuperViewModels model = new SuperViewModels();
+            model.Nomina = ventas.ConsultaNomina();
+            return View(model);
+        }
+        public JsonResult CalcularPago(decimal IdNomina)
+         {
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.CalcularPagos(IdNomina)), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult AsignarDiaTrabajo(decimal IdNomina, DateTime FechaTrabajada)
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.AsignaDiaTrabajo(IdNomina, FechaTrabajada)), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult LiquidarUsuario(decimal IdNomina)
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.LiquidarUsuario(IdNomina)), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
 

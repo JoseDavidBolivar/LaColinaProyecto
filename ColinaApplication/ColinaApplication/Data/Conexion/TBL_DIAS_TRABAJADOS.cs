@@ -12,10 +12,12 @@ namespace ColinaApplication.Data.Conexion
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_PERFIL
+    public partial class TBL_DIAS_TRABAJADOS
     {
         public decimal ID { get; set; }
-        public string NOMBRE_PERFIL { get; set; }
-        public Nullable<decimal> PORCENTAJE_PROPINA { get; set; }
+        public Nullable<decimal> ID_USUARIO_NOMINA { get; set; }
+        public Nullable<System.DateTime> FECHA_TRABAJADO { get; set; }
+        public Nullable<decimal> PROPINAS { get; set; }
+        public Nullable<System.DateTime> FECHA_PAGO { get; set; }
     }
 }

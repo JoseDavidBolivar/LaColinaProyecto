@@ -39,6 +39,16 @@
           <Property Name="TOTAL_TARJETA" Type="numeric" Precision="18" Scale="0" />
           <Property Name="VENTA_TOTAL" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="TBL_DIAS_TRABAJADOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_USUARIO_NOMINA" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FECHA_TRABAJADO" Type="datetime" />
+          <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="FECHA_PAGO" Type="datetime" />
+        </EntityType>
         <EntityType Name="TBL_IMPUESTOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -72,12 +82,12 @@
           <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="DIAS_TRABAJADOS" Type="numeric" Precision="18" Scale="0" />
           <Property Name="PROPINAS" Type="numeric" Precision="18" Scale="0" />
-          <Property Name="ULTIMO_DIA_TRABAJADO" Type="datetime" />
           <Property Name="FECHA_PAGO" Type="datetime" />
           <Property Name="FECHA_NACIMIENTO" Type="date" />
           <Property Name="DIRECCION_RESIDENCIA" Type="varchar" MaxLength="255" />
           <Property Name="TELEFONO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+          <Property Name="TOTAL_PAGAR" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_PERFIL">
           <Key>
@@ -85,6 +95,7 @@
           </Key>
           <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NOMBRE_PERFIL" Type="varchar" MaxLength="255" />
+          <Property Name="PORCENTAJE_PROPINA" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_PRODUCTOS">
           <Key>
@@ -149,6 +160,7 @@
         <EntityContainer Name="COLINADBModelStoreContainer">
           <EntitySet Name="TBL_CATEGORIAS" EntityType="Self.TBL_CATEGORIAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_CIERRES" EntityType="Self.TBL_CIERRES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="Self.TBL_DIAS_TRABAJADOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_NOMINA" EntityType="Self.TBL_NOMINA" Schema="dbo" store:Type="Tables" />
@@ -169,9 +181,10 @@
           <EntitySet Name="TBL_USUARIOS" EntityType="COLINADBModel.TBL_USUARIOS" />
           <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
           <EntitySet Name="TBL_IMPUESTOS" EntityType="COLINADBModel.TBL_IMPUESTOS" />
-          <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
           <EntitySet Name="TBL_MASTER_MESAS" EntityType="COLINADBModel.TBL_MASTER_MESAS" />
           <EntitySet Name="TBL_CIERRES" EntityType="COLINADBModel.TBL_CIERRES" />
+          <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
+          <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" />
           <EntitySet Name="TBL_NOMINA" EntityType="COLINADBModel.TBL_NOMINA" />
         </EntityContainer>
         <EntityType Name="TBL_CATEGORIAS">
@@ -251,13 +264,6 @@
           <Property Name="PORCENTAJE" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBL_PERFIL">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="TBL_MASTER_MESAS">
           <Key>
             <PropertyRef Name="ID" />
@@ -295,6 +301,24 @@
           <Property Name="TOTAL_TARJETA" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="VENTA_TOTAL" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="TBL_PERFIL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PORCENTAJE_PROPINA" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="TBL_DIAS_TRABAJADOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO_NOMINA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FECHA_TRABAJADO" Type="DateTime" Precision="3" />
+          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="TBL_NOMINA">
           <Key>
             <PropertyRef Name="ID" />
@@ -308,12 +332,12 @@
           <Property Name="SUELDO_DIARIO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="DIAS_TRABAJADOS" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ULTIMO_DIA_TRABAJADO" Type="DateTime" Precision="3" />
           <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
           <Property Name="FECHA_NACIMIENTO" Type="DateTime" Precision="0" />
           <Property Name="DIRECCION_RESIDENCIA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TELEFONO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TOTAL_PAGAR" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -404,14 +428,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBL_PERFIL">
-            <EntityTypeMapping TypeName="COLINADBModel.TBL_PERFIL">
-              <MappingFragment StoreEntitySet="TBL_PERFIL">
-                <ScalarProperty Name="NOMBRE_PERFIL" ColumnName="NOMBRE_PERFIL" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_MASTER_MESAS">
             <EntityTypeMapping TypeName="COLINADBModel.TBL_MASTER_MESAS">
               <MappingFragment StoreEntitySet="TBL_MASTER_MESAS">
@@ -451,15 +467,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PERFIL">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_PERFIL">
+              <MappingFragment StoreEntitySet="TBL_PERFIL">
+                <ScalarProperty Name="PORCENTAJE_PROPINA" ColumnName="PORCENTAJE_PROPINA" />
+                <ScalarProperty Name="NOMBRE_PERFIL" ColumnName="NOMBRE_PERFIL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DIAS_TRABAJADOS">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_DIAS_TRABAJADOS">
+              <MappingFragment StoreEntitySet="TBL_DIAS_TRABAJADOS">
+                <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+                <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
+                <ScalarProperty Name="FECHA_TRABAJADO" ColumnName="FECHA_TRABAJADO" />
+                <ScalarProperty Name="ID_USUARIO_NOMINA" ColumnName="ID_USUARIO_NOMINA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TBL_NOMINA">
             <EntityTypeMapping TypeName="COLINADBModel.TBL_NOMINA">
               <MappingFragment StoreEntitySet="TBL_NOMINA">
+                <ScalarProperty Name="TOTAL_PAGAR" ColumnName="TOTAL_PAGAR" />
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
                 <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
                 <ScalarProperty Name="DIRECCION_RESIDENCIA" ColumnName="DIRECCION_RESIDENCIA" />
                 <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
                 <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
-                <ScalarProperty Name="ULTIMO_DIA_TRABAJADO" ColumnName="ULTIMO_DIA_TRABAJADO" />
                 <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
                 <ScalarProperty Name="DIAS_TRABAJADOS" ColumnName="DIAS_TRABAJADOS" />
                 <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />

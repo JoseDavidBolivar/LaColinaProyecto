@@ -1,4 +1,5 @@
-﻿using ColinaApplication.Data.Conexion;
+﻿using ColinaApplication.Data.Clases;
+using ColinaApplication.Data.Conexion;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -122,7 +123,8 @@ namespace ColinaApplication.Data.Business
             {
                 solicitudes = (from a in context.TBL_SOLICITUD
                                where a.FECHA_SOLICITUD >= FechaInicial && a.FECHA_SOLICITUD <= FechaFinal
-                               select new ConsultaSolicitud { 
+                               select new ConsultaSolicitud
+                               {
                                    NroFactura = a.ID,
                                    FechaSolicitud = a.FECHA_SOLICITUD,
                                    NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
@@ -167,7 +169,7 @@ namespace ColinaApplication.Data.Business
                             Descripcion = item.DESCRIPCION
                         });
                     }
-                    
+
                 }
                 else
                 {
@@ -182,32 +184,32 @@ namespace ColinaApplication.Data.Business
             using (DBLaColina context = new DBLaColina())
             {
                 solicitud = (from a in context.TBL_SOLICITUD
-                            where a.ID == Id
-                            select new ConsultaSolicitud
-                            {
-                                NroFactura = a.ID,
-                                FechaSolicitud = a.FECHA_SOLICITUD,
-                                NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
-                                NombreMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NOMBRE_MESA,
-                                IdMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().ID,
-                                NombreMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().NOMBRE,
-                                IdCliente = a.IDENTIFICACION_CLIENTE,
-                                NombreCliente = a.NOMBRE_CLIENTE,
-                                EstadoSolicitud = a.ESTADO_SOLICITUD,
-                                Observaciones = a.OBSERVACIONES,
-                                OtrosCobros = a.OTROS_COBROS,
-                                Descuentos = a.DESCUENTOS,
-                                Subtotal = a.SUBTOTAL,
-                                PorcentajeIVA = a.PORCENTAJE_IVA,
-                                IVATotal = a.IVA_TOTAL,
-                                PorcentajeIConsumo = a.PORCENTAJE_I_CONSUMO,
-                                IConsumoTotal = a.I_CONSUMO_TOTAL,
-                                PorcentajeServicio = a.PORCENTAJE_SERVICIO,
-                                ServicioTotal = a.SERVICIO_TOTAL,
-                                Total = a.TOTAL,
-                                MetodoPago = a.METODO_PAGO,
-                                Voucher = a.VOUCHER
-                            }).FirstOrDefault();
+                             where a.ID == Id
+                             select new ConsultaSolicitud
+                             {
+                                 NroFactura = a.ID,
+                                 FechaSolicitud = a.FECHA_SOLICITUD,
+                                 NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
+                                 NombreMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NOMBRE_MESA,
+                                 IdMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().ID,
+                                 NombreMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().NOMBRE,
+                                 IdCliente = a.IDENTIFICACION_CLIENTE,
+                                 NombreCliente = a.NOMBRE_CLIENTE,
+                                 EstadoSolicitud = a.ESTADO_SOLICITUD,
+                                 Observaciones = a.OBSERVACIONES,
+                                 OtrosCobros = a.OTROS_COBROS,
+                                 Descuentos = a.DESCUENTOS,
+                                 Subtotal = a.SUBTOTAL,
+                                 PorcentajeIVA = a.PORCENTAJE_IVA,
+                                 IVATotal = a.IVA_TOTAL,
+                                 PorcentajeIConsumo = a.PORCENTAJE_I_CONSUMO,
+                                 IConsumoTotal = a.I_CONSUMO_TOTAL,
+                                 PorcentajeServicio = a.PORCENTAJE_SERVICIO,
+                                 ServicioTotal = a.SERVICIO_TOTAL,
+                                 Total = a.TOTAL,
+                                 MetodoPago = a.METODO_PAGO,
+                                 Voucher = a.VOUCHER
+                             }).FirstOrDefault();
                 var productosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(x => x.ID_SOLICITUD == solicitud.NroFactura).ToList();
                 if (productosSolicitud.Count > 0)
                 {
@@ -236,6 +238,167 @@ namespace ColinaApplication.Data.Business
                 }
             }
             return solicitud;
+        }
+        public List<ConsultaNomina> ConsultaNomina()
+        {
+            List<ConsultaNomina> nomina = new List<ConsultaNomina>();
+
+            using (DBLaColina context = new DBLaColina())
+            {
+                nomina = (from a in context.TBL_NOMINA
+                          where a.ESTADO == "ACTIVO"
+                          select new ConsultaNomina
+                          {
+                              Id = a.ID,
+                              IdUsuarioSistema = a.ID_USUARIO_SISTEMA,
+                              NombreUsuarioSistema = context.TBL_USUARIOS.Where(x => x.ID == a.ID_USUARIO_SISTEMA).FirstOrDefault().NOMBRE != null ? context.TBL_USUARIOS.Where(x => x.ID == a.ID_USUARIO_SISTEMA).FirstOrDefault().NOMBRE : "N/A",
+                              IdPerfil = a.ID_PERFIL,
+                              NombrePerfil = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().NOMBRE_PERFIL,
+                              Cedula = a.CEDULA,
+                              NombreUsuario = a.NOMBRE,
+                              Cargo = a.CARGO,
+                              SuledoDiario = a.SUELDO_DIARIO,
+                              DiasTrabajados = a.DIAS_TRABAJADOS,
+                              Propinas = a.PROPINAS,
+                              PorcentajeGananciaPropina = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA,
+                              FechaPago = a.FECHA_PAGO,
+                              FechaNacimmiento = a.FECHA_NACIMIENTO,
+                              DireccionResidencia = a.DIRECCION_RESIDENCIA,
+                              Telefono = a.TELEFONO,
+                              TotalPagar = a.TOTAL_PAGAR
+                          }).ToList();
+                foreach (var item in nomina)
+                {
+                    item.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= item.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
+                }
+            }
+            return nomina;
+        }
+        public bool AsignaDiaTrabajo(decimal IdUsuarioNomina, DateTime fechaTrabajo)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_NOMINA actualiza = new TBL_NOMINA();
+                    actualiza = contex.TBL_NOMINA.Where(a => a.ID == IdUsuarioNomina).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        TBL_DIAS_TRABAJADOS validacion = new TBL_DIAS_TRABAJADOS();
+                        validacion = contex.TBL_DIAS_TRABAJADOS.Where(a => a.ID_USUARIO_NOMINA == IdUsuarioNomina).ToList().Where(a => a.FECHA_TRABAJADO.Value.Date == fechaTrabajo.Date).FirstOrDefault();
+                        if (validacion == null)
+                        {
+                            TBL_DIAS_TRABAJADOS model = new TBL_DIAS_TRABAJADOS();
+                            model.ID_USUARIO_NOMINA = IdUsuarioNomina;
+                            model.FECHA_TRABAJADO = fechaTrabajo;
+                            contex.TBL_DIAS_TRABAJADOS.Add(model);
+                            actualiza.DIAS_TRABAJADOS += 1;
+                            contex.SaveChanges();
+                            Respuesta = true;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool CalcularPagos(decimal IdUsuarioNomina)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_NOMINA actualiza = new TBL_NOMINA();
+                    TBL_DIAS_TRABAJADOS actualiza2 = new TBL_DIAS_TRABAJADOS();
+                    actualiza = contex.TBL_NOMINA.Where(a => a.ID == IdUsuarioNomina).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        decimal? propinas = 0;
+                        if (actualiza.ID_PERFIL == 3)
+                        {
+                            List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
+                            listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList();
+                            foreach (var fecha in listaFechasTrabajadas)
+                            {
+                                propinas += (contex.TBL_SOLICITUD.Where(x => x.ID_MESERO == actualiza.ID_USUARIO_SISTEMA && x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100);
+                            }
+                        }
+                        else
+                        {
+                            if (contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA > 0)
+                            {
+                                List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
+                                listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= actualiza.FECHA_PAGO.Value.Date).ToList();
+                                var IdUsuariosPropina = contex.TBL_NOMINA.Where(x => x.ID_PERFIL == 4).Select(x => x.ID).ToList();
+                                foreach (var fecha in listaFechasTrabajadas)
+                                {
+                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => IdUsuariosPropina.Any(a => x.ID_USUARIO_NOMINA == a)).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
+                                    var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
+                                    if (propinaFecha != null)
+                                        propinas += propinaFecha;
+                                    actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).FirstOrDefault();
+                                    if (actualiza2 != null)
+                                    {
+                                        actualiza2.PROPINAS = propinaFecha;
+                                        contex.SaveChanges();
+                                    }
+
+                                }
+                            }
+                        }
+                        actualiza.PROPINAS = propinas;
+                        actualiza.TOTAL_PAGAR = ((actualiza.SUELDO_DIARIO * actualiza.DIAS_TRABAJADOS) + actualiza.PROPINAS);
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool LiquidarUsuario(decimal IdUsuarioNomina)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_NOMINA actualiza = new TBL_NOMINA();
+                    TBL_DIAS_TRABAJADOS actualiza2 = new TBL_DIAS_TRABAJADOS();
+                    actualiza = contex.TBL_NOMINA.Where(a => a.ID == IdUsuarioNomina).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        var fechaPago = DateTime.Now;
+                        List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
+                        listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID && x.FECHA_PAGO == null).ToList();
+                        foreach (var item in listaFechasTrabajadas)
+                        {
+                            item.FECHA_PAGO = fechaPago;
+                            contex.SaveChanges();
+                        }
+
+                        actualiza.DIAS_TRABAJADOS = 0;
+                        actualiza.PROPINAS = 0;
+                        actualiza.FECHA_PAGO = fechaPago;
+                        actualiza.TOTAL_PAGAR = 0;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
         }
     }
 }

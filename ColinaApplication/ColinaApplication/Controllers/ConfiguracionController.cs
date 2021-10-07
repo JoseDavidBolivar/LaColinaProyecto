@@ -115,8 +115,7 @@ namespace ColinaApplication.Controllers
             {
                 model.NominaEmpleadosModel.DIAS_TRABAJADOS = 0;
                 model.NominaEmpleadosModel.PROPINAS = 0;
-                model.NominaEmpleadosModel.ULTIMO_DIA_TRABAJADO = null;
-                model.NominaEmpleadosModel.FECHA_PAGO = null;
+                model.NominaEmpleadosModel.FECHA_PAGO = DateTime.Now;
                 TempData["Resultado"] = configuraciones.InsertaNominaEmpleados(model.NominaEmpleadosModel);
             }
             TempData["Posicion"] = "DivNomina";

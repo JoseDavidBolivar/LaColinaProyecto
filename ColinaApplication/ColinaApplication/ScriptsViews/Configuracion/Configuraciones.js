@@ -134,15 +134,16 @@ function LimpiaCamposImpuesto() {
     $("#PorcentajeImpuesto").val("");
     $("#EstadoImpuesto").val("");
 }
-function EditarPerfil(id, nombrePerfil) {    
+function EditarPerfil(id, nombrePerfil, porcentaje) {    
     $("#IdPerfil").val(id);
     $("#NombrePerfil").val(nombrePerfil);
+    $("#PorcentajePropinaPerfil").val(porcentaje);
 }
 function LimpiaCamposPerfil() {
     $("#IdPerfil").val("");
     $("#NombrePerfil").val("");
+    $("#PorcentajePropinaPerfil").val("");
 }
-
 function EditarNomina(id, idusuariosistema, idperfil, cedula, nombre, cargo, sueldodiario, fechanacimiento, direccion, telefono, estado) {
     $("#IdNomina").val(id);
     $("#IdUsuarioSistemaNomina").val(idusuariosistema);

@@ -20,12 +20,14 @@ namespace ColinaApplication.Data.Clases
         private static string llevar = "LLEVAR";
         private static string cancelaPedido = "CANCELA PEDIDO";
         private static string consumoInterno = "CONSUMO INTERNO";
+        private static string inhabilitar = "INHABILITAR";
 
         public static string Abierta { get { return abierta; } }
         public static string Finalizada { get { return finalizada; } }
         public static string Llevar { get { return llevar; } }
         public static string CancelaPedido { get { return cancelaPedido; } }
         public static string ConsumoInterno { get { return consumoInterno; } }
+        public static string Inhabilitar { get { return inhabilitar; } }
 
         //ESTADO PRODUCTOS SOLICITUD
         private static string entregado = "ENTREGADO";

@@ -28,5 +28,6 @@ namespace ColinaApplication.Data.Clases
 
         public List<ConsultaSolicitud> Solicitudes { get; set; }
         public ConsultaSolicitud SolicitudModel { get; set; }
+        public List<ConsultaNomina> Nomina { get; set; }
     }
 }

@@ -192,6 +192,9 @@
     <Compile Include="Data\Conexion\TBL_CIERRES.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Conexion\TBL_DIAS_TRABAJADOS.cs">
+      <DependentUpon>DBLaColina.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Conexion\TBL_IMPUESTOS.cs">
       <DependentUpon>DBLaColina.tt</DependentUpon>
     </Compile>
@@ -1771,6 +1774,7 @@
     <Content Include="ScriptsViews\Solicitud\Pedido.js" />
     <Content Include="ScriptsViews\Solicitud\PedidoSignalR.js" />
     <Content Include="ScriptsViews\Solicitud\SeleccionarMesa.js" />
+    <Content Include="ScriptsViews\Ventas\Gastos.js" />
     <Content Include="ScriptsViews\Ventas\Ingresos.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

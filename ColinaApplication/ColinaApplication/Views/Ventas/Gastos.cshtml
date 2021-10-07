@@ -1,4 +1,5 @@
-﻿
+﻿@model ColinaApplication.Data.Clases.SuperViewModels
+
 @{
     ViewBag.Title = "Gastos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,10 +7,138 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header"><i class="fa fa-chess-board"></i> Nómina </h1>
+        <h1 class="page-header"><i class="fa fa-clipboard"></i> Nómina </h1>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding: 10px; background-color: #eeeeee;">
+        <div class="col-md-12" style="overflow-x:auto;">
+            <br />
+            <table class="table table-bordered table-hover TablaList" style=" width: 100%; border: 0px solid #dddddd; background-color: white;">
+                <thead style="background-color: black; color: white;">
+                    <tr>
+                        <th>CEDULA</th>
+                        <th>NOMBRE</th>
+                        <th>CARGO</th>
+                        <th>SUELDO X DIA</th>
+                        <th>DIAS TRABAJADOS</th>
+                        <th>PROPINAS</th>
+                        <th>% GANANCIA PROPINAS</th>
+                        <th>DIAS TRABAJADOS</th>
+                        <th>ULTIMA FECHA PAGO</th>
+                        <th>TOTAL PAGAR</th>
+                        <th>CALCULAR</th>
+                        <th>ASIGNAR DIA</th>
+                        <th>LIQUIDAR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Nomina.Count; i++)
+                    {
+                    <tr>
+                        <td>
+                            @Model.Nomina[i].Cedula
+                        </td>
+                        <td>
+                            @Model.Nomina[i].NombreUsuario
+                        </td>
+                        <td>
+                            @Model.Nomina[i].Cargo
+                        </td>
+                        <td>
+                            @Model.Nomina[i].SuledoDiario
+                        </td>
+                        <td>
+                            @Model.Nomina[i].DiasTrabajados
+                        </td>
+                        <td>
+                            @Model.Nomina[i].Propinas
+                        </td>
+                        <td>
+                            @Model.Nomina[i].PorcentajeGananciaPropina
+                        </td>
+                        <td>
+                            @for (int j = 0; j < Model.Nomina[i].FechasAsignadas.Count; j++)
+                            {
+
+                                @Model.Nomina[i].FechasAsignadas[j].ToShortDateString()<label>,</label>
+                            }
+                        </td>
+                        <td>
+                            @Model.Nomina[i].FechaPago
+                        </td>
+                        <td>
+                            @Model.Nomina[i].TotalPagar
+                        </td>
+                        <td style="text-align: center;">
+                            @if (Model.Nomina[i].DiasTrabajados > 0)
+                            {
+                                <button type="submit" class="btn btn-warning" onclick="CalcularSueldo('@Model.Nomina[i].Id')">
+                                    <i class="fa fa-plus">&nbsp;</i><i class="fa fa-minus">&nbsp;</i><i class="fa fa-times">&nbsp;</i>
+                                </button>
+                            }
+                            else
+                            {
+                                <div style="cursor:not-allowed" class="btn btn-default">
+                                    <i class="fa fa-times">&nbsp;</i>
+                                </div>
+                            }
+                        </td>
+                        <td style="text-align: center;">
+                            @*@if (Model.Nomina[i].UltimoDiaTrabajado != null)
+            {
+                if (Model.Nomina[i].UltimoDiaTrabajado.Value.ToString("dd-MM-yyyy") == DateTime.Now.ToString("dd-MM-yyyy"))
+                {
+                    <div style="cursor:not-allowed" class="btn btn-default">
+                        <i class="fa fa-times">&nbsp; </i> Asignado
+                    </div>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success" onclick="AsignarDia('@Model.Nomina[i].Id')">
+                        <i class="fa fa-arrow-down">&nbsp;</i>Asignar
+                    </button>
+                }
+            }
+            else
+            {*@
+                            <button type="submit" class="btn btn-success" onclick="AsignarDia('@Model.Nomina[i].Id')">
+                                <i class="fa fa-arrow-down">&nbsp;</i> Asignar
+                            </button>
+                            @*}*@
+                        </td>
+                        <td style="text-align: center;">
+                            @if (Model.Nomina[i].DiasTrabajados > 0)
+                            {
+                                <button type="submit" class="btn btn-primary" onclick="Liquidar('@Model.Nomina[i].Id')">
+                                    <i class="fa fa-money">&nbsp;</i><i class="fa fa-money">&nbsp;</i>
+                                </button>
+                            }
+                            else
+                            {
+                                <div style="cursor:not-allowed" class="btn btn-default">
+                                    <i class="fa fa-times">&nbsp;</i>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
 
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        //var CierreCaja = '@TempData["CierraCaja"]';
+        var urlAsignarDiaTrabajo = '@Url.Action("AsignarDiaTrabajo", "Ventas")';
+        var urlCalcularPago = '@Url.Action("CalcularPago", "Ventas")';
+        var urlLiquidarUsuario = '@Url.Action("LiquidarUsuario", "Ventas")';
+
+    </script>
+
+    <script src="~/ScriptsViews/Ventas/Gastos.js?1.0.4"></script>
+}
 

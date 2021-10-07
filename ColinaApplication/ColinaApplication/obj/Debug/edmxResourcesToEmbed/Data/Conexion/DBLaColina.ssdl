@@ -34,6 +34,16 @@
     <Property Name="TOTAL_TARJETA" Type="numeric" Precision="18" Scale="0" />
     <Property Name="VENTA_TOTAL" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
+  <EntityType Name="TBL_DIAS_TRABAJADOS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_USUARIO_NOMINA" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="FECHA_TRABAJADO" Type="datetime" />
+    <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="FECHA_PAGO" Type="datetime" />
+  </EntityType>
   <EntityType Name="TBL_IMPUESTOS">
     <Key>
       <PropertyRef Name="ID" />
@@ -67,12 +77,12 @@
     <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DIAS_TRABAJADOS" Type="numeric" Precision="18" Scale="0" />
     <Property Name="PROPINAS" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="ULTIMO_DIA_TRABAJADO" Type="datetime" />
     <Property Name="FECHA_PAGO" Type="datetime" />
     <Property Name="FECHA_NACIMIENTO" Type="date" />
     <Property Name="DIRECCION_RESIDENCIA" Type="varchar" MaxLength="255" />
     <Property Name="TELEFONO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
+    <Property Name="TOTAL_PAGAR" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_PERFIL">
     <Key>
@@ -80,6 +90,7 @@
     </Key>
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NOMBRE_PERFIL" Type="varchar" MaxLength="255" />
+    <Property Name="PORCENTAJE_PROPINA" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS">
     <Key>
@@ -144,6 +155,7 @@
   <EntityContainer Name="COLINADBModelStoreContainer">
     <EntitySet Name="TBL_CATEGORIAS" EntityType="Self.TBL_CATEGORIAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_CIERRES" EntityType="Self.TBL_CIERRES" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="Self.TBL_DIAS_TRABAJADOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_NOMINA" EntityType="Self.TBL_NOMINA" Schema="dbo" store:Type="Tables" />

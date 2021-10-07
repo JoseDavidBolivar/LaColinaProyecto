@@ -11,10 +11,11 @@
         <EntityTypeShape EntityType="COLINADBModel.TBL_USUARIOS" Width="1.5" PointX="5.75" PointY="4.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_SOLICITUD" Width="1.5" PointX="9.375" PointY="0.875" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_IMPUESTOS" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="COLINADBModel.TBL_PERFIL" Width="1.5" PointX="7.25" PointY="3" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_MASTER_MESAS" Width="1.5" PointX="3.125" PointY="1.25" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_CIERRES" Width="1.5" PointX="11.75" PointY="1.875" />
-        <EntityTypeShape EntityType="COLINADBModel.TBL_NOMINA" Width="2.875" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="COLINADBModel.TBL_PERFIL" Width="1.5" PointX="6.875" PointY="2.875" />
+        <EntityTypeShape EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="COLINADBModel.TBL_NOMINA" Width="1.5" PointX="2.75" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

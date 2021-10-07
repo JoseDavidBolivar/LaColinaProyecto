@@ -48,15 +48,15 @@
                     <li style="padding: 5px;">@Html.ActionLink("Pedido", "SeleccionarMesa", "Solicitud")</li>
                     @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
                     {
-                        <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuraciones", "Configuracion")</li>
-                    }
-                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
-                    {
                         <li style="padding: 5px;">@Html.ActionLink("Ventas", "Ingresos", "Ventas")</li>
                     }
                     @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
                     {
-                        <li style="padding: 5px;">@Html.ActionLink("Ventas", "Gastos", "Nomina")</li>
+                        <li style="padding: 5px;">@Html.ActionLink("Nomina", "Gastos", "Ventas")</li>
+                    }
+                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
+                    {
+                        <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuraciones", "Configuracion")</li>
                     }
                     <li style="padding: 5px;">
                         <a href="@Url.Action("Salir", "Home")">
