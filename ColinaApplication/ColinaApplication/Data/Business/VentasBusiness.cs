@@ -173,7 +173,7 @@ namespace ColinaApplication.Data.Business
                 }
                 else
                 {
-                    solicitudes[0].ProductosSolicitud = new List<ProductosSolicitud>();
+                    //solicitudes[0].ProductosSolicitud = new List<ProductosSolicitud>();
                 }
             }
             return solicitudes;

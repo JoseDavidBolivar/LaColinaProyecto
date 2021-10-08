@@ -59,3 +59,5 @@ C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplicat
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\EPPlus.xml
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\DocumentFormat.OpenXml.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\ColinaApplication\bin\DocumentFormat.OpenXml.xml
