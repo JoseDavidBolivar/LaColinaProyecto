@@ -10,7 +10,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/plugins/datatables/css")
-    
+
 </head>
 <body>
     <div id="Cargando" style="background-color: rgba(64, 63, 63, 0.77); position: absolute; width: 100%;
@@ -34,7 +34,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("La Colina Restaurante", "LaColinaLogin", "Home", new { area = "" }, new
+                @Html.ActionLink("La Colina Restaurante", "LaColinaRestaurante", "Inicio", new { area = "" }, new
            {
                @class = "navbar-brand",
                style = "color: white; font-size: 30px; font-family: Mistral; margin-top: 5px;"
@@ -88,7 +88,7 @@
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/Jquery-confirm.js"></script>
 
-    <script src="~/ScriptsViews/Shared/AlertasLayout.js?1.0.4"></script>
+    <script src="~/ScriptsViews/Shared/AlertasLayout.js?1.0.5"></script>
 
 
 </body>

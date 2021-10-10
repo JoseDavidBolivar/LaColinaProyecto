@@ -13,7 +13,15 @@
     <div class="col-md-12">
         @using (Html.BeginForm("CambiarEstadoCaja", "Ventas", FormMethod.Post, new { @style = "" }))
         {
-            <div style="float: right;"><input type="submit" name="Cierre" class="btn btn-info" style="font-weight: bold; " value="@ViewBag.ultimoCierre" /></div>
+            if (ViewBag.ultimaFecha != null)
+            {
+                <div style="float: right;">
+                    <h5><small>Ultima Fecha Cierre</small><br /><b>@ViewBag.ultimaFecha</b></h5>
+                </div>
+            }
+            <div style="float: right; padding: 10px;">
+                <input id="botonCierre" type="submit" name="Cierre" class="btn btn-info" style="font-weight: bold; " value="@ViewBag.ultimoCierre" />
+            </div>
         }
     </div>
 
@@ -377,7 +385,8 @@
 @section Scripts{
     <script>
         var CierreCaja = '@TempData["CierraCaja"]';
+        var ValueCajaText = '@ViewBag.ultimoCierre';
     </script>
 
-    <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.2"></script>
+    <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.4"></script>
 }

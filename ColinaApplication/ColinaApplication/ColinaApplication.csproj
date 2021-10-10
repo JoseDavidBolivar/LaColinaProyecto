@@ -173,6 +173,7 @@
     <Compile Include="Data\Business\HomeBusiness.cs" />
     <Compile Include="Data\Business\SolicitudBsuiness.cs" />
     <Compile Include="Data\Business\VentasBusiness.cs" />
+    <Compile Include="Data\Clases\Encriptacion.cs" />
     <Compile Include="Data\Clases\Estados.cs" />
     <Compile Include="Data\Clases\ExpiringFilter.cs" />
     <Compile Include="Data\Clases\SuperViewModels.cs" />

@@ -1,6 +1,7 @@
 ﻿using ColinaApplication.Data.Business;
 using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
+using ColinaApplication.Hubs;
 using Entity;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -28,7 +29,10 @@ namespace ColinaApplication.Controllers
         public ActionResult Ingresos()
         {
             SuperViewModels model = new SuperViewModels();
-            ViewBag.ultimoCierre = UltimoCierre();
+            var Text = UltimoCierre().Split(';');
+            ViewBag.ultimoCierre = Text[0];
+            if (Text.Length > 1)
+                ViewBag.ultimaFecha = Text[1];
             return View(model);
         }
         [HttpPost]
@@ -37,7 +41,7 @@ namespace ColinaApplication.Controllers
             List<TBL_MASTER_MESAS> mesas = new List<TBL_MASTER_MESAS>();
             switch (Cierre)
             {
-                case "Abrir Caja":
+                case "ABRIR CAJA":
                     mesas = ventas.ConsultaMesasCargo(Convert.ToDecimal(Session["IdUsuario"].ToString()));
                     foreach (var item in mesas)
                     {
@@ -51,7 +55,7 @@ namespace ColinaApplication.Controllers
                     modelCierres.ID_USUARIO = Convert.ToDecimal(Session["IdUsuario"].ToString());
                     TempData["CierraCaja"] = ventas.InsertaNuevoCierre(modelCierres);
                     break;
-                case "Cerrar Caja":
+                case "CERRAR CAJA":
                     var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString())).FECHA_HORA_APERTURA);
                     if (solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Abierta || x.ESTADO_SOLICITUD == Estados.Llevar).ToList().Count == 0)
                     {
@@ -101,7 +105,10 @@ namespace ColinaApplication.Controllers
         [HttpPost]
         public ActionResult ConsultaFechas(DateTime fechaInicial, DateTime fechaFinal, string Consulta)
         {
-            ViewBag.ultimoCierre = UltimoCierre();
+            var Text = UltimoCierre().Split(';');
+            ViewBag.ultimoCierre = Text[0];
+            if (Text.Length > 0)
+                ViewBag.ultimaFecha = Text[1];
             SuperViewModels model = new SuperViewModels();
             fechaInicial = fechaInicial.Date.Add(new TimeSpan(0, 0, 0));
             fechaFinal = fechaFinal.Date.Add(new TimeSpan(23, 59, 59));
@@ -121,7 +128,10 @@ namespace ColinaApplication.Controllers
         [HttpPost]
         public ActionResult ConsultaFactura(string NumeroFactura)
         {
-            ViewBag.ultimoCierre = UltimoCierre();
+            var Text = UltimoCierre().Split(';');
+            ViewBag.ultimoCierre = Text[0];
+            if (Text.Length > 0)
+                ViewBag.ultimaFecha = Text[1];
             SuperViewModels model = new SuperViewModels();
             model.SolicitudModel = ventas.ConsultaSolicitudXId(Convert.ToDecimal(NumeroFactura));
             if (model.SolicitudModel == null)
@@ -167,13 +177,13 @@ namespace ColinaApplication.Controllers
             if (ultimocierre != null)
             {
                 if (ultimocierre.FECHA_HORA_CIERRE == null)
-                    respuesta = "Cerrar Caja";
+                    respuesta = "CERRAR CAJA";
                 else
-                    respuesta = "Abrir Caja";
+                    respuesta = "ABRIR CAJA;" + ultimocierre.FECHA_HORA_CIERRE;
             }
             else
             {
-                respuesta = "Abrir Caja";
+                respuesta = "ABRIR CAJA;"+ ultimocierre.FECHA_HORA_CIERRE;
             }
             return respuesta;
         }

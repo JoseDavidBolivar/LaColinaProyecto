@@ -210,32 +210,35 @@ namespace ColinaApplication.Data.Business
                                  MetodoPago = a.METODO_PAGO,
                                  Voucher = a.VOUCHER
                              }).FirstOrDefault();
-                var productosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(x => x.ID_SOLICITUD == solicitud.NroFactura).ToList();
-                if (productosSolicitud.Count > 0)
+                if (solicitud != null)
                 {
-                    solicitud.ProductosSolicitud = new List<ProductosSolicitud>();
-                    foreach (var item in productosSolicitud)
+                    var productosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(x => x.ID_SOLICITUD == solicitud.NroFactura).ToList();
+                    if (productosSolicitud.Count > 0)
                     {
-                        solicitud.ProductosSolicitud.Add(new ProductosSolicitud
+                        solicitud.ProductosSolicitud = new List<ProductosSolicitud>();
+                        foreach (var item in productosSolicitud)
                         {
-                            Id = item.ID,
-                            FechaRegistro = item.FECHA_REGISTRO,
-                            IdSolicitud = item.ID_SOLICITUD,
-                            IdProducto = item.ID_PRODUCTO,
-                            NombreProducto = context.TBL_PRODUCTOS.Where(a => a.ID == item.ID_PRODUCTO).FirstOrDefault().NOMBRE_PRODUCTO,
-                            IdMesero = item.ID_MESERO,
-                            NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == item.ID_MESERO).FirstOrDefault().NOMBRE,
-                            PrecioProducto = item.PRECIO_PRODUCTO,
-                            EstadoProducto = item.ESTADO_PRODUCTO,
-                            Descripcion = item.DESCRIPCION
-                        });
-                    }
+                            solicitud.ProductosSolicitud.Add(new ProductosSolicitud
+                            {
+                                Id = item.ID,
+                                FechaRegistro = item.FECHA_REGISTRO,
+                                IdSolicitud = item.ID_SOLICITUD,
+                                IdProducto = item.ID_PRODUCTO,
+                                NombreProducto = context.TBL_PRODUCTOS.Where(a => a.ID == item.ID_PRODUCTO).FirstOrDefault().NOMBRE_PRODUCTO,
+                                IdMesero = item.ID_MESERO,
+                                NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == item.ID_MESERO).FirstOrDefault().NOMBRE,
+                                PrecioProducto = item.PRECIO_PRODUCTO,
+                                EstadoProducto = item.ESTADO_PRODUCTO,
+                                Descripcion = item.DESCRIPCION
+                            });
+                        }
 
-                }
-                else
-                {
-                    solicitud.ProductosSolicitud = new List<ProductosSolicitud>();
-                }
+                    }
+                    else
+                    {
+                        //solicitud.ProductosSolicitud = new List<ProductosSolicitud>();
+                    }
+                }                
             }
             return solicitud;
         }

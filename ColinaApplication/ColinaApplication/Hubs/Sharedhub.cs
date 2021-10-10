@@ -5,9 +5,9 @@ namespace ColinaApplication.Hubs
 {
     public class Sharedhub : Hub
     {
-        public void Hello()
+        public void RefrescarMesas()
         {
-            Clients.All.Hello("123");
+            Clients.All.Mesas();
         }
     }
 }

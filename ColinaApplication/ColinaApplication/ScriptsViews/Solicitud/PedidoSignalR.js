@@ -587,9 +587,7 @@ function PagarFactura() {
                         buttons: {
                             Tarjeta: {
                                 btnClass: 'btn btn-warning',
-                                action: function () {
-                                    if ($('input:checkbox[name=Check1]:checked').val() == "SI")
-                                        connectPSR.server.imprimirFactura($("#ID").val());
+                                action: function () {                                    
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-credit-card',
@@ -602,9 +600,16 @@ function PagarFactura() {
                                             Continuar: {
                                                 btnClass: 'btn btn-default',
                                                 action: function () {
-                                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val());
-                                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
+                                                    if ($("#numAprobacionVoucher").val() != "") {
+                                                        if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                            connectPSR.server.imprimirFactura($("#ID").val());
+                                                        connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                                            $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val());
+                                                        connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
+                                                    }
+                                                    else {
+                                                        PagarFactura();
+                                                    }                                                    
                                                 }
                                             }
                                         }

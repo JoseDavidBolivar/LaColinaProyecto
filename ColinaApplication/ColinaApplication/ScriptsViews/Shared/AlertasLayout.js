@@ -1,4 +1,5 @@
-﻿$(function Alertas() {
+﻿
+$(function Alertas() {
     var connect = $.connection.sharedhub;
 
     Llama_Metodos(connect);
@@ -9,13 +10,15 @@
 });
 
 function Registra_Eventos(connect) {
-    connect.server.hello();
+    $('#botonCierre').click(function () {
+        connect.server.refrescarMesas();
+    });
 }
 
 function Llama_Metodos(connect) {
 
-    connect.client.Hello = function (data) {
-        
+    connect.client.Mesas = function (data) {
+        location.reload();
     }
 }
 

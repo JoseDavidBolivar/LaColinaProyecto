@@ -16,8 +16,7 @@ function Llama_MetodosSeMe(connectsm) {
 
     connectsm.client.ListaMesas = function (data, Redirecciona, idmesa, ruta) {
         $("#ListaMesas").empty();
-        for (var i = 0; i < data.length; i++)
-        {
+        for (var i = 0; i < data.length; i++) {
             switch (data[i].ESTADO) {
                 case "LIBRE":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'OCUPADO\');" class="clic panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
@@ -25,7 +24,7 @@ function Llama_MetodosSeMe(connectsm) {
                         '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-check text-success"></i>' +
-                        '</div>');                    
+                        '</div>');
                     break;
                 case "OCUPADO":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
@@ -73,16 +72,48 @@ function Llama_MetodosSeMe(connectsm) {
 
 var Id = 0;
 
-function alerta(id, Estado)
-{
-    if (Estado != "NO")
-    {
-        connectSM.server.actualizaMesa(id, Estado, Iduser, "SI", "../Solicitud/Pedido?Id="+id);
-        Id = id;
+function alerta(id, Estado) {
+    if (Estado != "NO") {
+        Encriptar(id).then(r => {
+            connectSM.server.actualizaMesa(id, Estado, Iduser, "SI", "../Solicitud/Pedido?Id=" + encodeURIComponent(r));
+            Id = id;
+        }).catch(() => {
+            console.log('error');
+        });
+        
     }
-    else
-    {
-        window.location.href = '../Solicitud/Pedido?Id=' + id;
+    else {
+        Encriptar(id).then(r => {
+            window.location.href = '../Solicitud/Pedido?Id=' + encodeURIComponent(r);
+        }).catch(() => {
+            console.log('error');
+        });
     }
-    
 }
+
+function Encriptar(texto) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: urlEncriptar,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ Texto: texto }),
+            dataType: "JSON",
+            success: function (result) {
+                var json = JSON.parse(result);
+                if (json != "") {
+                    resolve(json);
+                }
+                else {
+                    reject();
+                }
+
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    })
+}
+

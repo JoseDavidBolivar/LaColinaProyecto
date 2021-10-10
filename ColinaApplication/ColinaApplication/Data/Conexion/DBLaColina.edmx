@@ -46,7 +46,7 @@
           <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_USUARIO_NOMINA" Type="numeric" Precision="18" Scale="0" />
           <Property Name="FECHA_TRABAJADO" Type="datetime" />
-          <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FECHA_PAGO" Type="datetime" />
         </EntityType>
         <EntityType Name="TBL_IMPUESTOS">
@@ -81,13 +81,13 @@
           <Property Name="CARGO" Type="varchar" MaxLength="255" />
           <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="DIAS_TRABAJADOS" Type="numeric" Precision="18" Scale="0" />
-          <Property Name="PROPINAS" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FECHA_PAGO" Type="datetime" />
           <Property Name="FECHA_NACIMIENTO" Type="date" />
           <Property Name="DIRECCION_RESIDENCIA" Type="varchar" MaxLength="255" />
           <Property Name="TELEFONO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="ESTADO" Type="varchar" MaxLength="255" />
-          <Property Name="TOTAL_PAGAR" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TOTAL_PAGAR" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="TBL_PERFIL">
           <Key>
@@ -316,7 +316,7 @@
           <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_USUARIO_NOMINA" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="FECHA_TRABAJADO" Type="DateTime" Precision="3" />
-          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TBL_NOMINA">
@@ -331,13 +331,13 @@
           <Property Name="CARGO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="SUELDO_DIARIO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="DIAS_TRABAJADOS" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
           <Property Name="FECHA_NACIMIENTO" Type="DateTime" Precision="0" />
           <Property Name="DIRECCION_RESIDENCIA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TELEFONO" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TOTAL_PAGAR" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TOTAL_PAGAR" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
