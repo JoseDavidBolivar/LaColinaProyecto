@@ -268,7 +268,8 @@ namespace ColinaApplication.Data.Business
                               FechaNacimmiento = a.FECHA_NACIMIENTO,
                               DireccionResidencia = a.DIRECCION_RESIDENCIA,
                               Telefono = a.TELEFONO,
-                              TotalPagar = a.TOTAL_PAGAR
+                              TotalPagar = a.TOTAL_PAGAR,
+                              ConsumoInterno = a.CONSUMO_INTERNO
                           }).ToList();
                 foreach (var item in nomina)
                 {
@@ -356,6 +357,7 @@ namespace ColinaApplication.Data.Business
                         }
                         actualiza.PROPINAS = propinas;
                         actualiza.TOTAL_PAGAR = ((actualiza.SUELDO_DIARIO * actualiza.DIAS_TRABAJADOS) + actualiza.PROPINAS);
+                        actualiza.CONSUMO_INTERNO = contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD == Estados.ConsumoInterno && x.FECHA_SOLICITUD >= actualiza.FECHA_PAGO).ToList().Where(x => Convert.ToDecimal(x.IDENTIFICACION_CLIENTE) == Convert.ToDecimal(actualiza.CEDULA)).Sum(x => x.TOTAL);
                         contex.SaveChanges();
                         Respuesta = true;
                     }
@@ -392,6 +394,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.PROPINAS = 0;
                         actualiza.FECHA_PAGO = fechaPago;
                         actualiza.TOTAL_PAGAR = 0;
+                        actualiza.CONSUMO_INTERNO = 0;
                         contex.SaveChanges();
                         Respuesta = true;
                     }

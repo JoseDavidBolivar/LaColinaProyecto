@@ -27,5 +27,6 @@ namespace Entity
         public string Estado { get; set; }
         public decimal? TotalPagar { get; set; }
         public List<DateTime> FechasAsignadas { get; set; }
+        public decimal? ConsumoInterno { get; set; }
     }
 }

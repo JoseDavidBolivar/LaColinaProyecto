@@ -543,7 +543,7 @@ function CargaAdiciones(id, precio) {
 function GuardarDatosCliente() {
     $("#GuardaDatosCliente").attr("disabled", "true");
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "");
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
     $.alert({
         theme: 'Modern',
         icon: 'fa fa-check',
@@ -587,7 +587,7 @@ function PagarFactura() {
                         buttons: {
                             Tarjeta: {
                                 btnClass: 'btn btn-warning',
-                                action: function () {                                    
+                                action: function () {
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-credit-card',
@@ -604,7 +604,7 @@ function PagarFactura() {
                                                         if ($('input:checkbox[name=Check1]:checked').val() == "SI")
                                                             connectPSR.server.imprimirFactura($("#ID").val());
                                                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                                            $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val());
+                                                            $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val(), "0");
                                                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
                                                     }
                                                     else {
@@ -622,9 +622,62 @@ function PagarFactura() {
                                     if ($('input:checkbox[name=Check1]:checked').val() == "SI")
                                         connectPSR.server.imprimirFactura($("#ID").val());
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0");
+                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val());
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
+                                }
+                            },
+                            Ambas: {
+                                btnClass: 'btn btn-warning',
+                                action: function () {
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-money',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'gray',
+                                        title: '$ Efectivo !',
+                                        content: 'Digite la cantidad en efectivo <br/> <div><input style="witdh:60%; margin-left: 20%;" id="cantEfectivo" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-default',
+                                                action: function () {
+                                                    var cantEfectivo = $("#cantEfectivo").val();
+                                                    if (cantEfectivo != "") {
+                                                        $.alert({
+                                                            theme: 'Modern',
+                                                            icon: 'fa fa-credit-card',
+                                                            boxWidth: '500px',
+                                                            useBootstrap: false,
+                                                            type: 'gray',
+                                                            title: ' Tarjeta !',
+                                                            content: '# de Aprobacion del voucher <br/> <div><input style="witdh:60%; margin-left: 20%;" id="numAprobacionVoucher2" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
+                                                            buttons: {
+                                                                Continuar: {
+                                                                    btnClass: 'btn btn-default',
+                                                                    action: function () {
+                                                                        if ($("#numAprobacionVoucher2").val() != "") {
+                                                                            if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                                                connectPSR.server.imprimirFactura($("#ID").val());
+                                                                            connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                                                                $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher").val(), cantEfectivo);
+                                                                            connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
+                                                                        }
+                                                                        else {
+                                                                            PagarFactura();
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                    else {
+                                                        PagarFactura();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -696,7 +749,7 @@ function CancelaPedido() {
                                 btnClass: 'btn btn-danger',
                                 action: function () {
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0");
+                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
                                     connectPSR.server.cancelaPedido($("#ID").val(), true);
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
@@ -706,7 +759,7 @@ function CancelaPedido() {
                                 btnClass: 'btn btn-danger',
                                 action: function () {
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0");
+                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
                                     connectPSR.server.cancelaPedido($("#ID").val(), false);
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
@@ -740,7 +793,7 @@ function AsignarLlevar() {
                 btnClass: 'btn btn-warning',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#SubTotal").val(), "LLEVAR", $("#ID_MESA").val(), $("#servicio").val(), "", "");
+                        $("#SubTotal").val(), "LLEVAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "ESPERA", User, "NO", "");
                 }
             },
@@ -768,7 +821,7 @@ function AsignarAsignaMesa() {
                 btnClass: 'btn btn-success',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#SubTotal").val(), "ABIERTA", $("#ID_MESA").val(), $("#servicio").val(), "", "");
+                        $("#SubTotal").val(), "ABIERTA", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "OCUPADO", User, "NO", "");
                 }
             },
@@ -797,7 +850,7 @@ function ConsumoInterno() {
                     btnClass: 'btn btn-primary',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "", "");
+                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
                         $.alert({
                             theme: 'Modern',
@@ -864,7 +917,7 @@ function InhabilitarMesa() {
                     btnClass: 'btn btn-default',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                            $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "");
+                            $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "NO DISPONIBLE", User, "NO", "");
                         connectPSR.server.listarEstadoMesas("SI", $("#ID_MESA").val(), "../Solicitud/SeleccionarMesa");
                     }
@@ -907,11 +960,16 @@ function CierraModalCM() {
 }
 function CambioMesa(id, Estado) {
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "");    
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "", "0");    
     connectPSR.server.actualizaMesa(id, Estado, User, "NO", "");
     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
     connectPSR.server.actualizaIdmesaHTML(id, $("#ID_MESA").val());
-    connectPSR.server.listarEstadoMesas("SI", id, "../Solicitud/Pedido?Id="+id);
+    Encriptar(id).then(r => {
+        connectPSR.server.listarEstadoMesas("SI", id, "../Solicitud/Pedido?Id=" + encodeURIComponent(r));
+    }).catch(() => {
+        console.log('error');
+    });
+    
 }
 
 
@@ -939,5 +997,30 @@ function masServicio(porcentajeMaximo) {
     if ($("#servicio").val() < porcentajeMaximo) {
         $("#servicio").val(Number($("#servicio").val()) + 1);
     }
+}
+function Encriptar(texto) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: "POST",
+            url: urlEncriptar,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ Texto: texto }),
+            dataType: "JSON",
+            success: function (result) {
+                var json = JSON.parse(result);
+                if (json != "") {
+                    resolve(json);
+                }
+                else {
+                    reject();
+                }
+
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    })
 }
 

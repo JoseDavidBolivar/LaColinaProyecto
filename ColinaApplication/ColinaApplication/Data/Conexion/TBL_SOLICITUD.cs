@@ -34,5 +34,6 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> TOTAL { get; set; }
         public string METODO_PAGO { get; set; }
         public string VOUCHER { get; set; }
+        public Nullable<decimal> CANT_EFECTIVO { get; set; }
     }
 }

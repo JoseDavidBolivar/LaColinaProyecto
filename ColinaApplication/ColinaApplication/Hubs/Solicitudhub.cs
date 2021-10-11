@@ -94,7 +94,7 @@ namespace ColinaApplication.Hubs
                 ConsultaMesaAbierta(idMesa);
             }
         }
-        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher)
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
             model.ID = Id;
@@ -109,6 +109,7 @@ namespace ColinaApplication.Hubs
             model.PORCENTAJE_SERVICIO = Convert.ToDecimal( porcentajeServicio);
             model.METODO_PAGO = MetodoPago;
             model.VOUCHER = Voucher;
+            model.CANT_EFECTIVO = Convert.ToDecimal(CantEfectivo);
             var respuesta = solicitud.ActualizaSolicitud(model);
             Clients.Caller.GuardoCliente(respuesta);
             ConsultaMesaAbierta(IdMesa);

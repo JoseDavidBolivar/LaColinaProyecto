@@ -22,6 +22,7 @@
                         <th>DIAS TRABAJADOS</th>
                         <th>PROPINAS</th>
                         <th>% GANANCIA PROPINAS</th>
+                        <th>DEUDA CONSUMO INTERNO</th>
                         <th>DIAS TRABAJADOS</th>
                         <th>ULTIMA FECHA PAGO</th>
                         <th>TOTAL PAGAR</th>
@@ -44,16 +45,19 @@
                             @Model.Nomina[i].Cargo
                         </td>
                         <td>
-                            @Model.Nomina[i].SuledoDiario
+                            $@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N0}", Model.Nomina[i].SuledoDiario)
                         </td>
                         <td>
                             @Model.Nomina[i].DiasTrabajados
                         </td>
                         <td>
-                            @Model.Nomina[i].Propinas
+                            <b>$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].Propinas)</b>
                         </td>
                         <td>
-                            @Model.Nomina[i].PorcentajeGananciaPropina
+                            @Model.Nomina[i].PorcentajeGananciaPropina <label>%</label>
+                        </td>
+                        <td>
+                            <b style="color: red">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N0}", Model.Nomina[i].ConsumoInterno)</b>
                         </td>
                         <td>
                             @for (int j = 0; j < Model.Nomina[i].FechasAsignadas.Count; j++)
@@ -66,7 +70,7 @@
                             @Model.Nomina[i].FechaPago
                         </td>
                         <td>
-                            @Model.Nomina[i].TotalPagar
+                            <b style="color: darkgreen">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].TotalPagar)</b>
                         </td>
                         <td style="text-align: center;">
                             @if (Model.Nomina[i].DiasTrabajados > 0)

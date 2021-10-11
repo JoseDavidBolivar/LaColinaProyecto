@@ -29,5 +29,6 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> TELEFONO { get; set; }
         public string ESTADO { get; set; }
         public Nullable<decimal> TOTAL_PAGAR { get; set; }
+        public Nullable<decimal> CONSUMO_INTERNO { get; set; }
     }
 }

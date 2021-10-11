@@ -83,6 +83,7 @@
     <Property Name="TELEFONO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="ESTADO" Type="varchar" MaxLength="255" />
     <Property Name="TOTAL_PAGAR" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CONSUMO_INTERNO" Type="numeric" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="TBL_PERFIL">
     <Key>
@@ -141,6 +142,7 @@
     <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="METODO_PAGO" Type="varchar" MaxLength="255" />
     <Property Name="VOUCHER" Type="varchar" MaxLength="255" />
+    <Property Name="CANT_EFECTIVO" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_USUARIOS">
     <Key>
