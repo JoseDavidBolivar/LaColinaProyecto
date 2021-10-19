@@ -328,12 +328,13 @@ function ActualizaInfoProductos(data) {
         var color = '#a90000';
         if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
             color = '#5cb85c';
-        if (IdPerfil == 1 || IdPerfil == 2) {
-            code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')">' +
-                '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto()"></i >';
+        let descripcion = data[0].ProductosSolicitud[i].Descripcion;
+        if (IdPerfil == 1) {            
+            code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')"></i>' +
+                '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',\'' + descripcion + '\', ' + data[0].IdMesa +')"></i >';
         }
         else {
-            code = '</i> <i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].Id+ ',' + data[0].ProductosSolicitud[i].NombreProducto + ', ' + data[0].ProductosSolicitud[i].Descripcion + ')"></i >';
+            code = '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',\'' + descripcion + '\',' + data[0].IdMesa +')"></i >';
         }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
@@ -440,8 +441,8 @@ function CancelaProductoxId(idProducto) {
 }
 
 //REENVIA PRODUCTOS A IMPRESORAS
-function ReEnviaProducto(idproducto, producto, descripcion) {
-    connectPSR.server.imprimeProductos(1, idproducto, producto, descripcion);
+function ReEnviaProducto(idproducto, descripcion, idmesa) {
+    connectPSR.server.imprimeProductos(1, idproducto, descripcion, idmesa);
 }
 
 
@@ -602,7 +603,7 @@ function PagarFactura() {
                                                 action: function () {
                                                     if ($("#numAprobacionVoucher").val() != "") {
                                                         if ($('input:checkbox[name=Check1]:checked').val() == "SI")
-                                                            connectPSR.server.imprimirFactura($("#ID").val());
+                                                            connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                                                             $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val(), "0");
                                                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
@@ -620,7 +621,7 @@ function PagarFactura() {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
                                     if ($('input:checkbox[name=Check1]:checked').val() == "SI")
-                                        connectPSR.server.imprimirFactura($("#ID").val());
+                                        connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                                         $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val());
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
@@ -658,7 +659,7 @@ function PagarFactura() {
                                                                     action: function () {
                                                                         if ($("#numAprobacionVoucher2").val() != "") {
                                                                             if ($('input:checkbox[name=Check1]:checked').val() == "SI")
-                                                                                connectPSR.server.imprimirFactura($("#ID").val());
+                                                                                connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                                             connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                                                                                 $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher").val(), cantEfectivo);
                                                                             connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
@@ -709,7 +710,7 @@ function GeneraFactura() {
                 btnClass: 'btn btn-default',
                 action: function () {
                     //IMPRIME FACTURA
-                    connectPSR.server.imprimirFactura();
+                    connectPSR.server.imprimirFactura($("#ID_MESA").val());
                 }
             },
             Cancelar: {
@@ -1024,3 +1025,6 @@ function Encriptar(texto) {
     })
 }
 
+function alerta() {
+    console.log('123');
+}

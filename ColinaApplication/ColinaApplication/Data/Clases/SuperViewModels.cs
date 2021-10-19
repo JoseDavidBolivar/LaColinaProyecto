@@ -17,7 +17,8 @@ namespace ColinaApplication.Data.Clases
         public TBL_MASTER_MESAS MesasModel { get; set; }
         public List<TBL_USUARIOS> Usuarios { get; set; }
         public TBL_USUARIOS UsuariosModel { get; set; }
-
+        public List<TBL_IMPRESORAS> Impresoras { get; set; }
+        public TBL_IMPRESORAS ImpresorasModel { get; set; }
         public List<TBL_IMPUESTOS> Impuestos { get; set; }
         public TBL_IMPUESTOS ImpuestosModel { get; set; }
         public List<TBL_PERFIL> Perfiles { get; set; }

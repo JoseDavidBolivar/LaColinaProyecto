@@ -75,13 +75,14 @@ function LimpiaCamposCategoria() {
     $("#NomCategoria").val("");
     $("#EstadoCategoria").val("");
 }
-function EditarProducto(id, idCategoria, producto, precio, cantidad, descripcion) {
+function EditarProducto(id, idCategoria, producto, precio, cantidad, descripcion, idImpresora) {
     $("#IdProducto").val(id);
     $("#IdCategoriaProducto").val(idCategoria);
     $("#NomProducto").val(producto);
     $("#PrecioProducto").val(precio);
     $("#CantidadProducto").val(cantidad);
     $("#DescripcionProducto").val(descripcion);
+    $("#IdImpresoraProductos").val(idImpresora);
 }
 function LimpiaCamposProductos() {
     $("#IdProducto").val("");
@@ -90,6 +91,7 @@ function LimpiaCamposProductos() {
     $("#PrecioProducto").val("");
     $("#CantidadProducto").val("");
     $("#DescripcionProducto").val("");
+    $("#IdImpresoraProductos").val("");
 }
 function EditarMesa(id, numeromesa, idusuario, mesa, descripcion, estado) {
     $("#IdMesa").val(id);
@@ -121,6 +123,16 @@ function LimpiaCamposUsuario() {
     $("#NombreUsuario").val("");
     $("#CodigoUsuario").val("");
     $("#IdPerfilUsuario").val("");
+}
+function EditarImpresora(id, nombreImpresora, descripcion) {
+    $("#IdImpresora").val(id);
+    $("#NombreImpresora").val(nombreImpresora);
+    $("#DescripcionImpresora").val(descripcion);
+}
+function LimpiaCamposImpresora() {
+    $("#IdImpresora").val("");
+    $("#NombreImpresora").val("");
+    $("#DescripcionImpresora").val("");
 }
 function EditarImpuesto(id, nombre, porcentaje, estado) {
     $("#IdImpuesto").val(id);

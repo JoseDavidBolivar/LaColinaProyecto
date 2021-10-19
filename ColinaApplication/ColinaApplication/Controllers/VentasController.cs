@@ -107,7 +107,7 @@ namespace ColinaApplication.Controllers
         {
             var Text = UltimoCierre().Split(';');
             ViewBag.ultimoCierre = Text[0];
-            if (Text.Length > 0)
+            if (Text.Length > 1)
                 ViewBag.ultimaFecha = Text[1];
             SuperViewModels model = new SuperViewModels();
             fechaInicial = fechaInicial.Date.Add(new TimeSpan(0, 0, 0));
@@ -130,7 +130,7 @@ namespace ColinaApplication.Controllers
         {
             var Text = UltimoCierre().Split(';');
             ViewBag.ultimoCierre = Text[0];
-            if (Text.Length > 0)
+            if (Text.Length > 1)
                 ViewBag.ultimaFecha = Text[1];
             SuperViewModels model = new SuperViewModels();
             model.SolicitudModel = ventas.ConsultaSolicitudXId(Convert.ToDecimal(NumeroFactura));

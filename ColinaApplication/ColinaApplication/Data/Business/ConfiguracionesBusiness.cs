@@ -62,6 +62,15 @@ namespace ColinaApplication.Data.Business
             }
             return listImpuestos;
         }
+        public List<TBL_IMPRESORAS> ListaImpresoras()
+        {
+            List<TBL_IMPRESORAS> listImpresoras = new List<TBL_IMPRESORAS>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listImpresoras = contex.TBL_IMPRESORAS.ToList();
+            }
+            return listImpresoras;
+        }
         public List<TBL_NOMINA> ListaNominaEmpleados()
         {
             List<TBL_NOMINA> listImpuestos = new List<TBL_NOMINA>();
@@ -148,6 +157,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.PRECIO = model.PRECIO;
                         actualiza.CANTIDAD = model.CANTIDAD;
                         actualiza.DESCRIPCION = model.DESCRIPCION;
+                        actualiza.ID_IMPRESORA = model.ID_IMPRESORA;
                         contex.SaveChanges();
                         Respuesta = true;
                     }
@@ -237,6 +247,48 @@ namespace ColinaApplication.Data.Business
                         actualiza.NOMBRE = model.NOMBRE;
                         actualiza.CONTRASEÑA = model.CONTRASEÑA;
                         actualiza.ID_PERFIL = model.ID_PERFIL;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool InsertaImpresora(TBL_IMPRESORAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    contex.TBL_IMPRESORAS.Add(model);
+                    contex.SaveChanges();
+                    Respuesta = true;
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaImpresora(TBL_IMPRESORAS model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_IMPRESORAS actualiza = new TBL_IMPRESORAS();
+                    actualiza = contex.TBL_IMPRESORAS.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.NOMBRE_IMPRESORA = model.NOMBRE_IMPRESORA;
+                        actualiza.DESCRIPCION = model.DESCRIPCION;
                         contex.SaveChanges();
                         Respuesta = true;
                     }

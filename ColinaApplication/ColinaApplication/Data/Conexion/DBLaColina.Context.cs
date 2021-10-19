@@ -26,7 +26,6 @@ namespace ColinaApplication.Data.Conexion
         }
     
         public DbSet<TBL_CATEGORIAS> TBL_CATEGORIAS { get; set; }
-        public DbSet<TBL_PRODUCTOS> TBL_PRODUCTOS { get; set; }
         public DbSet<TBL_PRODUCTOS_SOLICITUD> TBL_PRODUCTOS_SOLICITUD { get; set; }
         public DbSet<TBL_USUARIOS> TBL_USUARIOS { get; set; }
         public DbSet<TBL_IMPUESTOS> TBL_IMPUESTOS { get; set; }
@@ -36,5 +35,7 @@ namespace ColinaApplication.Data.Conexion
         public DbSet<TBL_DIAS_TRABAJADOS> TBL_DIAS_TRABAJADOS { get; set; }
         public DbSet<TBL_NOMINA> TBL_NOMINA { get; set; }
         public DbSet<TBL_SOLICITUD> TBL_SOLICITUD { get; set; }
+        public DbSet<TBL_IMPRESORAS> TBL_IMPRESORAS { get; set; }
+        public DbSet<TBL_PRODUCTOS> TBL_PRODUCTOS { get; set; }
     }
 }

@@ -12,15 +12,10 @@ namespace ColinaApplication.Data.Conexion
     using System;
     using System.Collections.Generic;
     
-    public partial class TBL_PRODUCTOS
+    public partial class TBL_IMPRESORAS
     {
         public decimal ID { get; set; }
-        public decimal ID_CATEGORIA { get; set; }
-        public Nullable<System.DateTime> FECHA_INGRESO { get; set; }
-        public string NOMBRE_PRODUCTO { get; set; }
-        public string PRECIO { get; set; }
-        public Nullable<decimal> CANTIDAD { get; set; }
+        public string NOMBRE_IMPRESORA { get; set; }
         public string DESCRIPCION { get; set; }
-        public Nullable<decimal> ID_IMPRESORA { get; set; }
     }
 }

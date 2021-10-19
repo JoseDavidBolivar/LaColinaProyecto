@@ -66,7 +66,7 @@ namespace ColinaApplication.Hubs
             if (cantidaddisponible >= CantidadPlatos)
             {
                 //IMPRIMIR TICKET
-                bool resp = ImprimeProductos(Convert.ToString(CantidadPlatos), Convert.ToString(modelo.ID_PRODUCTO), modelo.DESCRIPCION);
+                bool resp = ImprimeProductos(Convert.ToString(CantidadPlatos), Convert.ToString(modelo.ID_PRODUCTO), modelo.DESCRIPCION, idMesa);
                 if (resp)
                     modelo.ESTADO_PRODUCTO = Estados.Entregado;
                 else
@@ -123,13 +123,14 @@ namespace ColinaApplication.Hubs
         {
             var respuesta = solicitud.CancelaProductoSolicitudXId(IdProductoSolicitud, RetornaInventario);
         }
-        public void ImprimirFactura(string idSolicitud)
+        public void ImprimirFactura(string IdMesa)
         {
-            bool respuesta = solicitud.ImprimirFactura(idSolicitud);
+            bool respuesta = solicitud.ImprimirFactura(IdMesa);
+            ConsultaMesaAbierta(IdMesa);
         }
-        public bool ImprimeProductos(string cantidad, string idproducto, string descripcion)
+        public bool ImprimeProductos(string cantidad, string idproducto, string descripcion, string idMesa)
         {
-            bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion);
+            bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion, idMesa);
             return respuesta;
         }
         public void ActualizaIdmesaHTML(string idmesa, string idmesaAnterior)

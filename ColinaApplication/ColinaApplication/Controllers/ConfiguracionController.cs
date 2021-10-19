@@ -27,6 +27,7 @@ namespace ColinaApplication.Controllers
             model.Mesas = configuraciones.ListaMesas();
             model.Usuarios = configuraciones.ListaUsuarios();
             model.Perfiles = configuraciones.ListaPerfiles();
+            model.Impresoras = configuraciones.ListaImpresoras();
             model.Impuestos = configuraciones.ListaImpuestos();
             model.NominaEmpleados = configuraciones.ListaNominaEmpleados();
             //LISTA DE SELECCIONABLE CATEGORIA
@@ -37,6 +38,8 @@ namespace ColinaApplication.Controllers
             ViewBag.listaIdPerfilDDL = (model.Perfiles.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE_PERFIL }).ToList<SelectListItem>());
             //LISTA DE SELECCIONABLE USUARIOS SISTEMA
             ViewBag.listaUsuariosSistemaDDL = (model.Usuarios.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE }).ToList<SelectListItem>());
+            //LISTA DE IMPRESORAS
+            ViewBag.idImpresoraDDL = (model.Impresoras.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE_IMPRESORA }).ToList<SelectListItem>());
 
             return View(model);
         }
@@ -85,6 +88,17 @@ namespace ColinaApplication.Controllers
             return RedirectToAction("Configuraciones");
         }
         [HttpPost]
+        public ActionResult AgregarEditarImpresoras(SuperViewModels model)
+        {
+            if (model.ImpresorasModel.ID > 0)
+                TempData["Resultado"] = configuraciones.ActualizaImpresora(model.ImpresorasModel);
+            else
+                TempData["Resultado"] = configuraciones.InsertaImpresora(model.ImpresorasModel);
+
+            TempData["Posicion"] = "DivImpresoras";
+            return RedirectToAction("Configuraciones");
+        }
+        [HttpPost]
         public ActionResult AgregarEditarImpuestos(SuperViewModels model)
         {
             if (model.ImpuestosModel.ID > 0)
@@ -99,7 +113,7 @@ namespace ColinaApplication.Controllers
         public ActionResult AgregarEditarPerfiles(SuperViewModels model)
         {
             if (model.PerfilesModel.ID > 0)
-                TempData["Resultado"] = configuraciones.ActualizaPerfil(model.PerfilesModel);            
+                TempData["Resultado"] = configuraciones.ActualizaPerfil(model.PerfilesModel);
             else
                 TempData["Resultado"] = configuraciones.InsertaPerfil(model.PerfilesModel);
 
@@ -110,7 +124,7 @@ namespace ColinaApplication.Controllers
         public ActionResult AgregarEditarNomina(SuperViewModels model)
         {
             if (model.NominaEmpleadosModel.ID > 0)
-                TempData["Resultado"] = configuraciones.ActualizaNominaEmpleados(model.NominaEmpleadosModel);                
+                TempData["Resultado"] = configuraciones.ActualizaNominaEmpleados(model.NominaEmpleadosModel);
             else
             {
                 model.NominaEmpleadosModel.DIAS_TRABAJADOS = 0;

@@ -10,19 +10,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TBL_PRODUCTOS">
-      <EntityTypeMapping TypeName="COLINADBModel.TBL_PRODUCTOS">
-        <MappingFragment StoreEntitySet="TBL_PRODUCTOS">
-          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-          <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
-          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
-          <ScalarProperty Name="NOMBRE_PRODUCTO" ColumnName="NOMBRE_PRODUCTO" />
-          <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
-          <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TBL_PRODUCTOS_SOLICITUD">
       <EntityTypeMapping TypeName="COLINADBModel.TBL_PRODUCTOS_SOLICITUD">
         <MappingFragment StoreEntitySet="TBL_PRODUCTOS_SOLICITUD">
@@ -162,6 +149,29 @@
           <ScalarProperty Name="ID_MESERO" ColumnName="ID_MESERO" />
           <ScalarProperty Name="ID_MESA" ColumnName="ID_MESA" />
           <ScalarProperty Name="FECHA_SOLICITUD" ColumnName="FECHA_SOLICITUD" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_IMPRESORAS">
+      <EntityTypeMapping TypeName="COLINADBModel.TBL_IMPRESORAS">
+        <MappingFragment StoreEntitySet="TBL_IMPRESORAS">
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="NOMBRE_IMPRESORA" ColumnName="NOMBRE_IMPRESORA" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_PRODUCTOS">
+      <EntityTypeMapping TypeName="COLINADBModel.TBL_PRODUCTOS">
+        <MappingFragment StoreEntitySet="TBL_PRODUCTOS">
+          <ScalarProperty Name="ID_IMPRESORA" ColumnName="ID_IMPRESORA" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+          <ScalarProperty Name="NOMBRE_PRODUCTO" ColumnName="NOMBRE_PRODUCTO" />
+          <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+          <ScalarProperty Name="ID_CATEGORIA" ColumnName="ID_CATEGORIA" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

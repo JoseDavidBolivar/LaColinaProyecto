@@ -44,6 +44,14 @@
     <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FECHA_PAGO" Type="datetime" />
   </EntityType>
+  <EntityType Name="TBL_IMPRESORAS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NOMBRE_IMPRESORA" Type="varchar" MaxLength="255" />
+    <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="TBL_IMPUESTOS">
     <Key>
       <PropertyRef Name="ID" />
@@ -104,6 +112,7 @@
     <Property Name="PRECIO" Type="varchar" MaxLength="255" />
     <Property Name="CANTIDAD" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="255" />
+    <Property Name="ID_IMPRESORA" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_PRODUCTOS_SOLICITUD">
     <Key>
@@ -158,6 +167,7 @@
     <EntitySet Name="TBL_CATEGORIAS" EntityType="Self.TBL_CATEGORIAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_CIERRES" EntityType="Self.TBL_CIERRES" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="Self.TBL_DIAS_TRABAJADOS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_IMPRESORAS" EntityType="Self.TBL_IMPRESORAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_IMPUESTOS" EntityType="Self.TBL_IMPUESTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="Self.TBL_MASTER_MESAS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_NOMINA" EntityType="Self.TBL_NOMINA" Schema="dbo" store:Type="Tables" />
