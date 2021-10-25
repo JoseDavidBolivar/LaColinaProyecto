@@ -41,6 +41,7 @@ namespace ColinaApplication.Hubs
             model.IVA_TOTAL = 0;
             model.I_CONSUMO_TOTAL = 0;
             model.SERVICIO_TOTAL = 0;
+            model.TOTAL = 0;
             solicitud.InsertaSolicitud(model);
 
         }

@@ -30,6 +30,7 @@ namespace Entity
         public decimal? Total { get; set; }
         public string MetodoPago { get; set; }
         public string Voucher { get; set; }
+        public decimal? Efectivo { get; set; }
         public List<ProductosSolicitud> ProductosSolicitud { get; set; }
     }
 }

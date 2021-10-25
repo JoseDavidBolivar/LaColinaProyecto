@@ -2,8 +2,7 @@
     $(".TablaList").DataTable({
         "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
     });
-    ValidaResultados();
-    
+    ValidaResultados();    
 });
 
 function ValidaResultados() {
@@ -90,3 +89,59 @@ function ValidaResultados() {
         default:
     }
 }
+
+function reImprimir() {
+    $.ajax({
+        type: "POST",
+        url: urlreImprimir,
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        success: function (result) {
+            var json = JSON.parse(result);
+            if (json == true) {
+                $.alert({
+                    theme: 'Modern',
+                    icon: 'fa fa-check',
+                    boxWidth: '500px',
+                    useBootstrap: false,
+                    type: 'green',
+                    title: 'Cierre Impreso !',
+                    content: 'Se imprimio el ticket de CIERRE',
+                    buttons: {
+                        Continuar: {
+                            btnClass: 'btn btn-success',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                $.alert({
+                    theme: 'Modern',
+                    icon: 'fa fa-times',
+                    boxWidth: '500px',
+                    useBootstrap: false,
+                    type: 'red',
+                    title: 'Cierre Impreso !',
+                    content: 'Error al imprimir el ticket de CIERRE. Intente nuevamente',
+                    buttons: {
+                        Continuar: {
+                            btnClass: 'btn btn-danger',
+                            action: function () {
+
+                            }
+                        }
+                    }
+                });
+            }
+            
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+
+    });
+}
+

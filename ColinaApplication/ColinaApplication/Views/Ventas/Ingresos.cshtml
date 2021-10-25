@@ -9,22 +9,26 @@
     <div class="col-md-12">
         <h1 class="page-header"><i class="fa fa-search-plus"></i> Ventas </h1>
     </div>
-
     <div class="col-md-12">
         @using (Html.BeginForm("CambiarEstadoCaja", "Ventas", FormMethod.Post, new { @style = "" }))
         {
             if (ViewBag.ultimaFecha != null)
             {
                 <div style="float: right;">
-                    <h5><small>Ultima Fecha Cierre</small><br /><b>@ViewBag.ultimaFecha</b></h5>
+                    
+                    <h5><small>Ultima Fecha Cierre</small><i class="fa fa-2x fa-print" style="cursor: pointer; float: right;" onclick="reImprimir()"></i>
+                    <br />
+                    <b>@ViewBag.ultimaFecha</b></h5>
+
                 </div>
             }
+
             <div style="float: right; padding: 10px;">
                 <input id="botonCierre" type="submit" name="Cierre" class="btn btn-info" style="font-weight: bold; " value="@ViewBag.ultimoCierre" />
             </div>
         }
     </div>
-
+    <br /><br />
     <div class="col-md-12">
         <h3 class="page-header"><i class="fa fa-bars"></i> Movimiento ventas por fecha </h3>
         <div style="padding: 10px; background-color: #eeeeee; ">
@@ -70,6 +74,7 @@
                             <th>TOTAL</th>
                             <th>METODO PAGO</th>
                             <th>VOUCHER</th>
+                            <th>EFECTIVO</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,6 +147,9 @@
                                         </td>
                                         <td>
                                             @Model.Solicitudes[i].Voucher
+                                        </td>
+                                        <td>
+                                            @Model.Solicitudes[i].Efectivo
                                         </td>
                                     </tr>
                                 }
@@ -243,6 +251,7 @@
                             <th>TOTAL</th>
                             <th>METODO PAGO</th>
                             <th>VOUCHER</th>
+                            <th>EFECTIVO</th>
 
                         </tr>
                     </thead>
@@ -312,6 +321,9 @@
                                 </td>
                                 <td>
                                     @Model.SolicitudModel.Voucher
+                                </td>
+                                <td>
+                                    @Model.SolicitudModel.Efectivo
                                 </td>
                             </tr>
                         }
@@ -386,7 +398,9 @@
     <script>
         var CierreCaja = '@TempData["CierraCaja"]';
         var ValueCajaText = '@ViewBag.ultimoCierre';
+        var urlreImprimir = '@Url.Action("ReImprimir", "Ventas")';
+        var ultimaFecha = '@ViewBag.ultimaFecha';
     </script>
 
-    <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.4"></script>
+    <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.7"></script>
 }

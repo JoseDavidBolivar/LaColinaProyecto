@@ -225,7 +225,11 @@ namespace ColinaApplication.Data.Business
                         actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL + actualiza.OTROS_COBROS - actualiza.DESCUENTOS;
                         actualiza.METODO_PAGO = model.METODO_PAGO;
                         actualiza.VOUCHER = model.VOUCHER;
-                        actualiza.CANT_EFECTIVO = model.CANT_EFECTIVO;
+                        if (actualiza.METODO_PAGO == "EFECTIVO")
+                            actualiza.CANT_EFECTIVO = actualiza.TOTAL;
+                        else
+                            actualiza.CANT_EFECTIVO = model.CANT_EFECTIVO;
+
                         contex.SaveChanges();
                         Respuesta = "Solicitud actualizada exitosamente";
                     }

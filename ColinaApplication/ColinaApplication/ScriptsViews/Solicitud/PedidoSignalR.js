@@ -589,6 +589,7 @@ function PagarFactura() {
                             Tarjeta: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
+                                    var Imprime = $('input:checkbox[name=Check1]:checked').val();
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-credit-card',
@@ -602,7 +603,7 @@ function PagarFactura() {
                                                 btnClass: 'btn btn-default',
                                                 action: function () {
                                                     if ($("#numAprobacionVoucher").val() != "") {
-                                                        if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                        if (Imprime == "SI")
                                                             connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                                                             $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val(), "0");
@@ -631,6 +632,7 @@ function PagarFactura() {
                             Ambas: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
+                                    var Imprime = $('input:checkbox[name=Check1]:checked').val();
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-money',
@@ -658,10 +660,10 @@ function PagarFactura() {
                                                                     btnClass: 'btn btn-default',
                                                                     action: function () {
                                                                         if ($("#numAprobacionVoucher2").val() != "") {
-                                                                            if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                                            if (Imprime == "SI")
                                                                                 connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                                             connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                                                                $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher").val(), cantEfectivo);
+                                                                                $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher2").val(), cantEfectivo);
                                                                             connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
                                                                         }
                                                                         else {
@@ -851,7 +853,7 @@ function ConsumoInterno() {
                     btnClass: 'btn btn-primary',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
+                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
                         $.alert({
                             theme: 'Modern',
@@ -904,7 +906,7 @@ function ConsumoInterno() {
 }
 //METODO PARA INHABILITAR MESA
 function InhabilitarMesa() {
-    if (ProductosSolicitudVector.length == 0) {
+    if (ProductosSolicitudVector.length == 0 && $("#Total").val() == "0") {
         $.alert({
             theme: 'Modern',
             icon: 'fa fa-times',

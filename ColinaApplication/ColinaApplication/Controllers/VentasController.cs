@@ -55,6 +55,7 @@ namespace ColinaApplication.Controllers
                     modelCierres.ID_USUARIO = Convert.ToDecimal(Session["IdUsuario"].ToString());
                     TempData["CierraCaja"] = ventas.InsertaNuevoCierre(modelCierres);
                     break;
+
                 case "CERRAR CAJA":
                     var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString())).FECHA_HORA_APERTURA);
                     if (solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Abierta || x.ESTADO_SOLICITUD == Estados.Llevar).ToList().Count == 0)
@@ -71,8 +72,8 @@ namespace ColinaApplication.Controllers
                         var ultimocierre = ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString()));
                         modelCierres2.ID = ultimocierre.ID;
                         modelCierres2.FECHA_HORA_CIERRE = DateTime.Now;
-                        modelCierres2.ID_USUARIO = Convert.ToDecimal(Session["IdUsuario"].ToString());
-                        modelCierres2.CANT_MESAS_ATENDIDAS = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Count();
+                        //modelCierres2.ID_USUARIO = Convert.ToDecimal(Session["IdUsuario"].ToString());
+                        modelCierres2.CANT_MESAS_ATENDIDAS = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).Count();
                         modelCierres2.CANT_FINALIZADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Finalizada).Count();
                         modelCierres2.TOTAL_FINALIZADAS = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Finalizada).Sum(a => a.TOTAL);
                         modelCierres2.CANT_LLEVAR = solicitudes.Where(x => x.ESTADO_SOLICITUD == Estados.Llevar).Count();
@@ -85,18 +86,27 @@ namespace ColinaApplication.Controllers
                         modelCierres2.DESCUENTOS_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.DESCUENTOS);
                         modelCierres2.IVA_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.IVA_TOTAL);
                         modelCierres2.I_CONSUMO_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.I_CONSUMO_TOTAL);
-                        modelCierres2.SERVICIO_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.Cancelado).Sum(a => a.SERVICIO_TOTAL);
-                        modelCierres2.TOTAL_EFECTIVO = solicitudes.Where(x => x.METODO_PAGO == "EFECTIVO").Sum(a => a.TOTAL);
-                        modelCierres2.TOTAL_TARJETA = solicitudes.Where(x => x.METODO_PAGO == "TARJETA").Sum(a => a.TOTAL);
+                        modelCierres2.SERVICIO_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Sum(a => a.SERVICIO_TOTAL);
+                        modelCierres2.TOTAL_EFECTIVO = solicitudes.Where(x => x.CANT_EFECTIVO > 0).Sum(a => a.CANT_EFECTIVO);
+                        var cuentasVouchers = solicitudes.Where(x => x.VOUCHER != "0" && x.VOUCHER != "" && x.VOUCHER != null).Sum(a => a.TOTAL);
+                        if (cuentasVouchers != null && cuentasVouchers > 0)
+                            modelCierres2.TOTAL_TARJETA = cuentasVouchers - (solicitudes.Where(x => x.VOUCHER != "0" && x.VOUCHER != "" && x.VOUCHER != null).Sum(a => a.CANT_EFECTIVO));
+                        else
+                            modelCierres2.TOTAL_TARJETA = 0;
                         modelCierres2.VENTA_TOTAL = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Sum(a => a.TOTAL);
-                        TempData["CierraCaja"] = ventas.ActualizaCierre(modelCierres2);
+                        var resultado = ventas.ActualizaCierre(modelCierres2);
+                        var imprimir = ventas.ImprimirCierre(solicitudes, Convert.ToDecimal(Session["IdUsuario"].ToString()));
+                        if (resultado && imprimir)
+                            TempData["CierraCaja"] = true;
+                        else
+                            TempData["CierraCaja"] = false;
                     }
                     else
                     {
                         TempData["CierraCaja"] = "Mesas Abiertas";
                     }
-
                     break;
+
                 default:
                     break;
             }
@@ -183,7 +193,7 @@ namespace ColinaApplication.Controllers
             }
             else
             {
-                respuesta = "ABRIR CAJA;"+ ultimocierre.FECHA_HORA_CIERRE;
+                respuesta = "ABRIR CAJA";
             }
             return respuesta;
         }
@@ -215,6 +225,14 @@ namespace ColinaApplication.Controllers
             
             var archivoCsvFinal = new KeyValuePair<string, byte[]>(nombreArchivo, bytesArchivoCsv);
             return archivoCsvFinal;
+        }
+
+        public JsonResult ReImprimir()
+        {
+            var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString())).FECHA_HORA_APERTURA);
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.ImprimirCierre(solicitudes, Convert.ToDecimal(Session["IdUsuario"].ToString()))), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
     }
 }
