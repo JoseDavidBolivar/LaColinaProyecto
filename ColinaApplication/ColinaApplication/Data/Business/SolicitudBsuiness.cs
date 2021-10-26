@@ -486,8 +486,8 @@ namespace ColinaApplication.Data.Business
             printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
             {
                 //CONSULTA SOLICITUD
-                var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));                
-                
+                var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
+
                 //FORMATO FACTURA
                 Font body = new Font("MS Mincho", 12);
                 Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
@@ -498,9 +498,24 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
                 e.Graphics.DrawString("" + cantidad, body, Brushes.Black, new RectangleF(0, 95, ancho, 20));
                 e.Graphics.DrawString("" + producto.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95, ancho, 20));
-                e.Graphics.DrawString("" + descripcion, body, Brushes.Black, new RectangleF(30, 115, ancho, 20));
-                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 160, ancho, 20));
                 
+                //DAR FORMATO A DESCRIPCION
+                int tamañoDes = 0;
+                var descripcionAux = "";
+                int Ymargen = 0;
+                descripcion = descripcion.Replace("\n"," ");
+                while (descripcion.Length > 21)
+                {
+                    tamañoDes += 21;
+                    Ymargen += 20;
+                    descripcionAux = descripcion.Substring(0, 21);
+                    descripcion = descripcion.Substring(21, descripcion.Length - 21);
+                    e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
+                }
+                e.Graphics.DrawString("" + descripcion, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+
+                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 160 + Ymargen, ancho, 20));
+
             };
             printDocument1.Print();
             respuesta = true;

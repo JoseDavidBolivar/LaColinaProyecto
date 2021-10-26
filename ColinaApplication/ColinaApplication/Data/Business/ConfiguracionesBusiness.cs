@@ -424,6 +424,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.DIRECCION_RESIDENCIA = model.DIRECCION_RESIDENCIA;
                         actualiza.TELEFONO = model.TELEFONO;
                         actualiza.ESTADO = model.ESTADO;
+                        actualiza.FECHA_PAGO = model.FECHA_PAGO;
                         contex.SaveChanges();
                         Respuesta = true;
                     }

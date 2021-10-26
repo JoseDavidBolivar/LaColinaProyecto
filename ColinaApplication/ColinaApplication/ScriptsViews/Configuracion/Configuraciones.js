@@ -156,7 +156,7 @@ function LimpiaCamposPerfil() {
     $("#NombrePerfil").val("");
     $("#PorcentajePropinaPerfil").val("");
 }
-function EditarNomina(id, idusuariosistema, idperfil, cedula, nombre, cargo, sueldodiario, fechanacimiento, direccion, telefono, estado) {
+function EditarNomina(id, idusuariosistema, idperfil, cedula, nombre, cargo, sueldodiario, fechanacimiento, direccion, telefono, estado, ultimoPago) {
     $("#IdNomina").val(id);
     $("#IdUsuarioSistemaNomina").val(idusuariosistema);
     $("#IdPerfilNomina").val(idperfil);
@@ -168,6 +168,7 @@ function EditarNomina(id, idusuariosistema, idperfil, cedula, nombre, cargo, sue
     $("#DireccionResidenciaNomina").val(direccion);
     $("#TelefonoNomina").val(telefono);
     $("#EstadoNomina").val(estado);
+    $("#FechaUltimoPagoNomina").val(ultimoPago);
 }
 function LimpiaCamposNomina() {
     $("#IdNomina").val("");
@@ -181,6 +182,7 @@ function LimpiaCamposNomina() {
     $("#DireccionResidenciaNomina").val("");
     $("#TelefonoNomina").val("");
     $("#EstadoNomina").val("");
+    $("#FechaUltimoPagoNomina").val("");
 }
 
 

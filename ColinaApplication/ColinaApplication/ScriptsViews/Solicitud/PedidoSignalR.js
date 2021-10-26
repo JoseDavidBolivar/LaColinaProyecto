@@ -1,6 +1,7 @@
 ﻿
-var connectPSR;
-var ProductosSolicitudVector;
+let connectPSR;
+let ProductosSolicitudVector;
+let descripcion;
 
 $(function PedidoSignalR() {
 
@@ -21,13 +22,18 @@ function Registra_EventosPSR(connectpsr) {
     $('#AgregaProductos').click(function () {
         cargando();
         if ($('#ID_PRODUCTO').val() != "" && $('#PRECIO_PRODUCTO').val() != "") {
-            var CantiVender = parseInt($("#contador").val());
+            let CantiVender = parseInt($("#contador").val());
+            let descripcion;
+            if ($('#Adiciones').val() != "")
+                descripcion = $('#Adiciones').val().toUpperCase();
+            else
+                descripcion = "";
             var model = {
                 ID_SOLICITUD: $('#ID').val(),
                 ID_PRODUCTO: $('#ID_PRODUCTO').val(),
                 ID_MESERO: User,
                 PRECIO_PRODUCTO: $('#PRECIO_PRODUCTO').val(),
-                DESCRIPCION: $('#Adiciones').val()
+                DESCRIPCION: descripcion
             };
             //ENVIA AL METODO INSERTAR
             connectpsr.server.insertaProductosSolicitud(model, CantiVender, $('#ID_MESA').val());
@@ -328,13 +334,13 @@ function ActualizaInfoProductos(data) {
         var color = '#a90000';
         if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
             color = '#5cb85c';
-        let descripcion = data[0].ProductosSolicitud[i].Descripcion;
+        descripcion = data[0].ProductosSolicitud[i].Descripcion;
         if (IdPerfil == 1) {            
             code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')"></i>' +
-                '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',\'' + descripcion + '\', ' + data[0].IdMesa +')"></i >';
+                '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].IdMesa +')"></i >';
         }
         else {
-            code = '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',\'' + descripcion + '\',' + data[0].IdMesa +')"></i >';
+            code = '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].IdMesa +')"></i >';
         }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
@@ -441,7 +447,7 @@ function CancelaProductoxId(idProducto) {
 }
 
 //REENVIA PRODUCTOS A IMPRESORAS
-function ReEnviaProducto(idproducto, descripcion, idmesa) {
+function ReEnviaProducto(idproducto, idmesa) {
     connectPSR.server.imprimeProductos(1, idproducto, descripcion, idmesa);
 }
 

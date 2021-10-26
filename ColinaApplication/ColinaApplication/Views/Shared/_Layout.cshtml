@@ -50,7 +50,7 @@
                     {
                         <li style="padding: 5px;">@Html.ActionLink("Ventas", "Ingresos", "Ventas")</li>
                     }
-                    @if (Session["IdPerfil"].ToString() == "1" || Session["IdPerfil"].ToString() == "2")
+                    @if (Session["IdPerfil"].ToString() == "1")
                     {
                         <li style="padding: 5px;">@Html.ActionLink("Nomina", "Gastos", "Ventas")</li>
                     }

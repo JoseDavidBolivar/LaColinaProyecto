@@ -102,7 +102,10 @@ namespace ColinaApplication.Hubs
             model.ID_MESA = Convert.ToDecimal(IdMesa);
             model.IDENTIFICACION_CLIENTE = Cedula;
             model.NOMBRE_CLIENTE = NombreCliente;
-            model.OBSERVACIONES = Observaciones;
+            if(!string.IsNullOrEmpty(Observaciones))
+                model.OBSERVACIONES = Observaciones.ToUpper();
+            else
+                model.OBSERVACIONES = Observaciones;
             model.ESTADO_SOLICITUD = Estado;
             model.OTROS_COBROS = string.IsNullOrEmpty(OtrosCobros) ? 0 : Convert.ToDecimal(OtrosCobros);
             model.DESCUENTOS = string.IsNullOrEmpty(Descuentos) ? 0 : Convert.ToDecimal(Descuentos);

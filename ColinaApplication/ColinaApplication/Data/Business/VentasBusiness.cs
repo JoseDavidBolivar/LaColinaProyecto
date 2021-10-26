@@ -154,7 +154,7 @@ namespace ColinaApplication.Data.Business
                                    Total = a.TOTAL,
                                    MetodoPago = a.METODO_PAGO,
                                    Voucher = a.VOUCHER,
-                                   Efectivo = a.CANT_EFECTIVO                                   
+                                   Efectivo = a.CANT_EFECTIVO
                                }).ToList();
                 var idSolicitudes = solicitudes.Select(x => x.NroFactura).ToList();
                 var productosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(x => idSolicitudes.Any(y => x.ID_SOLICITUD == y)).ToList();
@@ -246,7 +246,7 @@ namespace ColinaApplication.Data.Business
                     {
                         //solicitud.ProductosSolicitud = new List<ProductosSolicitud>();
                     }
-                }                
+                }
             }
             return solicitud;
         }
@@ -387,7 +387,8 @@ namespace ColinaApplication.Data.Business
                     TBL_NOMINA actualiza = new TBL_NOMINA();
                     TBL_DIAS_TRABAJADOS actualiza2 = new TBL_DIAS_TRABAJADOS();
                     actualiza = contex.TBL_NOMINA.Where(a => a.ID == IdUsuarioNomina).FirstOrDefault();
-                    if (actualiza != null)
+                    bool impresionNomina = ImprimirNomina(IdUsuarioNomina);
+                    if (actualiza != null && impresionNomina)
                     {
                         var fechaPago = DateTime.Now;
                         List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
@@ -449,7 +450,7 @@ namespace ColinaApplication.Data.Business
                 }
                 var productosAgrupados = AgrupaProductos(productosSolicitudes);
                 var ultimoCierre = CierreUsuarioId(idUsuario);
-                
+
                 //FORMATO FACTURA
                 Font Titulo = new Font("MS Mincho", 14, FontStyle.Bold);
                 Font body = new Font("MS Mincho", 10);
@@ -458,9 +459,9 @@ namespace ColinaApplication.Data.Business
                 int ancho = 280;
                 int YProductos = 0;
                 e.Graphics.DrawString("Cierre - Caja", Titulo, Brushes.Black, new RectangleF(85, 10, ancho, 20));
-                e.Graphics.DrawString("Fecha Apertura: "+ ultimoCierre.FECHA_HORA_APERTURA, body, Brushes.Black, new RectangleF(0, 60, ancho, 20));
-                e.Graphics.DrawString("Fecha Cierre: "+ultimoCierre.FECHA_HORA_CIERRE, body, Brushes.Black, new RectangleF(0, 75, ancho, 15));
-                e.Graphics.DrawString("Cajero: "+ usuario.CEDULA + " - "+ usuario.NOMBRE, body, Brushes.Black, new RectangleF(0, 90, ancho, 15));
+                e.Graphics.DrawString("Fecha Apertura: " + ultimoCierre.FECHA_HORA_APERTURA, body, Brushes.Black, new RectangleF(0, 60, ancho, 20));
+                e.Graphics.DrawString("Fecha Cierre: " + ultimoCierre.FECHA_HORA_CIERRE, body, Brushes.Black, new RectangleF(0, 75, ancho, 15));
+                e.Graphics.DrawString("Cajero: " + usuario.CEDULA + " - " + usuario.NOMBRE, body, Brushes.Black, new RectangleF(0, 90, ancho, 15));
                 e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 105, ancho, 15));
                 e.Graphics.DrawString("Productos", bodyNegrita, Brushes.Black, new RectangleF(0, 135, ancho, 15));
                 //LISTA LOS PRODUCTOS
@@ -474,12 +475,12 @@ namespace ColinaApplication.Data.Business
                     //PRECIO TOTAL
                     //e.Graphics.DrawString("" + item.IdMesero, body, Brushes.Black, new RectangleF((280 - (item.IdMesero.ToString().Length * 8)), 215 + YProductos, ancho, 15));
                 }
-                e.Graphics.DrawString("• Mesas atendidas:", bodyNegrita, Brushes.Black, new RectangleF(0, 180 + YProductos, ancho, 15));                
-                e.Graphics.DrawString(""+ ultimoCierre.CANT_MESAS_ATENDIDAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_MESAS_ATENDIDAS.ToString().Length * 8)), 180 + YProductos, ancho, 15));                
+                e.Graphics.DrawString("• Mesas atendidas:", bodyNegrita, Brushes.Black, new RectangleF(0, 180 + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_MESAS_ATENDIDAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_MESAS_ATENDIDAS.ToString().Length * 8)), 180 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Finalizadas:", body, Brushes.Black, new RectangleF(16, 195 + YProductos, ancho, 15));
-                e.Graphics.DrawString(""+ ultimoCierre.CANT_FINALIZADAS , body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_FINALIZADAS.ToString().Length * 8)), 195 + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_FINALIZADAS.ToString().Length * 8)), 195 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, 210 + YProductos, ancho, 15));
-                e.Graphics.DrawString(""+ ultimoCierre.TOTAL_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_FINALIZADAS.ToString().Length * 8)), 210 + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_FINALIZADAS.ToString().Length * 8)), 210 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Consumo Interno:", body, Brushes.Black, new RectangleF(16, 225 + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.CANT_CONSUMO_INTERNO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_CONSUMO_INTERNO.ToString().Length * 8)), 225 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, 240 + YProductos, ancho, 15));
@@ -490,14 +491,14 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("" + ultimoCierre.TOTAL_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CANCELADAS.ToString().Length * 8)), 270 + YProductos, ancho, 15));
 
                 e.Graphics.DrawString("• Otros Cobros:", bodyNegrita, Brushes.Black, new RectangleF(0, 300 + YProductos, ancho, 15));
-                e.Graphics.DrawString(""+ultimoCierre.OTROS_COBROS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.OTROS_COBROS_TOTAL.ToString().Length * 8)), 300 + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.OTROS_COBROS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.OTROS_COBROS_TOTAL.ToString().Length * 8)), 300 + YProductos, ancho, 15));
 
                 e.Graphics.DrawString("• Descuentos:", bodyNegrita, Brushes.Black, new RectangleF(0, 330 + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.DESCUENTOS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.DESCUENTOS_TOTAL.ToString().Length * 8)), 330 + YProductos, ancho, 15));
 
                 e.Graphics.DrawString("• Impuestos:", bodyNegrita, Brushes.Black, new RectangleF(0, 360 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> I.V.A.:", body, Brushes.Black, new RectangleF(16, 375 + YProductos, ancho, 15));
-                e.Graphics.DrawString(""+ultimoCierre.IVA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.IVA_TOTAL.ToString().Length * 9)), 375 + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.IVA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.IVA_TOTAL.ToString().Length * 9)), 375 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Impuesto Consumo: ", body, Brushes.Black, new RectangleF(16, 390 + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.I_CONSUMO_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.I_CONSUMO_TOTAL.ToString().Length * 8)), 390 + YProductos, ancho, 15));
                 e.Graphics.DrawString("-> Servicio: ", body, Brushes.Black, new RectangleF(16, 405 + YProductos, ancho, 15));
@@ -532,6 +533,86 @@ namespace ColinaApplication.Data.Business
                 resultado.Add(model);
             }
             return resultado;
+        }
+        public bool ImprimirNomina(decimal id)
+        {
+            bool respuesta;
+            PrintDocument printDocument1 = new PrintDocument();
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            printDocument1.PrinterSettings.PrinterName = "CAJA";
+            printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+            {
+                //CONSULTA USUARIO EN NOMINA
+                var usuarioNomina = ConsultaUsuarioNomina(id);
+
+                //FORMATO FACTURA
+                Font Titulo = new Font("MS Mincho", 14, FontStyle.Bold);
+                Font body = new Font("MS Mincho", 10);
+                Font bodyNegrita = new Font("MS Mincho", 11, FontStyle.Bold);
+                int ancho = 280;
+                int Ymargen = 0;
+
+                e.Graphics.DrawString("PAGO - NÓMINA", Titulo, Brushes.Black, new RectangleF(70, 10, ancho, 20));
+                e.Graphics.DrawString("Fecha: " + DateTime.Now, body, Brushes.Black, new RectangleF(0, 60, ancho, 20));
+                e.Graphics.DrawString("Identificación: " + usuarioNomina.Cedula, body, Brushes.Black, new RectangleF(0, 75, ancho, 15));
+                e.Graphics.DrawString("Nombre: " + usuarioNomina.NombreUsuario, body, Brushes.Black, new RectangleF(0, 90, ancho, 20));
+                e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 105, ancho, 15));
+
+                e.Graphics.DrawString("Dias trabajados: ", bodyNegrita, Brushes.Black, new RectangleF(0, 135, ancho, 15));
+                foreach (var item in usuarioNomina.FechasAsignadas)
+                {
+                    Ymargen += 15;
+                    e.Graphics.DrawString("* " + item.ToString("dd-MM-yyyy"), body, Brushes.Black, new RectangleF(0, 135 + Ymargen, ancho, 15));
+                }
+
+                e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 165 + Ymargen, ancho, 15));
+                e.Graphics.DrawString("Sueldo diario: " + usuarioNomina.SuledoDiario, body, Brushes.Black, new RectangleF(0, 180 + Ymargen, ancho, 15));
+                e.Graphics.DrawString("Propinas: " + usuarioNomina.Propinas, body, Brushes.Black, new RectangleF(0, 195 + Ymargen, ancho, 15));
+                e.Graphics.DrawString("Deudas: " + usuarioNomina.ConsumoInterno, body, Brushes.Black, new RectangleF(0, 210 + Ymargen, ancho, 15));
+                
+                e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 225 + Ymargen, ancho, 15));
+                e.Graphics.DrawString("TOTAL: " + usuarioNomina.TotalPagar, bodyNegrita, Brushes.Black, new RectangleF(0, 270 + Ymargen, ancho, 15));
+                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(0, 355 + Ymargen, ancho, 15));
+
+            };
+            printDocument1.Print();
+            respuesta = true;
+            return respuesta;
+        }
+        public ConsultaNomina ConsultaUsuarioNomina(decimal id)
+        {
+            ConsultaNomina usuarioNomina = new ConsultaNomina();
+
+            using (DBLaColina context = new DBLaColina())
+            {
+                usuarioNomina = (from a in context.TBL_NOMINA
+                                 where a.ID == id
+                                 select new ConsultaNomina
+                                 {
+                                     Id = a.ID,
+                                     IdUsuarioSistema = a.ID_USUARIO_SISTEMA,
+                                     NombreUsuarioSistema = context.TBL_USUARIOS.Where(x => x.ID == a.ID_USUARIO_SISTEMA).FirstOrDefault().NOMBRE != null ? context.TBL_USUARIOS.Where(x => x.ID == a.ID_USUARIO_SISTEMA).FirstOrDefault().NOMBRE : "N/A",
+                                     IdPerfil = a.ID_PERFIL,
+                                     NombrePerfil = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().NOMBRE_PERFIL,
+                                     Cedula = a.CEDULA,
+                                     NombreUsuario = a.NOMBRE,
+                                     Cargo = a.CARGO,
+                                     SuledoDiario = a.SUELDO_DIARIO,
+                                     DiasTrabajados = a.DIAS_TRABAJADOS,
+                                     Propinas = a.PROPINAS,
+                                     PorcentajeGananciaPropina = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA,
+                                     FechaPago = a.FECHA_PAGO,
+                                     FechaNacimmiento = a.FECHA_NACIMIENTO,
+                                     DireccionResidencia = a.DIRECCION_RESIDENCIA,
+                                     Telefono = a.TELEFONO,
+                                     TotalPagar = a.TOTAL_PAGAR,
+                                     ConsumoInterno = a.CONSUMO_INTERNO
+                                 }).FirstOrDefault();
+                if(usuarioNomina != null)
+                    usuarioNomina.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= usuarioNomina.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();            
+            }
+            return usuarioNomina;
         }
     }
 }
