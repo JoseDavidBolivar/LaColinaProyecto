@@ -21,6 +21,7 @@ $(function PedidoSignalR() {
 function Registra_EventosPSR(connectpsr) {
     //BOTON DE GUARDAR PRODUCTOS
     $('#AgregaProductos').click(function () {
+        $("#AgregaProductos").attr("disabled");
         cargando();
         if ($('#ID_PRODUCTO').val() != "" && $('#PRECIO_PRODUCTO').val() != "") {
             let CantiVender = parseInt($("#contador").val());
@@ -98,6 +99,7 @@ function Llama_MetodosPSR(connectpsr) {
                         btnClass: 'btn-success',
                         action: function () {
                             CargaCategorias();
+                            $("#AgregaProductos").removeAttr("disabled");
                         }
                     }
                 }
