@@ -213,6 +213,7 @@ namespace ColinaApplication.Data.Business
                     if (actualiza != null)
                     {
                         actualiza.ID_MESA = model.ID_MESA;
+                        actualiza.ID_MESERO = model.ID_MESERO;
                         actualiza.IDENTIFICACION_CLIENTE = model.IDENTIFICACION_CLIENTE;
                         actualiza.NOMBRE_CLIENTE = model.NOMBRE_CLIENTE;
                         actualiza.ESTADO_SOLICITUD = model.ESTADO_SOLICITUD;
@@ -520,6 +521,15 @@ namespace ColinaApplication.Data.Business
             printDocument1.Print();
             respuesta = true;
             return respuesta;
+        }
+        public List<TBL_USUARIOS> ListaMeseros()
+        {
+            List<TBL_USUARIOS> ListMeseros = new List<TBL_USUARIOS>();
+            using (DBLaColina context = new DBLaColina())
+            {
+                ListMeseros = context.TBL_USUARIOS.Where(x => x.ID_PERFIL == 3).ToList();
+            }
+            return ListMeseros;
         }
 
 

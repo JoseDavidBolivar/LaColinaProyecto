@@ -6,6 +6,7 @@ let descripcion;
 $(function PedidoSignalR() {
 
     CargaCategorias();
+    CargaMeseros();
     connectPSR = $.connection.solicitudhub;
 
     Llama_MetodosPSR(connectPSR);
@@ -237,6 +238,7 @@ function ActualizaInfoMesa(data)  {
             '</div>' +
             '</div>');
     }
+    $("#ID_MESERO").val(data[0].IdMesero)
     $("#ESTADO_SOLICITUD").val(data[0].EstadoSolicitud)
     $("#OBSERVACIONES").val(data[0].Observaciones);
 }
@@ -489,6 +491,29 @@ function CargaCategorias() {
 
     });
 }
+function CargaMeseros() {
+    $("#selectMeseros").append("<option value=''>--SELECCIONE--</option>");
+    $.ajax({
+        type: "POST",
+        url: urlListaMeseros,
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        success: function (result) {
+            var json = JSON.parse(result);
+            if (json.length > 0) {
+                for (var index = 0, len = json.length; index < len; index++) {
+                    $('#selectMeseros').append($('<option>', {
+                        value: json[index].ID,
+                        text: json[index].NOMBRE
+                    }));
+                }
+            }
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    });
+}
 function CargaProducto(id) {
     $("#setProducto").empty();
     $("#tableProductos").css("display", "block");
@@ -550,7 +575,7 @@ function CargaAdiciones(id, precio) {
 function GuardarDatosCliente() {
     $("#GuardaDatosCliente").attr("disabled", "true");
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
     $.alert({
         theme: 'Modern',
         icon: 'fa fa-check',
@@ -612,7 +637,7 @@ function PagarFactura() {
                                                         if (Imprime == "SI")
                                                             connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                                            $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val(), "0");
+                                                            $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "TARJETA", $("#numAprobacionVoucher").val(), "0", $("#ID_MESERO").val());
                                                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
                                                     }
                                                     else {
@@ -630,7 +655,7 @@ function PagarFactura() {
                                     if ($('input:checkbox[name=Check1]:checked').val() == "SI")
                                         connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val());
+                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val(), $("#ID_MESERO").val());
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
                                 }
@@ -669,7 +694,7 @@ function PagarFactura() {
                                                                             if (Imprime == "SI")
                                                                                 connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                                             connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                                                                $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher2").val(), cantEfectivo);
+                                                                                $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "AMBAS", $("#numAprobacionVoucher2").val(), cantEfectivo, $("#ID_MESERO").val());
                                                                             connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
                                                                         }
                                                                         else {
@@ -758,7 +783,7 @@ function CancelaPedido() {
                                 btnClass: 'btn btn-danger',
                                 action: function () {
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
+                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0", $("#ID_MESERO").val());
                                     connectPSR.server.cancelaPedido($("#ID").val(), true);
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
@@ -768,7 +793,7 @@ function CancelaPedido() {
                                 btnClass: 'btn btn-danger',
                                 action: function () {
                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
+                                        $("#SubTotal").val(), "CANCELA PEDIDO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0", $("#ID_MESERO").val());
                                     connectPSR.server.cancelaPedido($("#ID").val(), false);
                                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
 
@@ -802,7 +827,7 @@ function AsignarLlevar() {
                 btnClass: 'btn btn-warning',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#SubTotal").val(), "LLEVAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
+                        $("#SubTotal").val(), "LLEVAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "ESPERA", User, "NO", "");
                 }
             },
@@ -830,7 +855,7 @@ function AsignarAsignaMesa() {
                 btnClass: 'btn btn-success',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                        $("#SubTotal").val(), "ABIERTA", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
+                        $("#SubTotal").val(), "ABIERTA", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
                     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "OCUPADO", User, "NO", "");
                 }
             },
@@ -859,7 +884,7 @@ function ConsumoInterno() {
                     btnClass: 'btn btn-primary',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0");
+                            $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0", $("#ID_MESERO").val());
                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
                         $.alert({
                             theme: 'Modern',
@@ -926,7 +951,7 @@ function InhabilitarMesa() {
                     btnClass: 'btn btn-default',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                            $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0");
+                            $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
                         connectPSR.server.actualizaMesa($("#ID_MESA").val(), "NO DISPONIBLE", User, "NO", "");
                         connectPSR.server.listarEstadoMesas("SI", $("#ID_MESA").val(), "../Solicitud/SeleccionarMesa");
                     }
@@ -969,7 +994,7 @@ function CierraModalCM() {
 }
 function CambioMesa(id, Estado) {
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "", "0");    
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());    
     connectPSR.server.actualizaMesa(id, Estado, User, "NO", "");
     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
     connectPSR.server.actualizaIdmesaHTML(id, $("#ID_MESA").val());
@@ -1032,7 +1057,7 @@ function Encriptar(texto) {
         });
     })
 }
-
-function alerta() {
-    console.log('123');
+function CambiaMesero(idMesero) {
+    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", idMesero);
 }

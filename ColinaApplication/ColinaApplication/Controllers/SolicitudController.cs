@@ -55,14 +55,18 @@ namespace ColinaApplication.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-
         public JsonResult Encriptar(string Texto)
         {
             var jsonResult = Json(JsonConvert.SerializeObject(encriptacion.Encriptar(Texto)), JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-
+        public JsonResult ListaMeseros()
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(solicitud.ListaMeseros()), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
 
     }
 }

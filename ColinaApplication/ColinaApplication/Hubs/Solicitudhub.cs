@@ -95,10 +95,11 @@ namespace ColinaApplication.Hubs
                 ConsultaMesaAbierta(idMesa);
             }
         }
-        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo)
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo, decimal idMesero)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
             model.ID = Id;
+            model.ID_MESERO = idMesero;
             model.ID_MESA = Convert.ToDecimal(IdMesa);
             model.IDENTIFICACION_CLIENTE = Cedula;
             model.NOMBRE_CLIENTE = NombreCliente;
