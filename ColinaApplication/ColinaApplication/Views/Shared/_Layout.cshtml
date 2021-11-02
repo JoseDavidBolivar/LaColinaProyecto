@@ -59,7 +59,7 @@
                         <li style="padding: 5px;">@Html.ActionLink("Configuración", "Configuraciones", "Configuracion")</li>
                     }
                     <li style="padding: 5px;">
-                        <a href="@Url.Action("Salir", "Home")">
+                        <a id="CerrarSesion" href="@Url.Action("Salir", "Home")">
                             <i class="fa fa-2x fa-sign-out" style="color: white; cursor: pointer;"></i>
                         </a>
                     </li>
@@ -91,7 +91,7 @@
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/Jquery-confirm.js"></script>
 
-    <script src="~/ScriptsViews/Shared/AlertasLayout.js?1.0.5"></script>
+    <script src="~/ScriptsViews/Shared/AlertasLayout.js?1.0.6"></script>
 
 
 </body>
