@@ -338,13 +338,13 @@ function ActualizaInfoProductos(data) {
         var color = '#a90000';
         if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
             color = '#5cb85c';
-        descripcion = data[0].ProductosSolicitud[i].Descripcion;
+        descripcion = data[0].ProductosSolicitud[i].Descripcion.toString();
         if (IdPerfil == 1) {            
             code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')"></i>' +
-                '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].IdMesa +')"></i >';
+                '<i id="' + descripcion +'" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa +')"></i >';
         }
         else {
-            code = '<i class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ',' + data[0].IdMesa +')"></i >';
+            code = '<i id="'+descripcion+'" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa +')"></i >';
         }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
@@ -451,8 +451,8 @@ function CancelaProductoxId(idProducto) {
 }
 
 //REENVIA PRODUCTOS A IMPRESORAS
-function ReEnviaProducto(idproducto, idmesa) {
-    connectPSR.server.imprimeProductos(1, idproducto, idmesa);
+function ReEnviaProducto(idproducto, description, idmesa) {
+    connectPSR.server.imprimeProductos(1, idproducto, description, idmesa);
 }
 
 
