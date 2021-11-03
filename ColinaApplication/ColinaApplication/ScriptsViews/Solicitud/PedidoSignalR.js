@@ -452,7 +452,7 @@ function CancelaProductoxId(idProducto) {
 
 //REENVIA PRODUCTOS A IMPRESORAS
 function ReEnviaProducto(idproducto, idmesa) {
-    connectPSR.server.imprimeProductos(1, idproducto, descripcion, idmesa);
+    connectPSR.server.imprimeProductos(1, idproducto, idmesa);
 }
 
 

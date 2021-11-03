@@ -460,7 +460,7 @@ namespace ColinaApplication.Data.Business
             }
             return resultado;
         }
-        public bool ImprimirPedido(string cantidad, string idproducto, string descripcion, string idMesa)
+        public bool ImprimirPedido(string cantidad, string idproducto, string idMesa)
         {
             bool respuesta;
             PrintDocument printDocument1 = new PrintDocument();
@@ -504,16 +504,16 @@ namespace ColinaApplication.Data.Business
                 int tamañoDes = 0;
                 var descripcionAux = "";
                 int Ymargen = 0;
-                descripcion = descripcion.Replace("\n"," ");
-                while (descripcion.Length > 21)
+                producto.DESCRIPCION = producto.DESCRIPCION.Replace("\n"," ");
+                while (producto.DESCRIPCION.Length > 21)
                 {
                     tamañoDes += 21;
                     Ymargen += 20;
-                    descripcionAux = descripcion.Substring(0, 21);
-                    descripcion = descripcion.Substring(21, descripcion.Length - 21);
+                    descripcionAux = producto.DESCRIPCION.Substring(0, 21);
+                    producto.DESCRIPCION = producto.DESCRIPCION.Substring(21, producto.DESCRIPCION.Length - 21);
                     e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
                 }
-                e.Graphics.DrawString("" + descripcion, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                e.Graphics.DrawString("" + producto.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
 
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 160 + Ymargen, ancho, 20));
 

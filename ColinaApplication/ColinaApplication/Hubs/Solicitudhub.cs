@@ -133,9 +133,9 @@ namespace ColinaApplication.Hubs
             bool respuesta = solicitud.ImprimirFactura(IdMesa);
             ConsultaMesaAbierta(IdMesa);
         }
-        public bool ImprimeProductos(string cantidad, string idproducto, string descripcion, string idMesa)
+        public bool ImprimeProductos(string cantidad, string idproducto, string idMesa)
         {
-            bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion, idMesa);
+            bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, idMesa);
             return respuesta;
         }
         public void ActualizaIdmesaHTML(string idmesa, string idmesaAnterior)
