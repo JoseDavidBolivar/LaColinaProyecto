@@ -16,7 +16,7 @@ namespace Entity
         public decimal? Cedula { get; set; }
         public string NombreUsuario { get; set; }
         public string Cargo { get; set; }
-        public decimal? SuledoDiario { get; set; }
+        public List<decimal?> SuledoDiario { get; set; }
         public decimal? DiasTrabajados { get; set; }
         public decimal? Propinas { get; set; }
         public decimal? PorcentajeGananciaPropina { get; set; }

@@ -166,9 +166,9 @@ namespace ColinaApplication.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
-        public JsonResult AsignarDiaTrabajo(decimal IdNomina, DateTime FechaTrabajada)
+        public JsonResult AsignarDiaTrabajo(decimal IdNomina, DateTime FechaTrabajada, decimal SueldoDiario)
         {
-            var jsonResult = Json(JsonConvert.SerializeObject(ventas.AsignaDiaTrabajo(IdNomina, FechaTrabajada)), JsonRequestBehavior.AllowGet);
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.AsignaDiaTrabajo(IdNomina, FechaTrabajada, SueldoDiario)), JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }

@@ -43,6 +43,7 @@
     <Property Name="FECHA_TRABAJADO" Type="datetime" />
     <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FECHA_PAGO" Type="datetime" />
+    <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_IMPRESORAS">
     <Key>
@@ -82,7 +83,6 @@
     <Property Name="CEDULA" Type="numeric" Precision="18" Scale="0" />
     <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
     <Property Name="CARGO" Type="varchar" MaxLength="255" />
-    <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="DIAS_TRABAJADOS" Type="numeric" Precision="18" Scale="0" />
     <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FECHA_PAGO" Type="datetime" />

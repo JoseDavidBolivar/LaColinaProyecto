@@ -419,7 +419,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.CEDULA = model.CEDULA;
                         actualiza.NOMBRE = model.NOMBRE;
                         actualiza.CARGO = model.CARGO;
-                        actualiza.SUELDO_DIARIO = model.SUELDO_DIARIO;
+                        
                         actualiza.FECHA_NACIMIENTO = model.FECHA_NACIMIENTO;
                         actualiza.DIRECCION_RESIDENCIA = model.DIRECCION_RESIDENCIA;
                         actualiza.TELEFONO = model.TELEFONO;

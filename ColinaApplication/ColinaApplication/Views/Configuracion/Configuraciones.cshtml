@@ -543,7 +543,7 @@
                                     <th>CEDULA</th>
                                     <th>NOMBRE</th>
                                     <th>CARGO</th>
-                                    <th>SUELDO DIARIO</th>
+                                    @*<th>SUELDO DIARIO</th>*@
                                     @*<th>DIAS TRABAJADOS</th>*@
                                     @*<th>PROPINAS</th>*@
                                     @*<th>ULTIMO DIA TRABAJADO</th>*@
@@ -579,9 +579,6 @@
                                             @Model.NominaEmpleados[i].CARGO
                                         </td>
                                         <td>
-                                            @Model.NominaEmpleados[i].SUELDO_DIARIO
-                                        </td>
-                                        <td>
                                             @Model.NominaEmpleados[i].FECHA_NACIMIENTO.Value.ToString("yyyy-MM-dd")
                                         </td>
 
@@ -598,7 +595,7 @@
                                             @Model.NominaEmpleados[i].FECHA_PAGO
                                         </td>
                                         <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarNomina('@Model.NominaEmpleados[i].ID', '@Model.NominaEmpleados[i].ID_USUARIO_SISTEMA', '@Model.NominaEmpleados[i].ID_PERFIL', '@Model.NominaEmpleados[i].CEDULA', '@Model.NominaEmpleados[i].NOMBRE', '@Model.NominaEmpleados[i].CARGO', '@Model.NominaEmpleados[i].SUELDO_DIARIO', '@Model.NominaEmpleados[i].FECHA_NACIMIENTO.Value.ToString("yyyy-MM-dd")', '@Model.NominaEmpleados[i].DIRECCION_RESIDENCIA', '@Model.NominaEmpleados[i].TELEFONO', '@Model.NominaEmpleados[i].ESTADO', '@Model.NominaEmpleados[i].FECHA_PAGO')"></i>
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarNomina('@Model.NominaEmpleados[i].ID', '@Model.NominaEmpleados[i].ID_USUARIO_SISTEMA', '@Model.NominaEmpleados[i].ID_PERFIL', '@Model.NominaEmpleados[i].CEDULA', '@Model.NominaEmpleados[i].NOMBRE', '@Model.NominaEmpleados[i].CARGO', '@Model.NominaEmpleados[i].FECHA_NACIMIENTO.Value.ToString("yyyy-MM-dd")', '@Model.NominaEmpleados[i].DIRECCION_RESIDENCIA', '@Model.NominaEmpleados[i].TELEFONO', '@Model.NominaEmpleados[i].ESTADO', '@Model.NominaEmpleados[i].FECHA_PAGO')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -633,10 +630,6 @@
                         <div class="col-md-12">
                             <small><b>Cargo:</b></small>
                             @Html.TextBoxFor(x => x.NominaEmpleadosModel.CARGO, new { @Id = "CargoNomina", Placeholder = "Digite el cargo del usuario", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
-                        </div>
-                        <div class="col-md-12">
-                            <small><b>Sueldo por DÍA:</b></small>
-                            @Html.TextBoxFor(x => x.NominaEmpleadosModel.SUELDO_DIARIO, new { @Id = "SueldoDiaNomina", Placeholder = "Digite el sueldo del usuario por día", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
                         </div>
                         <div class="col-md-12">
                             <small><b>Fecha Nacimiento:</b></small>
@@ -681,7 +674,7 @@
         var Posicion = '@TempData["Posicion"]';
         </script>
 
-        <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.14"></script>
+        <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.15"></script>
     }
 }
 else

@@ -268,7 +268,6 @@ namespace ColinaApplication.Data.Business
                               Cedula = a.CEDULA,
                               NombreUsuario = a.NOMBRE,
                               Cargo = a.CARGO,
-                              SuledoDiario = a.SUELDO_DIARIO,
                               DiasTrabajados = a.DIAS_TRABAJADOS,
                               Propinas = a.PROPINAS,
                               PorcentajeGananciaPropina = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA,
@@ -282,11 +281,12 @@ namespace ColinaApplication.Data.Business
                 foreach (var item in nomina)
                 {
                     item.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= item.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
+                    item.SuledoDiario = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= item.FechaPago.Value.Date).Select(x => x.SUELDO_DIARIO).ToList();
                 }
             }
             return nomina;
         }
-        public bool AsignaDiaTrabajo(decimal IdUsuarioNomina, DateTime fechaTrabajo)
+        public bool AsignaDiaTrabajo(decimal IdUsuarioNomina, DateTime fechaTrabajo, decimal sueldoDiario)
         {
             bool Respuesta = false;
             using (DBLaColina contex = new DBLaColina())
@@ -304,6 +304,7 @@ namespace ColinaApplication.Data.Business
                             TBL_DIAS_TRABAJADOS model = new TBL_DIAS_TRABAJADOS();
                             model.ID_USUARIO_NOMINA = IdUsuarioNomina;
                             model.FECHA_TRABAJADO = fechaTrabajo;
+                            model.SUELDO_DIARIO = sueldoDiario;
                             contex.TBL_DIAS_TRABAJADOS.Add(model);
                             actualiza.DIAS_TRABAJADOS += 1;
                             contex.SaveChanges();
@@ -359,12 +360,11 @@ namespace ColinaApplication.Data.Business
                                         actualiza2.PROPINAS = propinaFecha;
                                         contex.SaveChanges();
                                     }
-
                                 }
                             }
                         }
                         actualiza.PROPINAS = propinas;
-                        actualiza.TOTAL_PAGAR = ((actualiza.SUELDO_DIARIO * actualiza.DIAS_TRABAJADOS) + actualiza.PROPINAS);
+                        actualiza.TOTAL_PAGAR = ((contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Sum(x => x.SUELDO_DIARIO)) + propinas);
                         actualiza.CONSUMO_INTERNO = contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD == Estados.ConsumoInterno && x.FECHA_SOLICITUD >= actualiza.FECHA_PAGO).ToList().Where(x => Convert.ToDecimal(x.IDENTIFICACION_CLIENTE) == Convert.ToDecimal(actualiza.CEDULA)).Sum(x => x.TOTAL);
                         contex.SaveChanges();
                         Respuesta = true;
@@ -560,17 +560,18 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 105, ancho, 15));
 
                 e.Graphics.DrawString("Dias trabajados: ", bodyNegrita, Brushes.Black, new RectangleF(0, 135, ancho, 15));
-                foreach (var item in usuarioNomina.FechasAsignadas)
+                e.Graphics.DrawString("$$$ ", bodyNegrita, Brushes.Black, new RectangleF(256, 135, ancho, 15));
+                for (int i = 0; i < usuarioNomina.FechasAsignadas.Count; i++)
                 {
                     Ymargen += 15;
-                    e.Graphics.DrawString("* " + item.ToString("dd-MM-yyyy"), body, Brushes.Black, new RectangleF(0, 135 + Ymargen, ancho, 15));
+                    e.Graphics.DrawString("* " + usuarioNomina.FechasAsignadas[i].ToString("dd-MM-yyyy"), body, Brushes.Black, new RectangleF(0, 135 + Ymargen, ancho, 15));
+                    e.Graphics.DrawString("" + usuarioNomina.SuledoDiario[i], body, Brushes.Black, new RectangleF((280 - (usuarioNomina.SuledoDiario[i].ToString().Length * 8)), 135 + Ymargen, ancho, 15));
                 }
-
                 e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 165 + Ymargen, ancho, 15));
-                e.Graphics.DrawString("Sueldo diario: " + usuarioNomina.SuledoDiario, body, Brushes.Black, new RectangleF(0, 180 + Ymargen, ancho, 15));
+                
                 e.Graphics.DrawString("Propinas: " + usuarioNomina.Propinas, body, Brushes.Black, new RectangleF(0, 195 + Ymargen, ancho, 15));
                 e.Graphics.DrawString("Deudas: " + usuarioNomina.ConsumoInterno, body, Brushes.Black, new RectangleF(0, 210 + Ymargen, ancho, 15));
-                
+
                 e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 225 + Ymargen, ancho, 15));
                 e.Graphics.DrawString("TOTAL: " + usuarioNomina.TotalPagar, bodyNegrita, Brushes.Black, new RectangleF(0, 270 + Ymargen, ancho, 15));
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(0, 355 + Ymargen, ancho, 15));
@@ -598,7 +599,6 @@ namespace ColinaApplication.Data.Business
                                      Cedula = a.CEDULA,
                                      NombreUsuario = a.NOMBRE,
                                      Cargo = a.CARGO,
-                                     SuledoDiario = a.SUELDO_DIARIO,
                                      DiasTrabajados = a.DIAS_TRABAJADOS,
                                      Propinas = a.PROPINAS,
                                      PorcentajeGananciaPropina = context.TBL_PERFIL.Where(x => x.ID == a.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA,
@@ -609,8 +609,11 @@ namespace ColinaApplication.Data.Business
                                      TotalPagar = a.TOTAL_PAGAR,
                                      ConsumoInterno = a.CONSUMO_INTERNO
                                  }).FirstOrDefault();
-                if(usuarioNomina != null)
-                    usuarioNomina.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= usuarioNomina.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();            
+                if (usuarioNomina != null)
+                {
+                    usuarioNomina.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= usuarioNomina.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
+                    usuarioNomina.SuledoDiario = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= usuarioNomina.FechaPago.Value.Date).Select(x => x.SUELDO_DIARIO).ToList();
+                }
             }
             return usuarioNomina;
         }

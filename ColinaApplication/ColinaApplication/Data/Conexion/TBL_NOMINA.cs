@@ -20,7 +20,6 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<decimal> CEDULA { get; set; }
         public string NOMBRE { get; set; }
         public string CARGO { get; set; }
-        public Nullable<decimal> SUELDO_DIARIO { get; set; }
         public Nullable<decimal> DIAS_TRABAJADOS { get; set; }
         public Nullable<decimal> PROPINAS { get; set; }
         public Nullable<System.DateTime> FECHA_PAGO { get; set; }

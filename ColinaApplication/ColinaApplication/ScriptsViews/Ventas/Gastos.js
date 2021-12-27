@@ -18,57 +18,78 @@ function AsignarDia(idnomina) {
                 btnClass: 'btn btn-warning',
                 action: function () {
                     if ($("#FechaTrabajada").val() != "") {
-                        $.ajax({
-                            type: "POST",
-                            url: urlAsignarDiaTrabajo,
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify({ IdNomina: idnomina, FechaTrabajada: $("#FechaTrabajada").val() }),
-                            dataType: "JSON",
-                            success: function (result) {
-                                var json = JSON.parse(result);
-                                if (json == true) {
-                                    $.alert({
-                                        theme: 'Modern',
-                                        icon: 'fa fa-check',
-                                        boxWidth: '500px',
-                                        useBootstrap: false,
-                                        type: 'green',
-                                        title: 'Exitoso !',
-                                        content: 'Trabajador asignado a fecha seleccionada',
-                                        buttons: {
-                                            Continuar: {
-                                                btnClass: 'btn btn-success',
-                                                action: function () {
-                                                    location.reload();
+                        const fechaTrabaj = $("#FechaTrabajada").val();
+                        $.alert({
+                            theme: 'Modern',
+                            icon: 'fa fa-money',
+                            boxWidth: '500px',
+                            useBootstrap: false,
+                            type: 'orange',
+                            title: 'Valor día !',
+                            content: 'Por favor digite el sueldo del día: <br/><label><input id="SueldoDiarioI" type="number" class="form-control input-sm"></label><br>',
+                            buttons: {
+                                Continuar: {
+                                    btnClass: 'btn btn-warning',
+                                    action: function () {
+                                        if ($("#SueldoDiarioI").val() != "") {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: urlAsignarDiaTrabajo,
+                                                contentType: "application/json; charset=utf-8",
+                                                data: JSON.stringify({ IdNomina: idnomina, FechaTrabajada: fechaTrabaj, SueldoDiario: $("#SueldoDiarioI").val() }),
+                                                dataType: "JSON",
+                                                success: function (result) {
+                                                    var json = JSON.parse(result);
+                                                    if (json == true) {
+                                                        $.alert({
+                                                            theme: 'Modern',
+                                                            icon: 'fa fa-check',
+                                                            boxWidth: '500px',
+                                                            useBootstrap: false,
+                                                            type: 'green',
+                                                            title: 'Exitoso !',
+                                                            content: 'Trabajador asignado a fecha seleccionada',
+                                                            buttons: {
+                                                                Continuar: {
+                                                                    btnClass: 'btn btn-success',
+                                                                    action: function () {
+                                                                        location.reload();
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                    else {
+                                                        $.alert({
+                                                            theme: 'Modern',
+                                                            icon: 'fa fa-times',
+                                                            boxWidth: '500px',
+                                                            useBootstrap: false,
+                                                            type: 'red',
+                                                            title: 'Error Actualización !',
+                                                            content: 'La fecha seleccionada puede que ya se haya ingresado',
+                                                            buttons: {
+                                                                Si: {
+                                                                    btnClass: 'btn btn-danger',
+                                                                    action: function () {
+                                                                        location.reload();
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                },
+                                                error: function (request, status, error) {
+                                                    console.log(error);
                                                 }
-                                            }
+                                            });
                                         }
-                                    });
-                                }
-                                else {
-                                    $.alert({
-                                        theme: 'Modern',
-                                        icon: 'fa fa-times',
-                                        boxWidth: '500px',
-                                        useBootstrap: false,
-                                        type: 'red',
-                                        title: 'Error Actualización !',
-                                        content: 'La fecha seleccionada puede que ya se haya ingresado',
-                                        buttons: {
-                                            Si: {
-                                                btnClass: 'btn btn-danger',
-                                                action: function () {
-                                                    location.reload();
-                                                }
-                                            }
+                                        else {
+                                            AsignarDia(idnomina);
                                         }
-                                    });
+                                    }
                                 }
-                            },
-                            error: function (request, status, error) {
-                                console.log(error);
                             }
-
                         });
                     }
                     else {

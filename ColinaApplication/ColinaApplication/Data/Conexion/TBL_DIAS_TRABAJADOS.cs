@@ -19,5 +19,6 @@ namespace ColinaApplication.Data.Conexion
         public Nullable<System.DateTime> FECHA_TRABAJADO { get; set; }
         public Nullable<decimal> PROPINAS { get; set; }
         public Nullable<System.DateTime> FECHA_PAGO { get; set; }
+        public Nullable<decimal> SUELDO_DIARIO { get; set; }
     }
 }
