@@ -38,9 +38,12 @@ function Registra_Eventos(connect) {
 function Llama_Metodos(connect) {
     connect.client.Mesas = function (data) {
         console.log(window.location);
-        if (window.location.href.toString().includes('Solicitud/SeleccionarMesa')) {
-            location.reload();
-        }        
+        setInterval(function () {
+            if (window.location.href.toString().includes('Solicitud/SeleccionarMesa')) {
+                location.reload();
+            }
+        }, 5000);
+               
     }
 }
 
