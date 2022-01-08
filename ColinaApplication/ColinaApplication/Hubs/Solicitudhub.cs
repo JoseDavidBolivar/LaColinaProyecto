@@ -2,6 +2,7 @@
 using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
 using Entity;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using System;
@@ -59,31 +60,56 @@ namespace ColinaApplication.Hubs
             ConsultaMesa = solicitud.ConsultaSolicitudMesa(Convert.ToDecimal(Id));
             Clients.All.ListaDetallesMesa(ConsultaMesa);
         }
-        public void InsertaProductosSolicitud(TBL_PRODUCTOS_SOLICITUD model, int CantidadPlatos, string idMesa)
+        public void InsertaProductosSolicitud(List<TBL_PRODUCTOS_SOLICITUD> model, string idMesa)
         {
-            TBL_PRODUCTOS_SOLICITUD modelo = new TBL_PRODUCTOS_SOLICITUD();
-            modelo = model;
-            var cantidaddisponible = solicitud.ConsultaCantidadProducto(modelo.ID_PRODUCTO);
-            if (cantidaddisponible >= CantidadPlatos)
+            bool cantDisponible = true;
+            List<string> data = new List<string>();
+            List<TBL_PRODUCTOS_SOLICITUD> ConteoProductos = new List<TBL_PRODUCTOS_SOLICITUD>();
+
+            ConteoProductos = AgrupaProductos(model);
+            // VALIDA SI ALGUN PRODUCTO NO TIENE CANTIDAD EN EXISTENCIA
+            foreach (var item in ConteoProductos)
+            {
+                var cantidaddisponible = solicitud.ConsultaCantidadProducto(item.ID_PRODUCTO);
+                if (cantidaddisponible < item.ID)
+                {
+                    cantDisponible = false;
+                    data.Add(item.ESTADO_PRODUCTO);
+                }
+            }
+            
+            if (cantDisponible)
             {
                 //IMPRIMIR TICKET
-                bool resp = ImprimeProductos(Convert.ToString(CantidadPlatos), Convert.ToString(modelo.ID_PRODUCTO), modelo.DESCRIPCION, idMesa);
-                if (resp)
-                    modelo.ESTADO_PRODUCTO = Estados.Entregado;
-                else
-                    modelo.ESTADO_PRODUCTO = Estados.NoEntregado;
+                bool resp = solicitud.ImprimirPedidoFactura(model, Convert.ToDecimal(idMesa));
+                foreach (var item in model)
+                {
+                    if (resp)
+                        item.ESTADO_PRODUCTO = Estados.Entregado;
+                    else
+                        item.ESTADO_PRODUCTO = Estados.NoEntregado;
+                }
 
                 //ACTUALIZA CANTIDAD PRODUCTO
-                var ActualizaCantidadProducto = solicitud.ActualizaCantidadProducto(modelo.ID_PRODUCTO, (cantidaddisponible - CantidadPlatos));
-                for (int i = 0; i < CantidadPlatos; i++)
+                foreach (var item in ConteoProductos)
+                {
+                    var cantidaddisponible = solicitud.ConsultaCantidadProducto(item.ID_PRODUCTO);
+                    var ActualizaCantidadProducto = solicitud.ActualizaCantidadProducto(item.ID_PRODUCTO, (cantidaddisponible - item.ID));
+                }
+
+                for (int i = 0; i < model.Count; i++)
                 {
                     //INSERTA LOS PRODUCTOS EN LA SOLICITUD
-                    var InsertaSolicitud = solicitud.InsertaProductosSolicitud(modelo);
-                    if (InsertaSolicitud.ID != 0)
-                    {                        
-                        //ACTUALIZA TOTAL SOLICITUD
-                        var ActualizaSolicitud = solicitud.ActualizaTotalSolicitud(modelo.ID_SOLICITUD, modelo.PRECIO_PRODUCTO);
+                    for (int j = 0; j < model[i].ID; j++)
+                    {
+                        var InsertaSolicitud = solicitud.InsertaProductosSolicitud(model[i]);
+                        if (InsertaSolicitud.ID != 0)
+                        {
+                            //ACTUALIZA TOTAL SOLICITUD
+                            var ActualizaSolicitud = solicitud.ActualizaTotalSolicitud(model[i].ID_SOLICITUD, model[i].PRECIO_PRODUCTO);
+                        }
                     }
+                    
                     
                 }
                 Clients.Caller.GuardoProductos("Productos Insertados Exitosamente !");
@@ -91,9 +117,26 @@ namespace ColinaApplication.Hubs
             }
             else
             {
-                Clients.Caller.GuardoProductos("Producto agotado. Elige menos o tal vez el inventario ya se acabo !");
+                Clients.Caller.FaltaExistencias(data);
                 ConsultaMesaAbierta(idMesa);
             }
+        }
+        public List<TBL_PRODUCTOS_SOLICITUD> AgrupaProductos(List<TBL_PRODUCTOS_SOLICITUD> productosSolicitud)
+        {
+            List<TBL_PRODUCTOS_SOLICITUD> resultado = new List<TBL_PRODUCTOS_SOLICITUD>();
+            var distinctProductos = productosSolicitud.DistinctBy(c => c.ID_PRODUCTO).ToList();
+            foreach (var item in distinctProductos)
+            {
+                TBL_PRODUCTOS_SOLICITUD model = new TBL_PRODUCTOS_SOLICITUD();
+                //CANTIDAD DEL PRODUCTO
+                model.ID = productosSolicitud.Where(x => x.ID_PRODUCTO == item.ID_PRODUCTO).Sum(x => x.ID);
+                model.ID_PRODUCTO = item.ID_PRODUCTO;
+                //NOMBRE PRODUCTO
+                model.ESTADO_PRODUCTO = item.ESTADO_PRODUCTO;
+                
+                resultado.Add(model);
+            }
+            return resultado;
         }
         public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo, decimal idMesero)
         {

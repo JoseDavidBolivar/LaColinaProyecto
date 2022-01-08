@@ -2,6 +2,7 @@
 let connectPSR;
 let ProductosSolicitudVector;
 let descripcion;
+var ProductosPedido = [];
 
 $(function PedidoSignalR() {
 
@@ -22,24 +23,10 @@ function Registra_EventosPSR(connectpsr) {
     //BOTON DE GUARDAR PRODUCTOS
     $('#AgregaProductos').click(function () {
         cargando();
-        if ($('#ID_PRODUCTO').val() != "" && $('#PRECIO_PRODUCTO').val() != "") {
+        if (ProductosPedido.length > 0) {
             $("#AgregaProductos").attr("disabled", "disabled");
-            let CantiVender = parseInt($("#contador").val());
-            let descripcion;
-            if ($('#Adiciones').val() != "")
-                descripcion = $('#Adiciones').val().toUpperCase();
-            else
-                descripcion = "";
-            var model = {
-                ID_SOLICITUD: $('#ID').val(),
-                ID_PRODUCTO: $('#ID_PRODUCTO').val(),
-                ID_MESERO: User,
-                PRECIO_PRODUCTO: $('#PRECIO_PRODUCTO').val(),
-                DESCRIPCION: descripcion
-            };
             //ENVIA AL METODO INSERTAR
-            connectpsr.server.insertaProductosSolicitud(model, CantiVender, $('#ID_MESA').val());
-
+            connectpsr.server.insertaProductosSolicitud(ProductosPedido, $('#ID_MESA').val());
         }
         else {
             $.alert({
@@ -49,7 +36,7 @@ function Registra_EventosPSR(connectpsr) {
                 useBootstrap: false,
                 type: 'red',
                 title: 'Oops',
-                content: 'Debe seleccionar un producto antes de guardar !',
+                content: 'Debe seleccionar al menos un producto antes de enviar',
                 buttons: {
                     Ok: {
                         btnClass: 'btn-danger',
@@ -99,6 +86,8 @@ function Llama_MetodosPSR(connectpsr) {
                         btnClass: 'btn-success',
                         action: function () {
                             CargaCategorias();
+                            $("#setProductosElegidos").empty();
+                            ProductosPedido = [];
                             $("#AgregaProductos").removeAttr("disabled");
                         }
                     }
@@ -124,6 +113,29 @@ function Llama_MetodosPSR(connectpsr) {
                 }
             });
         }
+
+    }
+
+    //RECIBE EL METODO CUANDO NO HAY EXISTENCIAS DE ALGUNOS PRODUCTOS
+    connectpsr.client.FaltaExistencias = function (data) {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-question',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Error !',
+            content: "No hay existencias para " + data.toString() + ". Consulta con el administrador.",
+            buttons: {
+                Continuar: {
+                    btnClass: 'btn-danger',
+                    action: function () {
+                        CargaCategorias();
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -186,10 +198,10 @@ function Llama_MetodosPSR(connectpsr) {
                 default:
                     break;
             }
-        }        
+        }
         // SE REALIZA EL REDIRECCIONAMIENTO EN ESTE PUNTO YA QUE SI SE DEJA SOBRE ONCLICK DE CADA MESA, NO ACTUALIZA LA MESA
         if (Redirecciona == "SI" && idmesa == $("#ID_MESA").val()) {
-            
+
             window.location.href = ruta;
         }
     }
@@ -197,7 +209,7 @@ function Llama_MetodosPSR(connectpsr) {
 
 
 //METODOS DE ACTUALIZACION DE MESA, PRECIOS Y SOLICITUD EN GENERAL
-function ActualizaInfoMesa(data)  {
+function ActualizaInfoMesa(data) {
     if (data[0].EstadoSolicitud == "ABIERTA") {
         $("#DivLlevar").css("display", "block");
         $("#DivAsignar").css("display", "none");
@@ -339,12 +351,12 @@ function ActualizaInfoProductos(data) {
         if (data[0].ProductosSolicitud[i].EstadoProducto == "ENTREGADO")
             color = '#5cb85c';
         descripcion = data[0].ProductosSolicitud[i].Descripcion.toString();
-        if (IdPerfil == 1) {            
+        if (IdPerfil == 1) {
             code = '<i class="fa fa-2x fa-minus-square" style="color: #a90000; cursor:pointer;" onclick="CancelaProductoxId(' + data[0].ProductosSolicitud[i].Id + ',' + data[0].ProductosSolicitud[i].Id + ')"></i>' +
-                '<i id="' + descripcion +'" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa +')"></i >';
+                '<i id="' + descripcion + '" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa + ')"></i >';
         }
         else {
-            code = '<i id="'+descripcion+'" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa +')"></i >';
+            code = '<i id="' + descripcion + '" class="fa fa-2x fa-print" style="color: ' + color + '; cursor:pointer; margin-left: 5px;" onclick="ReEnviaProducto(' + data[0].ProductosSolicitud[i].IdProducto + ', this.id, ' + data[0].IdMesa + ')"></i >';
         }
         $("#BodyProductos").append('<tr>' +
             '<td>' +
@@ -479,7 +491,7 @@ function CargaCategorias() {
             if (json.length > 0) {
                 for (var index = 0, len = json.length; index < len; index++) {
                     $("#setCategoria").append('<div class="Categ" id="' + json[index].ID + '_Categ" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #ffc93163" onclick="CargaProducto(' + json[index].ID + ')">' +
-                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].CATEGORIA + '</b></div>' +
+                        '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].CATEGORIA + '</b></div>' +
                         '</div >');
                     if (index == 6 || index == 13 || index == 21) {
                         $("#setCategoria").append(br);
@@ -539,13 +551,13 @@ function CargaProducto(id) {
             if (json.length > 0) {
                 for (var index = 0, len = json.length; index < len; index++) {
                     if (json[index].CANTIDAD >= 1) {
-                        $("#setProducto").append('<div class="Prod" id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #f4a1247d;" onclick="CargaAdiciones(' + json[index].ID + ', ' + json[index].PRECIO + ')">' +
-                                '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                        $("#setProducto").append('<div class="Prod" id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #f4a1247d;" onclick="CargaAdiciones(' + json[index].ID + ', ' + json[index].PRECIO + ', \'' + json[index].NOMBRE_PRODUCTO + '\')">' +
+                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
                             '</div >');
                     }
                     else {
                         $("#setProducto").append('<div id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: not-allowed; background-color: #aa020273;">' +
-                                '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
                             '</div >');
                     }
                     if (index == 6 || index == 13 || index == 21) {
@@ -560,7 +572,7 @@ function CargaProducto(id) {
 
     });
 }
-function CargaAdiciones(id, precio) {
+function CargaAdiciones(id, precio, nomproducto) {
     $("#tableAdiciones").css("display", "block");
     $(".Prod").css("background-color", "#f4a1247d");
     $("#" + id + "_Producto").css("background-color", "#d4d4d4");
@@ -570,6 +582,8 @@ function CargaAdiciones(id, precio) {
     //ASIGNA A VARIABLES PARA GUARDAR
     $("#ID_PRODUCTO").val(id);
     $("#PRECIO_PRODUCTO").val(precio);
+    $("#NOMBREPRODUCTO").val(nomproducto);
+
 
 }
 
@@ -644,7 +658,7 @@ function PagarFactura() {
                                                     }
                                                     else {
                                                         PagarFactura();
-                                                    }                                                    
+                                                    }
                                                 }
                                             }
                                         }
@@ -985,7 +999,7 @@ function InhabilitarMesa() {
             }
         });
     }
-    
+
 }
 //METODOS PARA HACER CAMBIO DE MESA
 function CargaMesas() {
@@ -996,7 +1010,7 @@ function CierraModalCM() {
 }
 function CambioMesa(id, Estado) {
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());    
+        $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), id, $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
     connectPSR.server.actualizaMesa(id, Estado, User, "NO", "");
     connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "NO", "");
     connectPSR.server.actualizaIdmesaHTML(id, $("#ID_MESA").val());
@@ -1005,7 +1019,7 @@ function CambioMesa(id, Estado) {
     }).catch(() => {
         console.log('error');
     });
-    
+
 }
 
 
@@ -1062,4 +1076,60 @@ function Encriptar(texto) {
 function CambiaMesero(idMesero) {
     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
         $("#SubTotal").val(), $("#ESTADO_SOLICITUD").val(), $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", idMesero);
+}
+function AgregaProductosPedido() {
+    if ($('#ID_PRODUCTO').val() != "" && $('#PRECIO_PRODUCTO').val() != "") {
+        $("#AgregaPedido").attr("disabled", "disabled");
+        let descripcion;
+        if ($('#Adiciones').val() != "")
+            descripcion = $('#Adiciones').val().toUpperCase();
+        else
+            descripcion = "";
+        var model = {
+            ID: parseInt($("#contador").val()),
+            ID_SOLICITUD: $('#ID').val(),
+            ID_PRODUCTO: $('#ID_PRODUCTO').val(),
+            ID_MESERO: User,
+            PRECIO_PRODUCTO: $('#PRECIO_PRODUCTO').val(),
+            DESCRIPCION: descripcion,
+            ESTADO_PRODUCTO: $('#NOMBREPRODUCTO').val()
+        };
+        ProductosPedido.push(model);
+        $("#setProductosElegidos").empty();
+        for (var i = 0; i < ProductosPedido.length; i++) {
+            $("#setProductosElegidos").append("<tr><td>" + ProductosPedido[i].ID + "</td><td>" + ProductosPedido[i].ESTADO_PRODUCTO + "</td><td>" + ProductosPedido[i].DESCRIPCION +
+                "</td ><td><i class=\"fa fa-2x fa-minus-square\" style=\"color: #a90000; cursor: pointer; \" onclick=\"EliminaProductoLista('" + i + "')\"></i></td></tr> ");
+        }
+        //console.log(ProductosPedido);
+        CargaCategorias();
+        $("#AgregaPedido").removeAttr("disabled");
+    }
+    else {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Oops',
+            content: 'Debe seleccionar un producto antes de agergar a pedido',
+            buttons: {
+                Ok: {
+                    btnClass: 'btn-danger',
+                    action: function () {
+
+                    }
+                }
+            }
+        });
+    }
+}
+function EliminaProductoLista(idElemento) {
+    ProductosPedido.splice(idElemento, 1);
+    $("#setProductosElegidos").empty();
+    for (var i = 0; i < ProductosPedido.length; i++) {
+        $("#setProductosElegidos").append("<tr><td>" + ProductosPedido[i].ID + "</td><td>" + ProductosPedido[i].ESTADO_PRODUCTO + "</td><td>" + ProductosPedido[i].DESCRIPCION +
+            "</td ><td><i class=\"fa fa-2x fa-minus-square\" style=\"color: #a90000; cursor: pointer; \" onclick=\"EliminaProductoLista('" + i + "')\"></i></td></tr> ");
+    }
+    //console.log(ProductosPedido);
 }

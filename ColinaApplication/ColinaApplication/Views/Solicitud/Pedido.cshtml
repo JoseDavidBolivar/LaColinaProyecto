@@ -15,6 +15,7 @@
         @Html.HiddenFor(m => m.ID_MESERO, new { @Id = "ID_MESERO" })
         <input id="ID_PRODUCTO" type="hidden" />
         <input id="PRECIO_PRODUCTO" type="hidden" />
+        <input id="NOMBREPRODUCTO" type="hidden"/> 
     </div>
     <div class="col-md-12">
         <div class="col-md-4">
@@ -154,13 +155,51 @@
                         </div>
                         <br />
                         <br />
+                        <br />
                         <table style="width: 100%;">
                             <tr>
                                 <td>
-                                    <button id="AgregaProductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Agregar</button>
+                                    <button id="AgregaPedido" class="btn btn-primary" style="width: 20%; margin-left: 40%;" onclick="AgregaProductosPedido()">Agregar</button>
                                 </td>
                             </tr>
                         </table>
+                        <br />
+                        <br />
+                        <div style="padding: 10px; background-color: #d8d8d8; border-radius: 10px;">
+                            <h4><b style=" color: #a90000">Tu pedido: </b></h4>
+                            <table id="" class="table table-bordered table-hover" style="background-color: white;">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            <b>Cantidad</b>
+                                        </td>
+                                        <td>
+                                            <b>Producto</b>
+                                        </td>
+                                        <td>
+                                            <b>Adiciones</b>
+                                        </td>
+                                        <td>
+                                            <b>Eliminar</b>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody id="setProductosElegidos">
+
+                                </tbody>
+                            </table>
+                        </div>                        
+                        <br />
+                        <br />
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <button id="AgregaProductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Enviar</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
                     </div>
                 </div>
             </div>
@@ -180,7 +219,7 @@
     </script>
 
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.62"></script>
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.64"></script>
 
 
 

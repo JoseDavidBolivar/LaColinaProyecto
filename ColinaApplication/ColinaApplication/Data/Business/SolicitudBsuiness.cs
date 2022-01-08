@@ -522,6 +522,97 @@ namespace ColinaApplication.Data.Business
             respuesta = true;
             return respuesta;
         }
+        public bool ImprimirPedidoFactura(List<TBL_PRODUCTOS_SOLICITUD> productos, decimal idMesa)
+        {
+            bool respuesta;
+            PrintDocument printDocument1 = new PrintDocument();
+            PrinterSettings ps = new PrinterSettings();
+            List <TBL_PRODUCTOS> producto = new List<TBL_PRODUCTOS>();
+            List<TBL_IMPRESORAS> impresoras = new List<TBL_IMPRESORAS>();
+
+            //CONSULTA IMPRESORAS A IMPRIMIR
+            var cantProductosDistinct = productos.DistinctBy(c => c.ID_PRODUCTO).ToList();
+            foreach (var item in cantProductosDistinct)
+            {
+                using (DBLaColina contex = new DBLaColina())
+                {
+                    try
+                    {
+                        producto.Add(contex.TBL_PRODUCTOS.Where(x => x.ID == item.ID_PRODUCTO).FirstOrDefault());
+                        if (producto.LastOrDefault() != null)
+                        {
+                            var idimpresora = producto.LastOrDefault().ID_IMPRESORA;
+                            if(!(impresoras.Any(x => x.ID == idimpresora)))
+                                impresoras.Add(contex.TBL_IMPRESORAS.Where(x => x.ID == idimpresora).FirstOrDefault());
+                        }
+                            
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            foreach (var item in impresoras)
+            {
+                printDocument1.PrinterSettings = ps;
+                printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
+                printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+                {
+                    int Ymargen = 0;
+                    //CONSULTA SOLICITUD
+                    var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
+
+                    //FORMATO FACTURA
+                    Font body = new Font("MS Mincho", 12);
+                    Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
+                    int ancho = 280;
+
+                    e.Graphics.DrawString("# MESA => " + solicitud[0].NumeroMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
+                    e.Graphics.DrawString("MESERO => " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 35, ancho, 20));
+                    e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
+
+                    foreach (var item2 in producto)
+                    {
+                        if (item2.ID_IMPRESORA == item.ID)
+                        {
+                            List<TBL_PRODUCTOS_SOLICITUD> prodImprimir = new List<TBL_PRODUCTOS_SOLICITUD>();
+                            prodImprimir = productos.Where(x => x.ID_PRODUCTO == item2.ID).ToList();
+                            
+                            foreach (var item3 in prodImprimir)
+                            {   
+                                e.Graphics.DrawString("" + item3.ID, body, Brushes.Black, new RectangleF(0, 95 + Ymargen, ancho, 20));
+                                e.Graphics.DrawString("" + item2.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
+
+                                //DAR FORMATO A DESCRIPCION
+                                int tamañoDes = 0;
+                                var descripcionAux = "";
+                                item3.DESCRIPCION = item3.DESCRIPCION.Replace("\n", " ");
+                                while (item3.DESCRIPCION.Length > 21)
+                                {                                    
+                                    tamañoDes += 21;
+                                    descripcionAux = item3.DESCRIPCION.Substring(0, 21);
+                                    item3.DESCRIPCION = item3.DESCRIPCION.Substring(21, item3.DESCRIPCION.Length - 21);
+                                    e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 115 + Ymargen , ancho, 20));
+                                    Ymargen += 20;
+                                }
+                                //if (descripcionAux == "")
+                                    //e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                //else
+                                    e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+
+                                Ymargen += 40;
+                            }
+                        }                        
+                    }
+                    e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 180 + Ymargen, ancho, 20));
+                };
+                printDocument1.Print();                
+             }
+            respuesta = true;
+            return respuesta;
+
+        }
         public List<TBL_USUARIOS> ListaMeseros()
         {
             List<TBL_USUARIOS> ListMeseros = new List<TBL_USUARIOS>();
