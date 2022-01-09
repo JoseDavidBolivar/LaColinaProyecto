@@ -392,7 +392,7 @@ namespace ColinaApplication.Data.Business
                     {
                         var fechaPago = DateTime.Now;
                         List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
-                        listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID && x.FECHA_PAGO == null).ToList();
+                        listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID && (x.FECHA_PAGO == null || x.FECHA_PAGO >= actualiza.FECHA_PAGO)).ToList();
                         foreach (var item in listaFechasTrabajadas)
                         {
                             item.FECHA_PAGO = fechaPago;
