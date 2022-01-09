@@ -280,8 +280,8 @@ namespace ColinaApplication.Data.Business
                           }).ToList();
                 foreach (var item in nomina)
                 {
-                    item.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= item.FechaPago.Value.Date).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
-                    item.SuledoDiario = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= item.FechaPago.Value.Date).Select(x => x.SUELDO_DIARIO).ToList();
+                    item.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value >= item.FechaPago.Value).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
+                    item.SuledoDiario = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value >= item.FechaPago.Value).Select(x => x.SUELDO_DIARIO).ToList();
                 }
             }
             return nomina;

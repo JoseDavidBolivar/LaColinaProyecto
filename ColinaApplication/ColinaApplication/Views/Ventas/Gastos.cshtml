@@ -81,7 +81,7 @@
                                 <b style="color: darkgreen">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].TotalPagar)</b>
                             </td>
                             <td style="text-align: center;">
-                                @if (Model.Nomina[i].DiasTrabajados > 0)
+                                @if (Model.Nomina[i].FechasAsignadas.Count > 0)
                                 {
                                     <button type="submit" class="btn btn-warning" onclick="CalcularSueldo('@Model.Nomina[i].Id')">
                                         <i class="fa fa-plus">&nbsp;</i><i class="fa fa-minus">&nbsp;</i><i class="fa fa-times">&nbsp;</i>
@@ -118,7 +118,7 @@
                                 @*}*@
                             </td>
                             <td style="text-align: center;">
-                                @if (Model.Nomina[i].DiasTrabajados > 0)
+                                @if (Model.Nomina[i].FechasAsignadas.Count > 0)
                                 {
                                     <button type="submit" class="btn btn-primary" onclick="Liquidar('@Model.Nomina[i].Id')">
                                         <i class="fa fa-money">&nbsp;</i><i class="fa fa-money">&nbsp;</i>
