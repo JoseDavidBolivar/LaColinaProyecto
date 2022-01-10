@@ -220,7 +220,7 @@ function ActualizaInfoMesa(data) {
             '<h3>' +
             '#' + data[0].NumeroMesa +
             '</h3>' +
-            '<p>' + data[0].NombreMesa + '</p>' +
+            '<h3><b>' + data[0].NombreMesa + '</b></h3>' +
             '<p><b>Mesero:<b/> ' + data[0].NombreMesero + '</p>' +
             '<p><b>C.C Cliente: </b><input id="CCCliente" type="text" autocomplete="off" class="form-control input-sm" name="CCCliente" value="' + data[0].IdentificacionCliente + '" onkeypress = "return soloNum(event)" onpaste="return false"/></p>' +
             '<p><b>Nombre Cliente: </b><input id="NombreCliente" type="text" autocomplete="off" class="form-control input-sm" name="NombreCliente"  value="' + data[0].NombreCliente + '" /></p>' +
@@ -1034,7 +1034,7 @@ function menos() {
     }
 }
 function mas() {
-    if ($("#contador").val() < 5) {
+    if ($("#contador").val() < 10) {
         $("#contador").val(Number($("#contador").val()) + 1);
     }
 }

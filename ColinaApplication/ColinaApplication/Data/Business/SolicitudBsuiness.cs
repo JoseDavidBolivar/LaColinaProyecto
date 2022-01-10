@@ -4,6 +4,7 @@ using Entity;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -389,8 +390,8 @@ namespace ColinaApplication.Data.Business
                 int YProductos = 0;
                 e.Graphics.DrawString("La Colina", Titulo, Brushes.Black, new RectangleF(95, 10, ancho, 20));
                 e.Graphics.DrawString("Parilla - Campestre", SubTitulo, Brushes.Black, new RectangleF(60, 30, ancho, 20));
-                e.Graphics.DrawString("NIT 1.1.1.1", body, Brushes.Black, new RectangleF(100, 50, ancho, 15));
-                e.Graphics.DrawString("KM 6 via Siberia Tenjo", body, Brushes.Black, new RectangleF(70, 65, ancho, 15));
+                e.Graphics.DrawString("NIT " + ConfigurationManager.AppSettings["NIT"].ToString(), body, Brushes.Black, new RectangleF(90, 50, ancho, 15)); ;
+                e.Graphics.DrawString("" + ConfigurationManager.AppSettings["DIRECCION"].ToString(), body, Brushes.Black, new RectangleF(60, 65, ancho, 15));
                 e.Graphics.DrawString("Factura: #" + solicitud[0].Id, body, Brushes.Black, new RectangleF(0, 110, ancho, 15));
                 e.Graphics.DrawString("Fecha: " + solicitud[0].FechaSolicitud, body, Brushes.Black, new RectangleF(0, 125, ancho, 15));
                 e.Graphics.DrawString("Mesero: " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 140, ancho, 15));
@@ -499,12 +500,12 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
                 e.Graphics.DrawString("" + cantidad, body, Brushes.Black, new RectangleF(0, 95, ancho, 20));
                 e.Graphics.DrawString("" + producto.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95, ancho, 20));
-                
+
                 //DAR FORMATO A DESCRIPCION
                 int tamañoDes = 0;
                 var descripcionAux = "";
                 int Ymargen = 0;
-                descripcion = descripcion.Replace("\n"," ");
+                descripcion = descripcion.Replace("\n", " ");
                 while (descripcion.Length > 21)
                 {
                     tamañoDes += 21;
@@ -525,9 +526,7 @@ namespace ColinaApplication.Data.Business
         public bool ImprimirPedidoFactura(List<TBL_PRODUCTOS_SOLICITUD> productos, decimal idMesa)
         {
             bool respuesta;
-            PrintDocument printDocument1 = new PrintDocument();
-            PrinterSettings ps = new PrinterSettings();
-            List <TBL_PRODUCTOS> producto = new List<TBL_PRODUCTOS>();
+            List<TBL_PRODUCTOS> producto = new List<TBL_PRODUCTOS>();
             List<TBL_IMPRESORAS> impresoras = new List<TBL_IMPRESORAS>();
 
             //CONSULTA IMPRESORAS A IMPRIMIR
@@ -542,10 +541,10 @@ namespace ColinaApplication.Data.Business
                         if (producto.LastOrDefault() != null)
                         {
                             var idimpresora = producto.LastOrDefault().ID_IMPRESORA;
-                            if(!(impresoras.Any(x => x.ID == idimpresora)))
+                            if (!(impresoras.Any(x => x.ID == idimpresora)))
                                 impresoras.Add(contex.TBL_IMPRESORAS.Where(x => x.ID == idimpresora).FirstOrDefault());
                         }
-                            
+
                     }
                     catch (Exception ex)
                     {
@@ -555,6 +554,8 @@ namespace ColinaApplication.Data.Business
             }
             foreach (var item in impresoras)
             {
+                PrinterSettings ps = new PrinterSettings();
+                PrintDocument printDocument1 = new PrintDocument();
                 printDocument1.PrinterSettings = ps;
                 printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
                 printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
@@ -568,7 +569,7 @@ namespace ColinaApplication.Data.Business
                     Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
                     int ancho = 280;
 
-                    e.Graphics.DrawString("# MESA => " + solicitud[0].NumeroMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
+                    e.Graphics.DrawString("#" + solicitud[0].NumeroMesa + " - MESA => " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
                     e.Graphics.DrawString("MESERO => " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 35, ancho, 20));
                     e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
 
@@ -578,9 +579,9 @@ namespace ColinaApplication.Data.Business
                         {
                             List<TBL_PRODUCTOS_SOLICITUD> prodImprimir = new List<TBL_PRODUCTOS_SOLICITUD>();
                             prodImprimir = productos.Where(x => x.ID_PRODUCTO == item2.ID).ToList();
-                            
+
                             foreach (var item3 in prodImprimir)
-                            {   
+                            {
                                 e.Graphics.DrawString("" + item3.ID, body, Brushes.Black, new RectangleF(0, 95 + Ymargen, ancho, 20));
                                 e.Graphics.DrawString("" + item2.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
 
@@ -589,26 +590,26 @@ namespace ColinaApplication.Data.Business
                                 var descripcionAux = "";
                                 item3.DESCRIPCION = item3.DESCRIPCION.Replace("\n", " ");
                                 while (item3.DESCRIPCION.Length > 21)
-                                {                                    
+                                {
                                     tamañoDes += 21;
                                     descripcionAux = item3.DESCRIPCION.Substring(0, 21);
                                     item3.DESCRIPCION = item3.DESCRIPCION.Substring(21, item3.DESCRIPCION.Length - 21);
-                                    e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 115 + Ymargen , ancho, 20));
+                                    e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
                                     Ymargen += 20;
                                 }
                                 //if (descripcionAux == "")
-                                    //e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                //e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
                                 //else
-                                    e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
 
                                 Ymargen += 40;
                             }
-                        }                        
+                        }
                     }
                     e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 180 + Ymargen, ancho, 20));
                 };
-                printDocument1.Print();                
-             }
+                printDocument1.Print();
+            }
             respuesta = true;
             return respuesta;
 

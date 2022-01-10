@@ -14,7 +14,7 @@ function ValidaSesion() {
             success: function (result) {
                 var json = JSON.parse(result);
                 if (json.ID > 0) {
-                    window.location.href = '../Inicio/LaColinaRestaurante';
+                    window.location.href = '../Solicitud/SeleccionarMesa';
                 }
                 else {
                     if (json.ID == -1) {
@@ -103,9 +103,9 @@ function valideKey(evt) {
 
     var code = (evt.which) ? evt.which : evt.keyCode;
 
-    if (code == 8) { // backspace.
-        return true;
-    } else if (code >= 48 && code <= 57) { // is a number.
+    if (code == 13) { // backspace.
+        ValidaSesion();
+    } else if ((code >= 48 && code <= 57)) { // is a number or ENTER.
         return true;
     } else { // other keys.
         return false;

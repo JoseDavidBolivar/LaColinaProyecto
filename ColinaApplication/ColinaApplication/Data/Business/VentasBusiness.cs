@@ -468,8 +468,8 @@ namespace ColinaApplication.Data.Business
                 foreach (var item in productosAgrupados)
                 {
                     YProductos += 15;
-                    e.Graphics.DrawString("" + item.NombreProducto, body, Brushes.Black, new RectangleF(0, 135 + YProductos, ancho, 15));
-                    e.Graphics.DrawString("" + item.Id, body, Brushes.Black, new RectangleF((280 - (item.Id.ToString().Length * 9)), 135 + YProductos, ancho, 15));
+                    //e.Graphics.DrawString("" + item.NombreProducto, body, Brushes.Black, new RectangleF(0, 135 + YProductos, ancho, 15));
+                    //e.Graphics.DrawString("" + item.Id, body, Brushes.Black, new RectangleF((280 - (item.Id.ToString().Length * 9)), 135 + YProductos, ancho, 15));
                     //PRECIO UNITARIO
                     //e.Graphics.DrawString("" + item.PrecioProducto, body, Brushes.Black, new RectangleF(160, 215 + YProductos, ancho, 15));
                     //PRECIO TOTAL

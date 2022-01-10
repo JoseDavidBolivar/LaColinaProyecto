@@ -21,7 +21,7 @@ function Llama_MetodosSeMe(connectsm) {
                 case "LIBRE":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'OCUPADO\');" class="clic panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                         '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-check text-success"></i>' +
                         '</div>');
@@ -29,7 +29,7 @@ function Llama_MetodosSeMe(connectsm) {
                 case "OCUPADO":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                         '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-arrow-down text-danger"></i>' +
                         '</div>');
@@ -37,7 +37,7 @@ function Llama_MetodosSeMe(connectsm) {
                 case "ESPERA":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
                         '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-clock-o text-warning"></i>' +
                         '</div>');
@@ -45,7 +45,7 @@ function Llama_MetodosSeMe(connectsm) {
                 case "NO DISPONIBLE":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
                         '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-times-circle text-primary"></i>' +
                         '</div>');
@@ -53,7 +53,7 @@ function Llama_MetodosSeMe(connectsm) {
                 case "CERRADO":
                     $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
                         '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
                         '<i class="fa fa-3x fa-times text-muted"></i>' +
                         '</div>');
