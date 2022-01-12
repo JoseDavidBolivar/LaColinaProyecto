@@ -467,7 +467,7 @@ namespace ColinaApplication.Data.Business
                 //LISTA LOS PRODUCTOS
                 foreach (var item in productosAgrupados)
                 {
-                    YProductos += 15;
+                    //YProductos += 15;
                     //e.Graphics.DrawString("" + item.NombreProducto, body, Brushes.Black, new RectangleF(0, 135 + YProductos, ancho, 15));
                     //e.Graphics.DrawString("" + item.Id, body, Brushes.Black, new RectangleF((280 - (item.Id.ToString().Length * 9)), 135 + YProductos, ancho, 15));
                     //PRECIO UNITARIO
