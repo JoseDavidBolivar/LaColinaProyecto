@@ -2,7 +2,8 @@
 let connectPSR;
 let ProductosSolicitudVector;
 let descripcion;
-var ProductosPedido = [];
+let ProductosPedido = [];
+let IdProd;
 
 $(function PedidoSignalR() {
 
@@ -108,6 +109,7 @@ function Llama_MetodosPSR(connectpsr) {
                         btnClass: 'btn-success',
                         action: function () {
                             CargaCategorias();
+                            $("#AgregaProductos").removeAttr("disabled");
                         }
                     }
                 }
@@ -124,13 +126,14 @@ function Llama_MetodosPSR(connectpsr) {
             boxWidth: '500px',
             useBootstrap: false,
             type: 'red',
-            title: 'Error !',
-            content: "No hay existencias para " + data.toString() + ". Consulta con el administrador.",
+            title: 'Oops !',
+            content: "Al parecer no hay suficientes existencias para <br/><br/><b>" + data.toString() + "</b>.<br/><br/> Prueba seleccionando menos o consulta con el administrador.",
             buttons: {
                 Continuar: {
                     btnClass: 'btn-danger',
                     action: function () {
                         CargaCategorias();
+                        $("#AgregaProductos").removeAttr("disabled");
                     }
                 }
             }
@@ -529,6 +532,7 @@ function CargaMeseros() {
     });
 }
 function CargaProducto(id) {
+    IdProd = id;
     $("#setProducto").empty();
     $("#tableProductos").css("display", "block");
     $("#tableAdiciones").css("display", "none");
@@ -642,12 +646,12 @@ function PagarFactura() {
                                         icon: 'fa fa-credit-card',
                                         boxWidth: '500px',
                                         useBootstrap: false,
-                                        type: 'gray',
+                                        type: 'orange',
                                         title: '# Numero Aprobación !',
                                         content: 'Digite el numero de Aprobacion del voucher <br/> <div><input style="witdh:60%; margin-left: 20%;" id="numAprobacionVoucher" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
                                         buttons: {
                                             Continuar: {
-                                                btnClass: 'btn btn-default',
+                                                btnClass: 'btn btn-warning',
                                                 action: function () {
                                                     if ($("#numAprobacionVoucher").val() != "") {
                                                         if (Imprime == "SI")
@@ -660,6 +664,12 @@ function PagarFactura() {
                                                         PagarFactura();
                                                     }
                                                 }
+                                            },
+                                            Cancelar: {
+                                                btnClass: 'btn btn-warning',
+                                                action: function () {
+
+                                                }
                                             }
                                         }
                                     });
@@ -668,12 +678,33 @@ function PagarFactura() {
                             Efectivo: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
-                                    if ($('input:checkbox[name=Check1]:checked').val() == "SI")
-                                        connectPSR.server.imprimirFactura($("#ID_MESA").val());
-                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
-                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val(), $("#ID_MESERO").val());
-                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
+                                    $.alert({
+                                        theme: 'Modern',
+                                        icon: 'fa fa-check',
+                                        boxWidth: '500px',
+                                        useBootstrap: false,
+                                        type: 'orange',
+                                        title: ':) Confirmación !',
+                                        content: 'Esta a punto de pagar la cuenta y salir, seguro que desea continuar ?',
+                                        buttons: {
+                                            Continuar: {
+                                                btnClass: 'btn btn-warning',
+                                                action: function () {
+                                                    if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                        connectPSR.server.imprimirFactura($("#ID_MESA").val());
+                                                    connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
+                                                        $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val(), $("#ID_MESERO").val());
+                                                    connectPSR.server.actualizaMesa($("#ID_MESA").val(), "LIBRE", User, "SI", "../Solicitud/SeleccionarMesa");
+                                                }
+                                            },
+                                            Cancelar: {
+                                                btnClass: 'btn btn-warning',
+                                                action: function () {
 
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                             },
                             Ambas: {
@@ -685,12 +716,12 @@ function PagarFactura() {
                                         icon: 'fa fa-money',
                                         boxWidth: '500px',
                                         useBootstrap: false,
-                                        type: 'gray',
+                                        type: 'orange',
                                         title: '$ Efectivo !',
                                         content: 'Digite la cantidad en efectivo <br/> <div><input style="witdh:60%; margin-left: 20%;" id="cantEfectivo" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
                                         buttons: {
                                             Continuar: {
-                                                btnClass: 'btn btn-default',
+                                                btnClass: 'btn btn-warning',
                                                 action: function () {
                                                     var cantEfectivo = $("#cantEfectivo").val();
                                                     if (cantEfectivo != "") {
@@ -699,12 +730,12 @@ function PagarFactura() {
                                                             icon: 'fa fa-credit-card',
                                                             boxWidth: '500px',
                                                             useBootstrap: false,
-                                                            type: 'gray',
+                                                            type: 'orange',
                                                             title: ' Tarjeta !',
                                                             content: '# de Aprobacion del voucher <br/> <div><input style="witdh:60%; margin-left: 20%;" id="numAprobacionVoucher2" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
                                                             buttons: {
                                                                 Continuar: {
-                                                                    btnClass: 'btn btn-default',
+                                                                    btnClass: 'btn btn-warning',
                                                                     action: function () {
                                                                         if ($("#numAprobacionVoucher2").val() != "") {
                                                                             if (Imprime == "SI")
@@ -717,6 +748,12 @@ function PagarFactura() {
                                                                             PagarFactura();
                                                                         }
                                                                     }
+                                                                },
+                                                                Cancelar: {
+                                                                    btnClass: 'btn btn-warning',
+                                                                    action: function () {
+
+                                                                    }
                                                                 }
                                                             }
                                                         });
@@ -725,9 +762,21 @@ function PagarFactura() {
                                                         PagarFactura();
                                                     }
                                                 }
+                                            },
+                                            Cancelar: {
+                                                btnClass: 'btn btn-warning',
+                                                action: function () {
+
+                                                }
                                             }
                                         }
                                     });
+                                }
+                            },
+                            Cancelar: {
+                                btnClass: 'btn btn-warning',
+                                action: function () {
+
                                 }
                             }
                         }
@@ -1101,7 +1150,7 @@ function AgregaProductosPedido() {
                 "</td ><td><i class=\"fa fa-2x fa-minus-square\" style=\"color: #a90000; cursor: pointer; \" onclick=\"EliminaProductoLista('" + i + "')\"></i></td></tr> ");
         }
         //console.log(ProductosPedido);
-        CargaCategorias();
+        CargaProducto(IdProd);
         $("#AgregaPedido").removeAttr("disabled");
     }
     else {
