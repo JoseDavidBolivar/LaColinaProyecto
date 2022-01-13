@@ -487,13 +487,13 @@ function CargaCategorias() {
         dataType: "JSON",
         success: function (result) {
             var json = JSON.parse(result);
-            var br = '<br/><br/><br/><br/>';
+            var br = '<br/><br/><br/><br/><br/>';
             if (json.length > 0) {
                 for (var index = 0, len = json.length; index < len; index++) {
                     $("#setCategoria").append('<div class="Categ" id="' + json[index].ID + '_Categ" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #ffc93163" onclick="CargaProducto(' + json[index].ID + ')">' +
                         '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].CATEGORIA + '</b></div>' +
                         '</div >');
-                    if (index == 6 || index == 13 || index == 21) {
+                    if (index == 6 || index == 13 || index == 21 ) {
                         $("#setCategoria").append(br);
                     }
                 }
