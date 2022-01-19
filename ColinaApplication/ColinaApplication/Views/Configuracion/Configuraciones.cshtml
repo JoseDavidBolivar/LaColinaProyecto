@@ -318,7 +318,7 @@
                         <div class="col-md-12">
                             <small><b>Numero cédula:</b></small>
                             @Html.HiddenFor(x => x.UsuariosModel.ID, new { @Id = "IdUsuario", Value = "" })
-                            @Html.TextBoxFor(x => x.UsuariosModel.CEDULA, new { @Id = "CedulaUsuario", Placeholder = "Digite el número de cédula", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+                            @Html.TextBoxFor(x => x.UsuariosModel.CEDULA, new { @Id = "CedulaUsuario", Placeholder = "Digite el número de cédula", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", Onblur = "ValidaCedula()" })
                         </div>
                         <div class="col-md-12">
                             <small><b>Nombre:</b></small>
@@ -326,7 +326,7 @@
                         </div>
                         <div class="col-md-12">
                             <small><b>Código:</b></small>
-                            @Html.TextBoxFor(x => x.UsuariosModel.CONTRASEÑA, new { @Id = "CodigoUsuario", Placeholder = "Asigne un código al usuario", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off" })
+                            @Html.TextBoxFor(x => x.UsuariosModel.CONTRASEÑA, new { @Id = "CodigoUsuario", Placeholder = "Asigne un código al usuario", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", Onblur = "ValidaCodigo()" })
                         </div>
                         <div class="col-md-12">
                             <small><b>Perfíl: </b></small>
@@ -670,11 +670,14 @@
 
     @section Scripts{
         <script>
-        var Resultado = '@TempData["Resultado"]';
-        var Posicion = '@TempData["Posicion"]';
+            var Resultado = '@TempData["Resultado"]';
+            var Posicion = '@TempData["Posicion"]';
+            var urlConsultaCedulaExistente = '@Url.Action("ConsultaCedulaExistente", "Configuracion")';
+            var urlConsultaCodigoExistente = '@Url.Action("ConsultaCodigoExistente", "Configuracion")';
+            
         </script>
 
-        <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.15"></script>
+        <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.16"></script>
     }
 }
 else

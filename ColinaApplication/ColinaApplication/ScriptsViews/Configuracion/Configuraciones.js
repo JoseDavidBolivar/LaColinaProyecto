@@ -183,4 +183,78 @@ function LimpiaCamposNomina() {
     $("#FechaUltimoPagoNomina").val("");
 }
 
+function ValidaCedula() {
+    if ($("#CedulaUsuario").val() != "") {
+        $.ajax({
+            type: "POST",
+            url: urlConsultaCedulaExistente,
+            data: JSON.stringify({ Cedula: $("#CedulaUsuario").val() }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (result) {                
+                var json = JSON.parse(result);
+                if (json) {
+                    $("#CedulaUsuario").val('');
+                    $.alert({
+                        theme: 'Modern',
+                        icon: 'fa fa-times',
+                        boxWidth: '500px',
+                        useBootstrap: false,
+                        type: 'red',
+                        title: 'Cedula repetida !',
+                        content: 'Esta cedula ya existe en el sistema. Por favor digite otra',
+                        buttons: {
+                            Continuar: {
+                                btnClass: 'btn btn-danger',
+                                action: function () {
+                                }
+                            }
+                        }
+                    });
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
 
+        });
+    }
+}
+
+function ValidaCodigo() {
+    if ($("#CodigoUsuario").val() != "") {
+        $.ajax({
+            type: "POST",
+            url: urlConsultaCodigoExistente,
+            data: JSON.stringify({ Codigo: $("#CodigoUsuario").val() }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (result) {                
+                var json = JSON.parse(result);
+                if (json) {
+                    $("#CodigoUsuario").val('');
+                    $.alert({
+                        theme: 'Modern',
+                        icon: 'fa fa-times',
+                        boxWidth: '500px',
+                        useBootstrap: false,
+                        type: 'red',
+                        title: 'Codigo repetido !',
+                        content: 'Este código ya esta asignado a otro usuario. Por favor digite otro',
+                        buttons: {
+                            Continuar: {
+                                btnClass: 'btn btn-danger',
+                                action: function () {
+                                }
+                            }
+                        }
+                    });
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+
+        });
+    }
+}

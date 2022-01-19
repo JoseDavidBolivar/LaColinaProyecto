@@ -1,6 +1,7 @@
 ﻿using ColinaApplication.Data.Business;
 using ColinaApplication.Data.Clases;
 using ColinaApplication.Data.Conexion;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +134,19 @@ namespace ColinaApplication.Controllers
             }
             TempData["Posicion"] = "DivNomina";
             return RedirectToAction("Configuraciones");
+        }
+
+        public JsonResult ConsultaCedulaExistente(string Cedula)
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(configuraciones.ConsultaCedula(Convert.ToDecimal(Cedula))), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult ConsultaCodigoExistente(string Codigo)
+        {
+            var jsonResult = Json(JsonConvert.SerializeObject(configuraciones.ConsultaCodigo(Codigo)), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
 

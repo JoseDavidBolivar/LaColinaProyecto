@@ -21,7 +21,7 @@ namespace ColinaApplication.Controllers
         {
             return View();
         }
-        public JsonResult InicioSesion(decimal Codigo)
+        public JsonResult InicioSesion(string Codigo)
         {
             Session.Clear();
             TBL_USUARIOS user = new TBL_USUARIOS();

@@ -8,13 +8,12 @@ namespace ColinaApplication.Data.Business
 {
     public class HomeBusiness
     {
-        public TBL_USUARIOS Login (decimal Codigo)
+        public TBL_USUARIOS Login (string Codigo)
         {
             TBL_USUARIOS user = new TBL_USUARIOS();
             using (DBLaColina context = new DBLaColina())
             {
-                var cod = Convert.ToString(Codigo);
-                user = context.TBL_USUARIOS.FirstOrDefault(a=>a.CONTRASEÑA == cod);
+                user = context.TBL_USUARIOS.FirstOrDefault(a=>a.CONTRASEÑA == Codigo);
                 if (user != null)
                 {
                     

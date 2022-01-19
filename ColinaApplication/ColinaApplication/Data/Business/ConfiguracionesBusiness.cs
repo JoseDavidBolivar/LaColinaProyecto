@@ -221,9 +221,19 @@ namespace ColinaApplication.Data.Business
             {
                 try
                 {
-                    contex.TBL_USUARIOS.Add(model);
-                    contex.SaveChanges();
-                    Respuesta = true;
+                    TBL_USUARIOS buscaUsuario = new TBL_USUARIOS();
+                    buscaUsuario = contex.TBL_USUARIOS.Where(a => a.CEDULA == model.CEDULA || a.CONTRASEÑA == model.CONTRASEÑA ).FirstOrDefault();
+                    if (buscaUsuario == null)
+                    {
+                        contex.TBL_USUARIOS.Add(model);
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                    else
+                    {
+                        Respuesta = false;
+                    }
+                    
                 }
                 catch (Exception e)
                 {
@@ -426,6 +436,49 @@ namespace ColinaApplication.Data.Business
                         actualiza.ESTADO = model.ESTADO;
                         actualiza.FECHA_PAGO = model.FECHA_PAGO;
                         contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+
+        public bool ConsultaCedula(decimal Cedula)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_USUARIOS consultaCedula = new TBL_USUARIOS();
+                    consultaCedula = contex.TBL_USUARIOS.Where(a => a.CEDULA == Cedula).FirstOrDefault();
+                    if (consultaCedula != null)
+                    {                        
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ConsultaCodigo(string Contrasena)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_USUARIOS consultaCodigo = new TBL_USUARIOS();
+                    consultaCodigo = contex.TBL_USUARIOS.Where(a => a.CONTRASEÑA == Contrasena).FirstOrDefault();
+                    if (consultaCodigo != null)
+                    {
                         Respuesta = true;
                     }
                 }
