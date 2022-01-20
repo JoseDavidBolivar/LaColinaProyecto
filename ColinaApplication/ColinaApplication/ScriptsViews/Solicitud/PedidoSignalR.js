@@ -467,7 +467,30 @@ function CancelaProductoxId(idProducto) {
 
 //REENVIA PRODUCTOS A IMPRESORAS
 function ReEnviaProducto(idproducto, description, idmesa) {
-    connectPSR.server.imprimeProductos(1, idproducto, description, idmesa);
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-question',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'Gray',
+        title: ' Cuidado !',
+        content: 'Esta seguro que desea reimprimir el producto ?',
+        buttons: {
+            Continuar: {
+                btnClass: 'btn btn-default',
+                action: function () {
+                    connectPSR.server.imprimeProductos(1, idproducto, description, idmesa);
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-default',
+                action: function () {
+
+                }
+            }
+        }
+    });
+    
 }
 
 
@@ -616,6 +639,7 @@ function GuardarDatosCliente() {
 }
 //METODO IMPRIME Y PAGA FACTURA
 function PagarFactura() {
+    var Imprime;
     $.alert({
         theme: 'Modern',
         icon: 'fa fa-question',
@@ -640,7 +664,7 @@ function PagarFactura() {
                             Tarjeta: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
-                                    var Imprime = $('input:checkbox[name=Check1]:checked').val();
+                                    Imprime = $('input:checkbox[name=Check1]:checked').val();
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-credit-card',
@@ -676,8 +700,9 @@ function PagarFactura() {
                                 }
                             },
                             Efectivo: {
-                                btnClass: 'btn btn-warning',
+                                btnClass: 'btn btn-warning',                                
                                 action: function () {
+                                    Imprime = $('input:checkbox[name=Check1]:checked').val();
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-check',
@@ -690,7 +715,7 @@ function PagarFactura() {
                                             Continuar: {
                                                 btnClass: 'btn btn-warning',
                                                 action: function () {
-                                                    if ($('input:checkbox[name=Check1]:checked').val() == "SI")
+                                                    if (Imprime == "SI")
                                                         connectPSR.server.imprimirFactura($("#ID_MESA").val());
                                                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                                                         $("#SubTotal").val(), "FINALIZADA", $("#ID_MESA").val(), $("#servicio").val(), "EFECTIVO", "0", $("#SubTotal").val(), $("#ID_MESERO").val());
@@ -710,7 +735,7 @@ function PagarFactura() {
                             Ambas: {
                                 btnClass: 'btn btn-warning',
                                 action: function () {
-                                    var Imprime = $('input:checkbox[name=Check1]:checked').val();
+                                    Imprime = $('input:checkbox[name=Check1]:checked').val();
                                     $.alert({
                                         theme: 'Modern',
                                         icon: 'fa fa-money',
