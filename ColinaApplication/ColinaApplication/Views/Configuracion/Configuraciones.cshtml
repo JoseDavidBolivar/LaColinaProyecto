@@ -19,19 +19,22 @@
                     <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; border: 0px solid #dddddd; background-color: white;" data-page-length='5'>
                         <thead style="background-color: black; color: white;">
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th># MESA</th>
                                 <th>ID USUARIO</th>
                                 <th>NOMBRE MESA</th>
                                 <th>DESCRIPCIÓN</th>
                                 <th>ESTADO</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @for (int i = 0; i < Model.Mesas.Count; i++)
                             {
                                 <tr>
+                                    <td style=" text-align: center;">
+                                        <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarMesa('@Model.Mesas[i].ID', '@Model.Mesas[i].NUMERO_MESA', '@Model.Mesas[i].ID_USUARIO', '@Model.Mesas[i].NOMBRE_MESA', '@Model.Mesas[i].DESCRIPCION', '@Model.Mesas[i].ESTADO')"></i>
+                                    </td>
                                     <td data_val="Elemento_@i">
                                         @Model.Mesas[i].ID
                                     </td>
@@ -49,9 +52,6 @@
                                     </td>
                                     <td>
                                         @Model.Mesas[i].ESTADO
-                                    </td>
-                                    <td style=" text-align: center;">
-                                        <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarMesa('@Model.Mesas[i].ID', '@Model.Mesas[i].NUMERO_MESA', '@Model.Mesas[i].ID_USUARIO', '@Model.Mesas[i].NOMBRE_MESA', '@Model.Mesas[i].DESCRIPCION', '@Model.Mesas[i].ESTADO')"></i>
                                     </td>
                                 </tr>
                             }
@@ -116,16 +116,19 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white; border: 0px solid #dddddd;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>CATEGORIA</th>
                                     <th>ESTADO</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Categorias.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarCategoria('@Model.Categorias[i].ID', '@Model.Categorias[i].CATEGORIA', '@Model.Categorias[i].ESTADO')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Categorias[i].ID
                                         </td>
@@ -134,9 +137,6 @@
                                         </td>
                                         <td>
                                             @Model.Categorias[i].ESTADO
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarCategoria('@Model.Categorias[i].ID', '@Model.Categorias[i].CATEGORIA', '@Model.Categorias[i].ESTADO')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -180,6 +180,7 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white; border: 0px solid #dddddd;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>ID CATEGORIA</th>
                                     <th>FECHA_INGRESO</th>
@@ -188,13 +189,15 @@
                                     <th>CANTIDAD</th>
                                     <th>DESCRIPCION</th>
                                     <th>ID IMPRESORA</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Productos.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarProducto('@Model.Productos[i].ID', '@Model.Productos[i].ID_CATEGORIA', '@Model.Productos[i].NOMBRE_PRODUCTO', '@Model.Productos[i].PRECIO', '@Model.Productos[i].CANTIDAD', '@Model.Productos[i].DESCRIPCION', '@Model.Productos[i].ID_IMPRESORA')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Productos[i].ID
                                         </td>
@@ -218,9 +221,6 @@
                                         </td>
                                         <td>
                                             @Model.Productos[i].ID_IMPRESORA
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarProducto('@Model.Productos[i].ID', '@Model.Productos[i].ID_CATEGORIA', '@Model.Productos[i].NOMBRE_PRODUCTO', '@Model.Productos[i].PRECIO', '@Model.Productos[i].CANTIDAD', '@Model.Productos[i].DESCRIPCION', '@Model.Productos[i].ID_IMPRESORA')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -275,18 +275,21 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; border: 0px solid #dddddd; background-color: white;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>CÉDULA</th>
                                     <th>NOMBRE</th>
                                     <th>CODIGO</th>
                                     <th>ID PERFIL</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Usuarios.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarUsuario('@Model.Usuarios[i].ID', '@Model.Usuarios[i].CEDULA', '@Model.Usuarios[i].NOMBRE', '@Model.Usuarios[i].CONTRASEÑA', '@Model.Usuarios[i].ID_PERFIL')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Usuarios[i].ID
                                         </td>
@@ -301,9 +304,6 @@
                                         </td>
                                         <td>
                                             @Model.Usuarios[i].ID_PERFIL
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarUsuario('@Model.Usuarios[i].ID', '@Model.Usuarios[i].CEDULA', '@Model.Usuarios[i].NOMBRE', '@Model.Usuarios[i].CONTRASEÑA', '@Model.Usuarios[i].ID_PERFIL')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -350,16 +350,19 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; border: 0px solid #dddddd; background-color: white;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>NOMBRE IMPRESORA</th>
                                     <th>DESCRIPCION</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Impresoras.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarImpresora('@Model.Impresoras[i].ID', '@Model.Impresoras[i].NOMBRE_IMPRESORA', '@Model.Impresoras[i].DESCRIPCION')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Impresoras[i].ID
                                         </td>
@@ -368,9 +371,6 @@
                                         </td>
                                         <td>
                                             @Model.Impresoras[i].DESCRIPCION
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarImpresora('@Model.Impresoras[i].ID', '@Model.Impresoras[i].NOMBRE_IMPRESORA', '@Model.Impresoras[i].DESCRIPCION')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -408,17 +408,20 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; border: 0px solid #dddddd; background-color: white;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>IMPUESTO</th>
                                     <th>PORCENTAJE</th>
                                     <th>ESTADO</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Impuestos.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarImpuesto('@Model.Impuestos[i].ID', '@Model.Impuestos[i].NOMBRE_IMPUESTO', '@Model.Impuestos[i].PORCENTAJE', '@Model.Impuestos[i].ESTADO')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Impuestos[i].ID
                                         </td>
@@ -430,9 +433,6 @@
                                         </td>
                                         <td>
                                             @Model.Impuestos[i].ESTADO
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarImpuesto('@Model.Impuestos[i].ID', '@Model.Impuestos[i].NOMBRE_IMPUESTO', '@Model.Impuestos[i].PORCENTAJE', '@Model.Impuestos[i].ESTADO')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -480,16 +480,19 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white; border: 0px solid #dddddd;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>PERFIL</th>
                                     <th>PORCENTAJE SERVICIO</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.Perfiles.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarPerfil('@Model.Perfiles[i].ID', '@Model.Perfiles[i].NOMBRE_PERFIL', '@Model.Perfiles[i].PORCENTAJE_PROPINA')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.Perfiles[i].ID
                                         </td>
@@ -499,9 +502,7 @@
                                         <td>
                                             @Model.Perfiles[i].PORCENTAJE_PROPINA
                                         </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarPerfil('@Model.Perfiles[i].ID', '@Model.Perfiles[i].NOMBRE_PERFIL', '@Model.Perfiles[i].PORCENTAJE_PROPINA')"></i>
-                                        </td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -537,6 +538,7 @@
                         <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white; border: 0px solid #dddddd;" data-page-length='5'>
                             <thead style="background-color: black; color: white;">
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>ID USUARIO SISTEMA</th>
                                     <th>ID PERFIL</th>
@@ -553,13 +555,15 @@
                                     <th>TELEFONO</th>
                                     <th>ESTADO EMPLEADO</th>
                                     <th>FECHA ULTIMO PAGO/INGRESO</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @for (int i = 0; i < Model.NominaEmpleados.Count; i++)
                                 {
                                     <tr>
+                                        <td style=" text-align: center;">
+                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarNomina('@Model.NominaEmpleados[i].ID', '@Model.NominaEmpleados[i].ID_USUARIO_SISTEMA', '@Model.NominaEmpleados[i].ID_PERFIL', '@Model.NominaEmpleados[i].CEDULA', '@Model.NominaEmpleados[i].NOMBRE', '@Model.NominaEmpleados[i].CARGO', '@Model.NominaEmpleados[i].FECHA_NACIMIENTO.Value.ToString("yyyy-MM-dd")', '@Model.NominaEmpleados[i].DIRECCION_RESIDENCIA', '@Model.NominaEmpleados[i].TELEFONO', '@Model.NominaEmpleados[i].ESTADO', '@Model.NominaEmpleados[i].FECHA_PAGO')"></i>
+                                        </td>
                                         <td data_val="Elemento_@i">
                                             @Model.NominaEmpleados[i].ID
                                         </td>
@@ -593,9 +597,6 @@
                                         </td>
                                         <td>
                                             @Model.NominaEmpleados[i].FECHA_PAGO
-                                        </td>
-                                        <td style=" text-align: center;">
-                                            <i class="fa fa-pencil" style="cursor: pointer;" onclick="EditarNomina('@Model.NominaEmpleados[i].ID', '@Model.NominaEmpleados[i].ID_USUARIO_SISTEMA', '@Model.NominaEmpleados[i].ID_PERFIL', '@Model.NominaEmpleados[i].CEDULA', '@Model.NominaEmpleados[i].NOMBRE', '@Model.NominaEmpleados[i].CARGO', '@Model.NominaEmpleados[i].FECHA_NACIMIENTO.Value.ToString("yyyy-MM-dd")', '@Model.NominaEmpleados[i].DIRECCION_RESIDENCIA', '@Model.NominaEmpleados[i].TELEFONO', '@Model.NominaEmpleados[i].ESTADO', '@Model.NominaEmpleados[i].FECHA_PAGO')"></i>
                                         </td>
                                     </tr>
                                 }
@@ -674,7 +675,7 @@
             var Posicion = '@TempData["Posicion"]';
             var urlConsultaCedulaExistente = '@Url.Action("ConsultaCedulaExistente", "Configuracion")';
             var urlConsultaCodigoExistente = '@Url.Action("ConsultaCodigoExistente", "Configuracion")';
-            
+
         </script>
 
         <script src="~/ScriptsViews/Configuracion/Configuraciones.js?1.0.16"></script>

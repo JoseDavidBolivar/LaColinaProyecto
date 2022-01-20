@@ -88,6 +88,12 @@ function AsignarDia(idnomina) {
                                             AsignarDia(idnomina);
                                         }
                                     }
+                                },
+                                Cancelar: {
+                                    btnClass: 'btn btn-warning',
+                                    action: function () {
+
+                                    }
                                 }
                             }
                         });
@@ -95,6 +101,12 @@ function AsignarDia(idnomina) {
                     else {
                         AsignarDia(idnomina);
                     }
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-warning',
+                action: function () {
+
                 }
             }
         }
