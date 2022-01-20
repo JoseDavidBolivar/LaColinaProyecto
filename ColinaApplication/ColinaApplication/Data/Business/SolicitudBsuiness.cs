@@ -377,69 +377,114 @@ namespace ColinaApplication.Data.Business
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             printDocument1.PrinterSettings.PrinterName = "CAJA";
+
+            //CONSULTA SOLICITUD
+            var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
+            var ListAgrupaProductos = AgrupaProductos(solicitud[0].ProductosSolicitud);
+            //FORMATO FACTURA
+            Font Titulo = new Font("MS Mincho", 13, FontStyle.Bold);
+            Font SubTitulo = new Font("MS Mincho", 12, FontStyle.Bold);
+            Font body = new Font("MS Mincho", 10);
+            int ancho = 280;
+            int margenY = 215;
+            int YProductos = 0;
+            int UltimoPunto = 0;
+            var printedLines = 15;
+            var hoja = 1;
+
             printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
             {
-                //CONSULTA SOLICITUD
-                var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
+                if (hoja == 1)
+                {
+                    e.Graphics.DrawString("La Colina", Titulo, Brushes.Black, new RectangleF(95, 10, ancho, 20));
+                    e.Graphics.DrawString("Parilla - Campestre", SubTitulo, Brushes.Black, new RectangleF(60, 30, ancho, 20));
+                    e.Graphics.DrawString("NIT " + ConfigurationManager.AppSettings["NIT"].ToString(), body, Brushes.Black, new RectangleF(90, 50, ancho, 15)); ;
+                    e.Graphics.DrawString("" + ConfigurationManager.AppSettings["DIRECCION"].ToString(), body, Brushes.Black, new RectangleF(60, 65, ancho, 15));
+                    e.Graphics.DrawString("Factura: #" + solicitud[0].Id, body, Brushes.Black, new RectangleF(0, 110, ancho, 15));
+                    e.Graphics.DrawString("Fecha: " + solicitud[0].FechaSolicitud, body, Brushes.Black, new RectangleF(0, 125, ancho, 15));
+                    e.Graphics.DrawString("Mesero: " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 140, ancho, 15));
+                    e.Graphics.DrawString("MESA #" + solicitud[0].NumeroMesa + " - " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 155, ancho, 15));
+                    e.Graphics.DrawString("Cliente: " + solicitud[0].IdentificacionCliente + " - " + solicitud[0].NombreCliente, body, Brushes.Black, new RectangleF(0, 170, ancho, 15));
 
-                //FORMATO FACTURA
-                Font Titulo = new Font("MS Mincho", 13, FontStyle.Bold);
-                Font SubTitulo = new Font("MS Mincho", 12, FontStyle.Bold);
-                Font body = new Font("MS Mincho", 10);
-                int ancho = 280;
-                int YProductos = 0;
-                e.Graphics.DrawString("La Colina", Titulo, Brushes.Black, new RectangleF(95, 10, ancho, 20));
-                e.Graphics.DrawString("Parilla - Campestre", SubTitulo, Brushes.Black, new RectangleF(60, 30, ancho, 20));
-                e.Graphics.DrawString("NIT " + ConfigurationManager.AppSettings["NIT"].ToString(), body, Brushes.Black, new RectangleF(90, 50, ancho, 15)); ;
-                e.Graphics.DrawString("" + ConfigurationManager.AppSettings["DIRECCION"].ToString(), body, Brushes.Black, new RectangleF(60, 65, ancho, 15));
-                e.Graphics.DrawString("Factura: #" + solicitud[0].Id, body, Brushes.Black, new RectangleF(0, 110, ancho, 15));
-                e.Graphics.DrawString("Fecha: " + solicitud[0].FechaSolicitud, body, Brushes.Black, new RectangleF(0, 125, ancho, 15));
-                e.Graphics.DrawString("Mesero: " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 140, ancho, 15));
-                e.Graphics.DrawString("MESA #" + solicitud[0].NumeroMesa + " - " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 155, ancho, 15));
-                e.Graphics.DrawString("Cliente: " + solicitud[0].IdentificacionCliente + " - " + solicitud[0].NombreCliente, body, Brushes.Black, new RectangleF(0, 170, ancho, 15));
+                    e.Graphics.DrawString("PRODUCTOS: ", body, Brushes.Black, new RectangleF(0, 215, ancho, 15));
+                }
+                
+            };
 
-                e.Graphics.DrawString("PRODUCTOS: ", body, Brushes.Black, new RectangleF(0, 215, ancho, 15));
-                var ListAgrupaProductos = AgrupaProductos(solicitud[0].ProductosSolicitud);
+            printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+            {
+                e.HasMorePages = false;
+                float pageHeight = e.PageSettings.PrintableArea.Height;
+                
+
                 //lista los productos
-                foreach (var item in ListAgrupaProductos)
+                for (int i = UltimoPunto; i < ListAgrupaProductos.Count; i++)
                 {
                     YProductos += 15;
-                    e.Graphics.DrawString("" + item.Id, body, Brushes.Black, new RectangleF(0, 215 + YProductos, ancho, 15));
-                    e.Graphics.DrawString("" + item.NombreProducto, body, Brushes.Black, new RectangleF(25, 215 + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].Id, body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].NombreProducto, body, Brushes.Black, new RectangleF(25, margenY + YProductos, ancho, 15));
                     //PRECIO UNITARIO
                     //e.Graphics.DrawString("" + item.PrecioProducto, body, Brushes.Black, new RectangleF(160, 215 + YProductos, ancho, 15));
                     //PRECIO TOTAL
-                    e.Graphics.DrawString("" + item.IdMesero, body, Brushes.Black, new RectangleF((280 - (item.IdMesero.ToString().Length * 8)), 215 + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].IdMesero, body, Brushes.Black, new RectangleF((280 - (ListAgrupaProductos[i].IdMesero.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                    UltimoPunto++;
+                    printedLines++;
+                    if ((printedLines * 16) >= pageHeight)
+                    {
+                        e.HasMorePages = true;
+                        printedLines = 0;
+                        hoja++;
+                        margenY = 0;
+                        YProductos = 0;
+                        return;
+                    }
+                }                
+                var printedLines2 = printedLines + 11;
+                if (printedLines2 > 74)
+                {
+                    e.HasMorePages = true;
+                    printedLines = 0;
+                    hoja++;
+                    margenY = 0;
+                    YProductos = 0;
+                    return;
                 }
-
+                margenY += 30;
                 if (solicitud[0].Descuentos > 0)
                 {
                     YProductos += 15;
-
-                    e.Graphics.DrawString("DESCUENTOS:", body, Brushes.Black, new RectangleF(0, 260 + YProductos, ancho, 15));
-                    e.Graphics.DrawString("" + solicitud[0].Descuentos, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Descuentos.ToString().Length * 8)), 260 + YProductos, ancho, 15));
+                    margenY += 15;
+                    e.Graphics.DrawString("DESCUENTOS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + solicitud[0].Descuentos, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Descuentos.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 }
                 if (solicitud[0].OtrosCobros > 0)
                 {
                     YProductos += 15;
-                    e.Graphics.DrawString("OTROS COBROS:", body, Brushes.Black, new RectangleF(0, 260 + YProductos, ancho, 15));
-                    e.Graphics.DrawString("" + solicitud[0].OtrosCobros, body, Brushes.Black, new RectangleF((280 - (solicitud[0].OtrosCobros.ToString().Length * 8)), 260 + YProductos, ancho, 15));
+                    margenY += 15;
+                    e.Graphics.DrawString("OTROS COBROS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + solicitud[0].OtrosCobros, body, Brushes.Black, new RectangleF((280 - (solicitud[0].OtrosCobros.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 }
-                e.Graphics.DrawString("SUBTOTAL: ", body, Brushes.Black, new RectangleF(0, 275 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + solicitud[0].Subtotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Subtotal.ToString().Length * 8)), 275 + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("SUBTOTAL: ", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].Subtotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Subtotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 if (solicitud[0].IVATotal > 0 || solicitud[0].IConsumoTotal > 0)
                 {
                     YProductos += 15;
+                    margenY += 15;
                     var sumaImpuestos = solicitud[0].Subtotal + solicitud[0].IVATotal + solicitud[0].IConsumoTotal;
-                    e.Graphics.DrawString("SUBTOTAL CON IMPUESTOS:", body, Brushes.Black, new RectangleF(0, 275 + YProductos, ancho, 15));
-                    e.Graphics.DrawString("" + sumaImpuestos, body, Brushes.Black, new RectangleF((280 - (sumaImpuestos.ToString().Length * 8)), 275 + YProductos, ancho, 15));
+                    e.Graphics.DrawString("SUBTOTAL CON IMPUESTOS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + sumaImpuestos, body, Brushes.Black, new RectangleF((280 - (sumaImpuestos.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 }
-                e.Graphics.DrawString("PROPINA VOLUNTARIA:", body, Brushes.Black, new RectangleF(0, 290 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + solicitud[0].ServicioTotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].ServicioTotal.ToString().Length * 8)), 290 + YProductos, ancho, 15));
-                e.Graphics.DrawString("TOTAL:", body, Brushes.Black, new RectangleF(0, 305 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + solicitud[0].Total, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Total.ToString().Length * 8)), 305 + YProductos, ancho, 15));
-                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 455 + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("PROPINA VOLUNTARIA:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].ServicioTotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].ServicioTotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("TOTAL:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].Total, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Total.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 120;
+                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, margenY + YProductos, ancho, 15));
             };
+
             printDocument1.Print();
             respuesta = true;
             return respuesta;
@@ -495,7 +540,7 @@ namespace ColinaApplication.Data.Business
                 Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
                 int ancho = 280;
 
-                e.Graphics.DrawString("# MESA => " + solicitud[0].NumeroMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
+                e.Graphics.DrawString("#" + solicitud[0].NumeroMesa + " - MESA => " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
                 e.Graphics.DrawString("MESERO => " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 35, ancho, 20));
                 e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
                 e.Graphics.DrawString("" + cantidad, body, Brushes.Black, new RectangleF(0, 95, ancho, 20));
@@ -528,91 +573,96 @@ namespace ColinaApplication.Data.Business
             bool respuesta;
             List<TBL_PRODUCTOS> producto = new List<TBL_PRODUCTOS>();
             List<TBL_IMPRESORAS> impresoras = new List<TBL_IMPRESORAS>();
-
-            //CONSULTA IMPRESORAS A IMPRIMIR
-            var cantProductosDistinct = productos.DistinctBy(c => c.ID_PRODUCTO).ToList();
-            foreach (var item in cantProductosDistinct)
+            try
             {
-                using (DBLaColina contex = new DBLaColina())
+                //CONSULTA IMPRESORAS A IMPRIMIR
+                var cantProductosDistinct = productos.DistinctBy(c => c.ID_PRODUCTO).ToList();
+                foreach (var item in cantProductosDistinct)
                 {
-                    try
+                    using (DBLaColina contex = new DBLaColina())
                     {
-                        producto.Add(contex.TBL_PRODUCTOS.Where(x => x.ID == item.ID_PRODUCTO).FirstOrDefault());
-                        if (producto.LastOrDefault() != null)
+                        try
                         {
-                            var idimpresora = producto.LastOrDefault().ID_IMPRESORA;
-                            if (!(impresoras.Any(x => x.ID == idimpresora)))
-                                impresoras.Add(contex.TBL_IMPRESORAS.Where(x => x.ID == idimpresora).FirstOrDefault());
+                            producto.Add(contex.TBL_PRODUCTOS.Where(x => x.ID == item.ID_PRODUCTO).FirstOrDefault());
+                            if (producto.LastOrDefault() != null)
+                            {
+                                var idimpresora = producto.LastOrDefault().ID_IMPRESORA;
+                                if (!(impresoras.Any(x => x.ID == idimpresora)))
+                                    impresoras.Add(contex.TBL_IMPRESORAS.Where(x => x.ID == idimpresora).FirstOrDefault());
+                            }
+
                         }
-
-                    }
-                    catch (Exception ex)
-                    {
-
+                        catch (Exception ex)
+                        {
+                            respuesta = false;
+                        }
                     }
                 }
-            }
-            foreach (var item in impresoras)
-            {
-                PrinterSettings ps = new PrinterSettings();
-                PrintDocument printDocument1 = new PrintDocument();
-                printDocument1.PrinterSettings = ps;
-                printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
-                printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+                foreach (var item in impresoras)
                 {
-                    int Ymargen = 0;
-                    //CONSULTA SOLICITUD
-                    var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
-
-                    //FORMATO FACTURA
-                    Font body = new Font("MS Mincho", 12);
-                    Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
-                    int ancho = 280;
-
-                    e.Graphics.DrawString("#" + solicitud[0].NumeroMesa + " - MESA => " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
-                    e.Graphics.DrawString("MESERO => " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 35, ancho, 20));
-                    e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
-
-                    foreach (var item2 in producto)
+                    PrinterSettings ps = new PrinterSettings();
+                    PrintDocument printDocument1 = new PrintDocument();
+                    printDocument1.PrinterSettings = ps;
+                    printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
+                    printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
                     {
-                        if (item2.ID_IMPRESORA == item.ID)
+                        int Ymargen = 0;
+                        //CONSULTA SOLICITUD
+                        var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idMesa));
+
+                        //FORMATO FACTURA
+                        Font body = new Font("MS Mincho", 12);
+                        Font bodyNegrita = new Font("MS Mincho", 14, FontStyle.Bold);
+                        int ancho = 280;
+
+                        e.Graphics.DrawString("#" + solicitud[0].NumeroMesa + " - MESA => " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 15, ancho, 20));
+                        e.Graphics.DrawString("MESERO => " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 35, ancho, 20));
+                        e.Graphics.DrawString("HORA: " + DateTime.Now.ToString("HH:mm:ss"), bodyNegrita, Brushes.Black, new RectangleF(0, 55, ancho, 20));
+
+                        foreach (var item2 in producto)
                         {
-                            List<TBL_PRODUCTOS_SOLICITUD> prodImprimir = new List<TBL_PRODUCTOS_SOLICITUD>();
-                            prodImprimir = productos.Where(x => x.ID_PRODUCTO == item2.ID).ToList();
-
-                            foreach (var item3 in prodImprimir)
+                            if (item2.ID_IMPRESORA == item.ID)
                             {
-                                e.Graphics.DrawString("" + item3.ID, body, Brushes.Black, new RectangleF(0, 95 + Ymargen, ancho, 20));
-                                e.Graphics.DrawString("" + item2.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
+                                List<TBL_PRODUCTOS_SOLICITUD> prodImprimir = new List<TBL_PRODUCTOS_SOLICITUD>();
+                                prodImprimir = productos.Where(x => x.ID_PRODUCTO == item2.ID).ToList();
 
-                                //DAR FORMATO A DESCRIPCION
-                                int tamañoDes = 0;
-                                var descripcionAux = "";
-                                item3.DESCRIPCION = item3.DESCRIPCION.Replace("\n", " ");
-                                while (item3.DESCRIPCION.Length > 21)
+                                foreach (var item3 in prodImprimir)
                                 {
-                                    tamañoDes += 21;
-                                    descripcionAux = item3.DESCRIPCION.Substring(0, 21);
-                                    item3.DESCRIPCION = item3.DESCRIPCION.Substring(21, item3.DESCRIPCION.Length - 21);
-                                    e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
-                                    Ymargen += 20;
-                                }
-                                //if (descripcionAux == "")
-                                //e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
-                                //else
-                                e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                    e.Graphics.DrawString("" + item3.ID, body, Brushes.Black, new RectangleF(0, 95 + Ymargen, ancho, 20));
+                                    e.Graphics.DrawString("" + item2.NOMBRE_PRODUCTO, body, Brushes.Black, new RectangleF(30, 95 + Ymargen, ancho, 20));
 
-                                Ymargen += 40;
+                                    //DAR FORMATO A DESCRIPCION
+                                    int tamañoDes = 0;
+                                    var descripcionAux = "";
+                                    item3.DESCRIPCION = item3.DESCRIPCION.Replace("\n", " ");
+                                    while (item3.DESCRIPCION.Length > 21)
+                                    {
+                                        tamañoDes += 21;
+                                        descripcionAux = item3.DESCRIPCION.Substring(0, 21);
+                                        item3.DESCRIPCION = item3.DESCRIPCION.Substring(21, item3.DESCRIPCION.Length - 21);
+                                        e.Graphics.DrawString("" + descripcionAux, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                        Ymargen += 20;
+                                    }
+                                    //if (descripcionAux == "")
+                                    //e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+                                    //else
+                                    e.Graphics.DrawString("" + item3.DESCRIPCION, body, Brushes.Black, new RectangleF(30, 115 + Ymargen, ancho, 20));
+
+                                    Ymargen += 40;
+                                }
                             }
                         }
-                    }
-                    e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 180 + Ymargen, ancho, 20));
-                };
-                printDocument1.Print();
+                        e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 180 + Ymargen, ancho, 20));
+                    };
+                    printDocument1.Print();
+                }
+                respuesta = true;
             }
-            respuesta = true;
+            catch (Exception e)
+            {
+                respuesta = false;
+            }
             return respuesta;
-
         }
         public List<TBL_USUARIOS> ListaMeseros()
         {
@@ -623,7 +673,19 @@ namespace ColinaApplication.Data.Business
             }
             return ListMeseros;
         }
-
+        public void ActualizaEstadoProducto(TBL_PRODUCTOS_SOLICITUD model)
+        {
+            TBL_PRODUCTOS_SOLICITUD productoAct = new TBL_PRODUCTOS_SOLICITUD();
+            using (DBLaColina context = new DBLaColina())
+            {
+                productoAct = context.TBL_PRODUCTOS_SOLICITUD.Where(x => x.ID == model.ID).FirstOrDefault();
+                if (productoAct != null)
+                {
+                    productoAct.ESTADO_PRODUCTO = Estados.Entregado;
+                    context.SaveChanges();
+                }
+            }
+        }
 
         public TBL_PRODUCTOS ElementoInventario(decimal Id)
         {

@@ -179,6 +179,7 @@ namespace ColinaApplication.Hubs
         public bool ImprimeProductos(string cantidad, string idproducto, string descripcion, string idMesa)
         {
             bool respuesta = solicitud.ImprimirPedido(cantidad, idproducto, descripcion, idMesa);
+            //ACTUALIZA ESTADO DEL PRODUCTO REENVIADO
             return respuesta;
         }
         public void ActualizaIdmesaHTML(string idmesa, string idmesaAnterior)

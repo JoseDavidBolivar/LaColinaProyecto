@@ -422,95 +422,145 @@ namespace ColinaApplication.Data.Business
             PrinterSettings ps = new PrinterSettings();
             printDocument1.PrinterSettings = ps;
             printDocument1.PrinterSettings.PrinterName = "CAJA";
+            List<ProductosSolicitud> productosSolicitudes = new List<ProductosSolicitud>();
+            TBL_USUARIOS usuario = new TBL_USUARIOS();
+            //CONSULTA PRODUCTOS
+            var idSolicitudes = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).Select(x => x.ID).ToList();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    //productosSolicitudes = contex.TBL_PRODUCTOS_SOLICITUD.Where(x => idSolicitudes.Any(a => a == x.ID)).ToList();                            var ListAgrupaProductos = AgrupaProductos(productosSolicitudes);
+                    productosSolicitudes = (from a in contex.TBL_PRODUCTOS_SOLICITUD
+                                            where idSolicitudes.Any(b => a.ID_SOLICITUD == b) && a.ESTADO_PRODUCTO == Estados.Entregado
+                                            select new ProductosSolicitud
+                                            {
+                                                IdProducto = a.ID_PRODUCTO,
+                                                NombreProducto = contex.TBL_PRODUCTOS.Where(x => x.ID == a.ID_PRODUCTO).FirstOrDefault().NOMBRE_PRODUCTO,
+                                                PrecioProducto = a.PRECIO_PRODUCTO
+                                            }).ToList();
+                    usuario = contex.TBL_USUARIOS.Where(x => x.ID == idUsuario).FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            var productosAgrupados = AgrupaProductos(productosSolicitudes);
+            var ultimoCierre = CierreUsuarioId(idUsuario);
+            //FORMATO FACTURA
+            Font Titulo = new Font("MS Mincho", 14, FontStyle.Bold);
+            Font body = new Font("MS Mincho", 10);
+            Font bodyNegrita = new Font("MS Mincho", 11, FontStyle.Bold);
+            Font bodySubrayado = new Font("MS Mincho", 10, FontStyle.Underline);
+            int ancho = 280;
+            int margenY = 135;
+            int YProductos = 0;
+            int UltimoPunto = 0;
+            var printedLines = 15;
+            var hoja = 1;
+
             printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
             {
-                List<ProductosSolicitud> productosSolicitudes = new List<ProductosSolicitud>();
-                TBL_USUARIOS usuario = new TBL_USUARIOS();
-                //CONSULTA PRODUCTOS
-                var idSolicitudes = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).Select(x => x.ID).ToList();
-                using (DBLaColina contex = new DBLaColina())
+                if (hoja == 1)
                 {
-                    try
-                    {
-                        //productosSolicitudes = contex.TBL_PRODUCTOS_SOLICITUD.Where(x => idSolicitudes.Any(a => a == x.ID)).ToList();                            var ListAgrupaProductos = AgrupaProductos(productosSolicitudes);
-                        productosSolicitudes = (from a in contex.TBL_PRODUCTOS_SOLICITUD
-                                                where idSolicitudes.Any(b => a.ID_SOLICITUD == b)
-                                                select new ProductosSolicitud
-                                                {
-                                                    IdProducto = a.ID_PRODUCTO,
-                                                    NombreProducto = contex.TBL_PRODUCTOS.Where(x => x.ID == a.ID_PRODUCTO).FirstOrDefault().NOMBRE_PRODUCTO,
-                                                    PrecioProducto = a.PRECIO_PRODUCTO
-                                                }).ToList();
-                        usuario = contex.TBL_USUARIOS.Where(x => x.ID == idUsuario).FirstOrDefault();
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    e.Graphics.DrawString("Cierre - Caja", Titulo, Brushes.Black, new RectangleF(85, 10, ancho, 20));
+                    e.Graphics.DrawString("Fecha Apertura: " + ultimoCierre.FECHA_HORA_APERTURA, body, Brushes.Black, new RectangleF(0, 60, ancho, 20));
+                    e.Graphics.DrawString("Fecha Cierre: " + ultimoCierre.FECHA_HORA_CIERRE, body, Brushes.Black, new RectangleF(0, 75, ancho, 15));
+                    e.Graphics.DrawString("Cajero: " + usuario.CEDULA + " - " + usuario.NOMBRE, body, Brushes.Black, new RectangleF(0, 90, ancho, 15));
+                    e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 105, ancho, 15));
+                    e.Graphics.DrawString("Productos", bodyNegrita, Brushes.Black, new RectangleF(0, 135, ancho, 15));
                 }
-                var productosAgrupados = AgrupaProductos(productosSolicitudes);
-                var ultimoCierre = CierreUsuarioId(idUsuario);
-
-                //FORMATO FACTURA
-                Font Titulo = new Font("MS Mincho", 14, FontStyle.Bold);
-                Font body = new Font("MS Mincho", 10);
-                Font bodyNegrita = new Font("MS Mincho", 11, FontStyle.Bold);
-                Font bodySubrayado = new Font("MS Mincho", 10, FontStyle.Underline);
-                int ancho = 280;
-                int YProductos = 0;
-                e.Graphics.DrawString("Cierre - Caja", Titulo, Brushes.Black, new RectangleF(85, 10, ancho, 20));
-                e.Graphics.DrawString("Fecha Apertura: " + ultimoCierre.FECHA_HORA_APERTURA, body, Brushes.Black, new RectangleF(0, 60, ancho, 20));
-                e.Graphics.DrawString("Fecha Cierre: " + ultimoCierre.FECHA_HORA_CIERRE, body, Brushes.Black, new RectangleF(0, 75, ancho, 15));
-                e.Graphics.DrawString("Cajero: " + usuario.CEDULA + " - " + usuario.NOMBRE, body, Brushes.Black, new RectangleF(0, 90, ancho, 15));
-                e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 105, ancho, 15));
-                e.Graphics.DrawString("Productos", bodyNegrita, Brushes.Black, new RectangleF(0, 135, ancho, 15));
-                //LISTA LOS PRODUCTOS
-                foreach (var item in productosAgrupados)
+            };
+            printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+            {
+                e.HasMorePages = false;
+                float pageHeight = e.PageSettings.PrintableArea.Height;
+                for (int i = UltimoPunto; i < productosAgrupados.Count; i++)
                 {
-                    //YProductos += 15;
-                    //e.Graphics.DrawString("" + item.NombreProducto, body, Brushes.Black, new RectangleF(0, 135 + YProductos, ancho, 15));
-                    //e.Graphics.DrawString("" + item.Id, body, Brushes.Black, new RectangleF((280 - (item.Id.ToString().Length * 9)), 135 + YProductos, ancho, 15));
+                    YProductos += 15;
+                    e.Graphics.DrawString("" + productosAgrupados[i].NombreProducto, body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + productosAgrupados[i].Id, body, Brushes.Black, new RectangleF((280 - (productosAgrupados[i].Id.ToString().Length * 9)), margenY + YProductos, ancho, 15));
                     //PRECIO UNITARIO
-                    //e.Graphics.DrawString("" + item.PrecioProducto, body, Brushes.Black, new RectangleF(160, 215 + YProductos, ancho, 15));
+                    //e.Graphics.DrawString("" + productosAgrupados[i].PrecioProducto, body, Brushes.Black, new RectangleF(160, 215 + YProductos, ancho, 15));
                     //PRECIO TOTAL
-                    //e.Graphics.DrawString("" + item.IdMesero, body, Brushes.Black, new RectangleF((280 - (item.IdMesero.ToString().Length * 8)), 215 + YProductos, ancho, 15));
+                    //e.Graphics.DrawString("" + productosAgrupados[i].IdMesero, body, Brushes.Black, new RectangleF((280 - (item.IdMesero.ToString().Length * 8)), 215 + YProductos, ancho, 15));
+                    UltimoPunto++;
+                    printedLines++;
+                    if ((printedLines * 16) >= pageHeight)
+                    {
+                        e.HasMorePages = true;
+                        printedLines = 0;
+                        hoja++;
+                        margenY = 0;
+                        YProductos = 0;
+                        return;
+                    }
                 }
-                e.Graphics.DrawString("• Mesas atendidas:", bodyNegrita, Brushes.Black, new RectangleF(0, 180 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.CANT_MESAS_ATENDIDAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_MESAS_ATENDIDAS.ToString().Length * 8)), 180 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Finalizadas:", body, Brushes.Black, new RectangleF(16, 195 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.CANT_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_FINALIZADAS.ToString().Length * 8)), 195 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, 210 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.TOTAL_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_FINALIZADAS.ToString().Length * 8)), 210 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Consumo Interno:", body, Brushes.Black, new RectangleF(16, 225 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.CANT_CONSUMO_INTERNO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_CONSUMO_INTERNO.ToString().Length * 8)), 225 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, 240 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.TOTAL_CONSUMO_INTERNO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CONSUMO_INTERNO.ToString().Length * 8)), 240 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Canceladas:", body, Brushes.Black, new RectangleF(16, 255 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.CANT_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_CANCELADAS.ToString().Length * 8)), 255 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, 270 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.TOTAL_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CANCELADAS.ToString().Length * 8)), 270 + YProductos, ancho, 15));
+                var printedLines2 = printedLines + 22;
+                if (printedLines2 > 74)
+                {
+                    e.HasMorePages = true;
+                    printedLines = 0;
+                    hoja++;
+                    margenY = 0;
+                    YProductos = 0;
+                    return;
+                }
+                margenY += 30;
+                e.Graphics.DrawString("• Mesas atendidas:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_MESAS_ATENDIDAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_MESAS_ATENDIDAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Finalizadas:", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_FINALIZADAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_FINALIZADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_FINALIZADAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Consumo Interno:", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_CONSUMO_INTERNO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_CONSUMO_INTERNO.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_CONSUMO_INTERNO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CONSUMO_INTERNO.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Canceladas:", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.CANT_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.CANT_CANCELADAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CANCELADAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                
+                margenY += 30;
+                e.Graphics.DrawString("• Otros Cobros:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.OTROS_COBROS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.OTROS_COBROS_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                
+                margenY += 30;
+                e.Graphics.DrawString("• Descuentos:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.DESCUENTOS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.DESCUENTOS_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
 
-                e.Graphics.DrawString("• Otros Cobros:", bodyNegrita, Brushes.Black, new RectangleF(0, 300 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.OTROS_COBROS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.OTROS_COBROS_TOTAL.ToString().Length * 8)), 300 + YProductos, ancho, 15));
+                margenY += 30;
+                e.Graphics.DrawString("• Impuestos:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> I.V.A.:", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.IVA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.IVA_TOTAL.ToString().Length * 9)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Impuesto Consumo: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.I_CONSUMO_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.I_CONSUMO_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Servicio: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.SERVICIO_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.SERVICIO_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
 
-                e.Graphics.DrawString("• Descuentos:", bodyNegrita, Brushes.Black, new RectangleF(0, 330 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.DESCUENTOS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.DESCUENTOS_TOTAL.ToString().Length * 8)), 330 + YProductos, ancho, 15));
-
-                e.Graphics.DrawString("• Impuestos:", bodyNegrita, Brushes.Black, new RectangleF(0, 360 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> I.V.A.:", body, Brushes.Black, new RectangleF(16, 375 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.IVA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.IVA_TOTAL.ToString().Length * 9)), 375 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Impuesto Consumo: ", body, Brushes.Black, new RectangleF(16, 390 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.I_CONSUMO_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.I_CONSUMO_TOTAL.ToString().Length * 8)), 390 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Servicio: ", body, Brushes.Black, new RectangleF(16, 405 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.SERVICIO_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.SERVICIO_TOTAL.ToString().Length * 8)), 405 + YProductos, ancho, 15));
-
-                e.Graphics.DrawString("• Totales:", bodyNegrita, Brushes.Black, new RectangleF(0, 435 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Efectivo: ", body, Brushes.Black, new RectangleF(16, 450 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.TOTAL_EFECTIVO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_EFECTIVO.ToString().Length * 8)), 450 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> Tarjeta: ", body, Brushes.Black, new RectangleF(16, 465 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.TOTAL_TARJETA, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_TARJETA.ToString().Length * 8)), 465 + YProductos, ancho, 15));
-                e.Graphics.DrawString("-> TOTAL VENTAS: ", body, Brushes.Black, new RectangleF(16, 480 + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.VENTA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.VENTA_TOTAL.ToString().Length * 8)), 480 + YProductos, ancho, 15));
+                margenY += 30;
+                e.Graphics.DrawString("• Totales:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Efectivo: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_EFECTIVO, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_EFECTIVO.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> Tarjeta: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.TOTAL_TARJETA, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_TARJETA.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("-> TOTAL VENTAS: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + ultimoCierre.VENTA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.VENTA_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 120;
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 600 + YProductos, ancho, 15));
             };
             printDocument1.Print();
@@ -568,7 +618,7 @@ namespace ColinaApplication.Data.Business
                     e.Graphics.DrawString("" + usuarioNomina.SuledoDiario[i], body, Brushes.Black, new RectangleF((280 - (usuarioNomina.SuledoDiario[i].ToString().Length * 8)), 135 + Ymargen, ancho, 15));
                 }
                 e.Graphics.DrawString("______________________________________", body, Brushes.Black, new RectangleF(0, 165 + Ymargen, ancho, 15));
-                
+
                 e.Graphics.DrawString("Propinas: " + usuarioNomina.Propinas, body, Brushes.Black, new RectangleF(0, 195 + Ymargen, ancho, 15));
                 e.Graphics.DrawString("Deudas: " + usuarioNomina.ConsumoInterno, body, Brushes.Black, new RectangleF(0, 210 + Ymargen, ancho, 15));
 
