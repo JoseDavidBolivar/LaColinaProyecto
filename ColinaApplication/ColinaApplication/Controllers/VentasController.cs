@@ -234,5 +234,12 @@ namespace ColinaApplication.Controllers
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
+        public JsonResult ImprimirParcial()
+        {
+            var solicitudes = ventas.ConsultaSolicitudes(Convert.ToDecimal(Session["IdUsuario"].ToString()), ventas.CierreUsuarioId(Convert.ToDecimal(Session["IdUsuario"].ToString())).FECHA_HORA_APERTURA);
+            var jsonResult = Json(JsonConvert.SerializeObject(ventas.ImprimirCierreParcial(solicitudes, Convert.ToDecimal(Session["IdUsuario"].ToString()))), JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
     }
 }

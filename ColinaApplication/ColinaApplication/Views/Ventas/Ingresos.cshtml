@@ -26,6 +26,19 @@
 
                     </div>
                 }
+                if (ViewBag.ultimoCierre == "CERRAR CAJA")
+                {
+                    <div style="float: right;">
+
+                        <h5>
+                            <i class="fa fa-2x fa-print" style="cursor: pointer; float: right;" onclick="ImprimirParcial()">
+                                <b><small style="font-size: 16px; color:black; font-weight:bolder"> Cierre Parcial</small></b>
+                            </i>
+                            <br />
+                        </h5>
+
+                    </div>
+                }
 
                 <div style="float: right; padding: 10px;">
                     <input id="botonCierre" type="submit" name="Cierre" class="btn btn-info" style="font-weight: bold; " value="@ViewBag.ultimoCierre" />
@@ -400,13 +413,14 @@
 
     @section Scripts{
         <script>
-        var CierreCaja = '@TempData["CierraCaja"]';
-        var ValueCajaText = '@ViewBag.ultimoCierre';
-        var urlreImprimir = '@Url.Action("ReImprimir", "Ventas")';
-        var ultimaFecha = '@ViewBag.ultimaFecha';
+            var CierreCaja = '@TempData["CierraCaja"]';
+            var ValueCajaText = '@ViewBag.ultimoCierre';
+            var urlreImprimir = '@Url.Action("ReImprimir", "Ventas")';
+            var urlImprimirParcial = '@Url.Action("ImprimirParcial", "Ventas")';
+            var ultimaFecha = '@ViewBag.ultimaFecha';
         </script>
 
-        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.7"></script>
+        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.9"></script>
     }
 }
 else
