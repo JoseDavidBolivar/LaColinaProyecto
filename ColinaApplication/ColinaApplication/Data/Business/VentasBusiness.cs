@@ -354,10 +354,10 @@ namespace ColinaApplication.Data.Business
                             {
                                 List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
                                 listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= actualiza.FECHA_PAGO.Value.Date).ToList();
-                                var IdUsuariosPropina = contex.TBL_NOMINA.Where(x => x.ID_PERFIL == 4).Select(x => x.ID).ToList();
+                                var IdUsuariosPropina = contex.TBL_NOMINA.Where(x => x.ID_PERFIL == 4 && x.ESTADO == Estados.Activo).Select(x => x.ID).ToList();
                                 foreach (var fecha in listaFechasTrabajadas)
                                 {
-                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => IdUsuariosPropina.Any(a => x.ID_USUARIO_NOMINA == a)).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
+                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => IdUsuariosPropina.Any(a => x.ID_USUARIO_NOMINA == a) && (x.FECHA_PAGO == null)).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
                                     var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
                                     if (propinaFecha != null)
                                         propinas += propinaFecha;
