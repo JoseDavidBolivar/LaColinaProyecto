@@ -43,7 +43,8 @@ CREATE TABLE [dbo].[TBL_DIAS_TRABAJADOS](
 	[FECHA_TRABAJADO] [datetime] NULL,
 	[SUELDO_DIARIO] [numeric](18, 0) NULL,
 	[PROPINAS] [decimal](18, 2) NULL,
-	[FECHA_PAGO] [datetime] NULL	
+	[FECHA_PAGO] [datetime] NULL,
+	[ID_PERFIL] [numeric](18, 0) NULL,	
 )
 
 /****** Object:  Table [dbo].[TBL_IMPRESORAS]    Script Date: 23/10/2021 5:49:42 p. m. ******/
