@@ -143,18 +143,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TBL_DIAS_TRABAJADOS">
-      <EntityTypeMapping TypeName="COLINADBModel.TBL_DIAS_TRABAJADOS">
-        <MappingFragment StoreEntitySet="TBL_DIAS_TRABAJADOS">
-          <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
-          <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
-          <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
-          <ScalarProperty Name="FECHA_TRABAJADO" ColumnName="FECHA_TRABAJADO" />
-          <ScalarProperty Name="ID_USUARIO_NOMINA" ColumnName="ID_USUARIO_NOMINA" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TBL_NOMINA">
       <EntityTypeMapping TypeName="COLINADBModel.TBL_NOMINA">
         <MappingFragment StoreEntitySet="TBL_NOMINA">
@@ -172,6 +160,19 @@
           <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
           <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
           <ScalarProperty Name="ID_USUARIO_SISTEMA" ColumnName="ID_USUARIO_SISTEMA" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TBL_DIAS_TRABAJADOS">
+      <EntityTypeMapping TypeName="COLINADBModel.TBL_DIAS_TRABAJADOS">
+        <MappingFragment StoreEntitySet="TBL_DIAS_TRABAJADOS">
+          <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+          <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+          <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
+          <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
+          <ScalarProperty Name="FECHA_TRABAJADO" ColumnName="FECHA_TRABAJADO" />
+          <ScalarProperty Name="ID_USUARIO_NOMINA" ColumnName="ID_USUARIO_NOMINA" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

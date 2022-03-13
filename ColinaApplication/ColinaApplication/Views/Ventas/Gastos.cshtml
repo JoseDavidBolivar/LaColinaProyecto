@@ -22,9 +22,9 @@
                             <th>ID</th>
                             <th>CEDULA</th>
                             <th>NOMBRE</th>
-                            <th>CARGO</th>
+                            @*<th>CARGO</th>*@
                             <th>SUELDO X DIA</th>
-                            <th>DIAS TRABAJADOS</th>
+                            <th>DIAS</th>
                             <th>PROPINAS</th>
                             <th>% GANANCIA PROPINAS</th>
                             <th>DEUDA CONSUMO INTERNO</th>
@@ -36,85 +36,90 @@
                     <tbody>
                         @for (int i = 0; i < Model.Nomina.Count; i++)
                         {
-                        <tr>
-                            <td style="text-align: center;">
-                                @if (Model.Nomina[i].FechasAsignadas.Count > 0)
-                                {
-                                    <button type="submit" class="btn btn-warning" onclick="CalcularSueldo('@Model.Nomina[i].Id')">
-                                        <i class="fa fa-plus">&nbsp;</i><i class="fa fa-minus">&nbsp;</i><i class="fa fa-times">&nbsp;</i>
+                            <tr>
+                                <td style="text-align: center;">
+                                    @if (Model.Nomina[i].FechasAsignadas.Count > 0)
+                                    {
+                                        <button type="submit" class="btn btn-warning" onclick="CalcularSueldo('@Model.Nomina[i].Id')">
+                                            <i class="fa fa-plus">&nbsp;</i><i class="fa fa-minus">&nbsp;</i><i class="fa fa-times">&nbsp;</i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <div style="cursor:not-allowed" class="btn btn-default">
+                                            <i class="fa fa-times">&nbsp;</i>
+                                        </div>
+                                    }
+                                </td>
+                                <td style="text-align: center;">
+                                    <button type="submit" class="btn btn-success" onclick="AsignarDia('@Model.Nomina[i].Id')">
+                                        <i class="fa fa-arrow-down">&nbsp;</i> Asignar
                                     </button>
-                                }
-                                else
-                                {
-                                    <div style="cursor:not-allowed" class="btn btn-default">
-                                        <i class="fa fa-times">&nbsp;</i>
-                                    </div>
-                                }
-                            </td>
-                            <td style="text-align: center;">
-                                <button type="submit" class="btn btn-success" onclick="AsignarDia('@Model.Nomina[i].Id')">
-                                    <i class="fa fa-arrow-down">&nbsp;</i> Asignar
-                                </button>
-                            </td>
-                            <td style="text-align: center;">
-                                @if (Model.Nomina[i].FechasAsignadas.Count > 0)
-                                {
-                                    <button type="submit" class="btn btn-primary" onclick="Liquidar('@Model.Nomina[i].Id')">
-                                        <i class="fa fa-money">&nbsp;</i><i class="fa fa-money">&nbsp;</i>
-                                    </button>
-                                }
-                                else
-                                {
-                                    <div style="cursor:not-allowed" class="btn btn-default">
-                                        <i class="fa fa-times">&nbsp;</i>
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                @Model.Nomina[i].Id
-                            </td>
-                            <td>
-                                @Model.Nomina[i].Cedula
-                            </td>
-                            <td>
-                                @Model.Nomina[i].NombreUsuario
-                            </td>
-                            <td>
-                                @Model.Nomina[i].Cargo
-                            </td>
-                            <td>
-                                @for (int j = 0; j < Model.Nomina[i].SuledoDiario.Count; j++)
-                                {
-                                    <b>$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].SuledoDiario[j])<label>,</label></b>
-                                }
-                            </td>
-                            <td>
-                                @Model.Nomina[i].DiasTrabajados
-                            </td>
-                            <td>
-                                <b>$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].Propinas)</b>
-                            </td>
-                            <td>
-                                @Model.Nomina[i].PorcentajeGananciaPropina <label>%</label>
-                            </td>
-                            <td>
-                                <b style="color: red">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N0}", Model.Nomina[i].ConsumoInterno)</b>
-                            </td>
-                            <td>
-                                @for (int j = 0; j < Model.Nomina[i].FechasAsignadas.Count; j++)
-                                {
+                                </td>
+                                <td style="text-align: center;">
+                                    @if (Model.Nomina[i].FechasAsignadas.Count > 0)
+                                    {
+                                        <button type="submit" class="btn btn-primary" onclick="Liquidar('@Model.Nomina[i].Id')">
+                                            <i class="fa fa-money">&nbsp;</i><i class="fa fa-money">&nbsp;</i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <div style="cursor:not-allowed" class="btn btn-default">
+                                            <i class="fa fa-times">&nbsp;</i>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].Id
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].Cedula
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].NombreUsuario
+                                </td>
+                                @*<td>
+                                        @Model.Nomina[i].Cargo
+                                    </td>*@
+                                <td>
+                                    @for (int j = 0; j < Model.Nomina[i].SuledoDiario.Count; j++)
+                                    {
+                                        <b>
+                                            $@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].SuledoDiario[j]) -
+                                            <label style="color: red">
+                                                <label>P</label>@Model.Nomina[i].PerfilFecha[j]
+                                            </label><br />
+                                        </b>
+                                    }
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].DiasTrabajados
+                                </td>
+                                <td>
+                                    <b>$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].Propinas)</b>
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].PorcentajeGananciaPropina <label>%</label>
+                                </td>
+                                <td>
+                                    <b style="color: red">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N0}", Model.Nomina[i].ConsumoInterno)</b>
+                                </td>
+                                <td>
+                                    @for (int j = 0; j < Model.Nomina[i].FechasAsignadas.Count; j++)
+                                    {
 
-                                    @Model.Nomina[i].FechasAsignadas[j].ToShortDateString()<label>,</label>
-                                }
-                            </td>
-                            <td>
-                                @Model.Nomina[i].FechaPago
-                            </td>
-                            <td>
-                                <b style="color: darkgreen">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].TotalPagar)</b>
-                            </td>
+                                        @Model.Nomina[i].FechasAsignadas[j].ToShortDateString()<label>,</label>
+                                    }
+                                </td>
+                                <td>
+                                    @Model.Nomina[i].FechaPago
+                                </td>
+                                <td>
+                                    <b style="color: darkgreen">$@string.Format(System.Globalization.CultureInfo.CreateSpecificCulture("es-CO"), "{0:N2}", Model.Nomina[i].TotalPagar)</b>
+                                </td>
 
-                        </tr>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -134,7 +139,7 @@
 
         </script>
 
-        <script src="~/ScriptsViews/Ventas/Gastos.js?1.0.6"></script>
+        <script src="~/ScriptsViews/Ventas/Gastos.js?1.0.7"></script>
     }
 }
 else

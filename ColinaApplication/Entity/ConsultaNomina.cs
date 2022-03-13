@@ -28,5 +28,6 @@ namespace Entity
         public decimal? TotalPagar { get; set; }
         public List<DateTime> FechasAsignadas { get; set; }
         public decimal? ConsumoInterno { get; set; }
+        public List<decimal?> PerfilFecha { get; set; }
     }
 }

@@ -15,8 +15,8 @@
         <EntityTypeShape EntityType="COLINADBModel.TBL_SOLICITUD" Width="1.5" PointX="9.375" PointY="2.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_IMPRESORAS" Width="1.5" PointX="5.5" PointY="7.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_PRODUCTOS" Width="1.5" PointX="0.625" PointY="3.625" />
-        <EntityTypeShape EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_NOMINA" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" Width="1.5" PointX="8.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

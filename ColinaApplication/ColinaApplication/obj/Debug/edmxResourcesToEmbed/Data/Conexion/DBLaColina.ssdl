@@ -41,9 +41,10 @@
     <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ID_USUARIO_NOMINA" Type="numeric" Precision="18" Scale="0" />
     <Property Name="FECHA_TRABAJADO" Type="datetime" />
+    <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FECHA_PAGO" Type="datetime" />
-    <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID_PERFIL" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TBL_IMPRESORAS">
     <Key>

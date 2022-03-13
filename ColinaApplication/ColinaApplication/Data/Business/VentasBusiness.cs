@@ -282,11 +282,12 @@ namespace ColinaApplication.Data.Business
                 {
                     item.FechasAsignadas = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value >= item.FechaPago.Value).Select(x => x.FECHA_TRABAJADO.Value.Date).ToList();
                     item.SuledoDiario = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value >= item.FechaPago.Value).Select(x => x.SUELDO_DIARIO).ToList();
+                    item.PerfilFecha = context.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == item.Id).ToList().Where(x => x.FECHA_TRABAJADO.Value >= item.FechaPago.Value).Select(x => x.ID_PERFIL).ToList();
                 }
             }
             return nomina;
         }
-        public bool AsignaDiaTrabajo(decimal IdUsuarioNomina, DateTime fechaTrabajo, decimal sueldoDiario)
+        public bool AsignaDiaTrabajo(decimal IdUsuarioNomina, DateTime fechaTrabajo, decimal sueldoDiario, decimal IdPerfil)
         {
             bool Respuesta = false;
             using (DBLaColina contex = new DBLaColina())
@@ -305,6 +306,7 @@ namespace ColinaApplication.Data.Business
                             model.ID_USUARIO_NOMINA = IdUsuarioNomina;
                             model.FECHA_TRABAJADO = fechaTrabajo;
                             model.SUELDO_DIARIO = sueldoDiario;
+                            model.ID_PERFIL = IdPerfil;
                             contex.TBL_DIAS_TRABAJADOS.Add(model);
                             actualiza.DIAS_TRABAJADOS += 1;
                             contex.SaveChanges();
@@ -332,43 +334,47 @@ namespace ColinaApplication.Data.Business
                     if (actualiza != null)
                     {
                         decimal? propinas = 0;
-                        if (actualiza.ID_PERFIL == 3)
+                        List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
+                        listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList();
+
+                        foreach (var fecha in listaFechasTrabajadas)
                         {
-                            List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
-                            listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList();
-                            foreach (var fecha in listaFechasTrabajadas)
+                            if (fecha.ID_PERFIL == 3)
                             {
-                                var PropinaDia = (contex.TBL_SOLICITUD.Where(x => x.ID_MESERO == actualiza.ID_USUARIO_SISTEMA && x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100);
+                                var PropinaDia = (contex.TBL_SOLICITUD.Where(x => x.ID_MESERO == actualiza.ID_USUARIO_SISTEMA && x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100);
                                 propinas += PropinaDia;
-                                actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).FirstOrDefault();
+                                actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
                                 if (actualiza2 != null)
                                 {
                                     actualiza2.PROPINAS = PropinaDia;
                                     contex.SaveChanges();
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA > 0)
+                            else
                             {
-                                List<TBL_DIAS_TRABAJADOS> listaFechasTrabajadas = new List<TBL_DIAS_TRABAJADOS>();
-                                listaFechasTrabajadas = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date >= actualiza.FECHA_PAGO.Value.Date).ToList();
-                                var IdUsuariosPropina = contex.TBL_NOMINA.Where(x => x.ID_PERFIL == 4 && x.ESTADO == Estados.Activo).Select(x => x.ID).ToList();
-                                foreach (var fecha in listaFechasTrabajadas)
+                                if (contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA > 0)
                                 {
-                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => IdUsuariosPropina.Any(a => x.ID_USUARIO_NOMINA == a) && (x.FECHA_PAGO == null)).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
-                                    var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == actualiza.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
+                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_PERFIL == 4).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
+                                    var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
                                     if (propinaFecha != null)
                                         propinas += propinaFecha;
-                                    actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).FirstOrDefault();
+                                    actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
                                     if (actualiza2 != null)
                                     {
                                         actualiza2.PROPINAS = propinaFecha;
                                         contex.SaveChanges();
                                     }
                                 }
-                            }
+                                else
+                                {
+                                    actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
+                                    if (actualiza2 != null)
+                                    {
+                                        actualiza2.PROPINAS = 0;
+                                        contex.SaveChanges();
+                                    }
+                                }
+                            }                            
                         }
                         actualiza.PROPINAS = propinas;
                         actualiza.TOTAL_PAGAR = ((contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Sum(x => x.SUELDO_DIARIO)) + propinas);
@@ -535,11 +541,11 @@ namespace ColinaApplication.Data.Business
                 margenY += 15;
                 e.Graphics.DrawString("-> Total: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.TOTAL_CANCELADAS, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_CANCELADAS.ToString().Length * 8)), margenY + YProductos, ancho, 15));
-                
+
                 margenY += 30;
                 e.Graphics.DrawString("• Otros Cobros:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.OTROS_COBROS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.OTROS_COBROS_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
-                
+
                 margenY += 30;
                 e.Graphics.DrawString("• Descuentos:", bodyNegrita, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
                 e.Graphics.DrawString("" + ultimoCierre.DESCUENTOS_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.DESCUENTOS_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));

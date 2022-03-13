@@ -46,9 +46,10 @@
           <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_USUARIO_NOMINA" Type="numeric" Precision="18" Scale="0" />
           <Property Name="FECHA_TRABAJADO" Type="datetime" />
+          <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
           <Property Name="PROPINAS" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FECHA_PAGO" Type="datetime" />
-          <Property Name="SUELDO_DIARIO" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ID_PERFIL" Type="numeric" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TBL_IMPRESORAS">
           <Key>
@@ -197,8 +198,8 @@
           <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
           <EntitySet Name="TBL_IMPRESORAS" EntityType="COLINADBModel.TBL_IMPRESORAS" />
           <EntitySet Name="TBL_PRODUCTOS" EntityType="COLINADBModel.TBL_PRODUCTOS" />
-          <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" />
           <EntitySet Name="TBL_NOMINA" EntityType="COLINADBModel.TBL_NOMINA" />
+          <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" />
         </EntityContainer>
         <EntityType Name="TBL_CATEGORIAS">
           <Key>
@@ -332,17 +333,6 @@
           <Property Name="DESCRIPCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ID_IMPRESORA" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="TBL_DIAS_TRABAJADOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_USUARIO_NOMINA" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="FECHA_TRABAJADO" Type="DateTime" Precision="3" />
-          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
-          <Property Name="SUELDO_DIARIO" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
         <EntityType Name="TBL_NOMINA">
           <Key>
             <PropertyRef Name="ID" />
@@ -362,6 +352,18 @@
           <Property Name="ESTADO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TOTAL_PAGAR" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CONSUMO_INTERNO" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TBL_DIAS_TRABAJADOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO_NOMINA" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FECHA_TRABAJADO" Type="DateTime" Precision="3" />
+          <Property Name="SUELDO_DIARIO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
+          <Property Name="ID_PERFIL" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -511,18 +513,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBL_DIAS_TRABAJADOS">
-            <EntityTypeMapping TypeName="COLINADBModel.TBL_DIAS_TRABAJADOS">
-              <MappingFragment StoreEntitySet="TBL_DIAS_TRABAJADOS">
-                <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
-                <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
-                <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
-                <ScalarProperty Name="FECHA_TRABAJADO" ColumnName="FECHA_TRABAJADO" />
-                <ScalarProperty Name="ID_USUARIO_NOMINA" ColumnName="ID_USUARIO_NOMINA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBL_NOMINA">
             <EntityTypeMapping TypeName="COLINADBModel.TBL_NOMINA">
               <MappingFragment StoreEntitySet="TBL_NOMINA">
@@ -540,6 +530,19 @@
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
                 <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
                 <ScalarProperty Name="ID_USUARIO_SISTEMA" ColumnName="ID_USUARIO_SISTEMA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_DIAS_TRABAJADOS">
+            <EntityTypeMapping TypeName="COLINADBModel.TBL_DIAS_TRABAJADOS">
+              <MappingFragment StoreEntitySet="TBL_DIAS_TRABAJADOS">
+                <ScalarProperty Name="ID_PERFIL" ColumnName="ID_PERFIL" />
+                <ScalarProperty Name="FECHA_PAGO" ColumnName="FECHA_PAGO" />
+                <ScalarProperty Name="PROPINAS" ColumnName="PROPINAS" />
+                <ScalarProperty Name="SUELDO_DIARIO" ColumnName="SUELDO_DIARIO" />
+                <ScalarProperty Name="FECHA_TRABAJADO" ColumnName="FECHA_TRABAJADO" />
+                <ScalarProperty Name="ID_USUARIO_NOMINA" ColumnName="ID_USUARIO_NOMINA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
