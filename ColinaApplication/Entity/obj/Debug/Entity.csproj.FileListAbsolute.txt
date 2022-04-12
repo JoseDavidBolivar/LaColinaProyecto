@@ -13,4 +13,3 @@ C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplicat
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csproj.CoreCompileInputs.cache
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb
-C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojAssemblyReference.cache

@@ -28,7 +28,7 @@ namespace ColinaApplication.Data.Business
             List<ConsultaSolicitudGeneral> solicitudMesa = new List<ConsultaSolicitudGeneral>();
             using (DBLaColina context = new DBLaColina())
             {
-                var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a => a.ID_MESA == IdMesa).ToList().LastOrDefault();
+                var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a => a.ID_MESA == IdMesa && a.ESTADO_SOLICITUD == Estados.Abierta).ToList().LastOrDefault();
                 if (ConsultaSolicitud != null)
                 {
                     var lista = context.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
