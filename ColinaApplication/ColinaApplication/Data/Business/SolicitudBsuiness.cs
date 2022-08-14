@@ -28,7 +28,7 @@ namespace ColinaApplication.Data.Business
             List<ConsultaSolicitudGeneral> solicitudMesa = new List<ConsultaSolicitudGeneral>();
             using (DBLaColina context = new DBLaColina())
             {
-                var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a => a.ID_MESA == IdMesa && a.ESTADO_SOLICITUD == Estados.Abierta).ToList().LastOrDefault();
+                var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a => a.ID_MESA == IdMesa && (a.ESTADO_SOLICITUD == Estados.Abierta || a.ESTADO_SOLICITUD == Estados.Llevar)).ToList().LastOrDefault();
                 if (ConsultaSolicitud != null)
                 {
                     var lista = context.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
@@ -263,7 +263,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.IVA_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_IVA) / 100;
                         actualiza.I_CONSUMO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_I_CONSUMO) / 100;
                         actualiza.SERVICIO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
-                        actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL;
+                        actualiza.TOTAL = ((actualiza.OTROS_COBROS + actualiza.SUBTOTAL) - actualiza.DESCUENTOS) + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL;
                         contex.SaveChanges();
                         Respuesta = "Total Actualizado exitosamente";
                     }
