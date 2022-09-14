@@ -1762,6 +1762,7 @@
     <Content Include="Css\fontawesome-free-5.2.0-web\webfonts\fa-brands-400.svg" />
     <Content Include="Css\fontawesome-free-5.2.0-web\webfonts\fa-regular-400.svg" />
     <Content Include="Css\fontawesome-free-5.2.0-web\webfonts\fa-solid-900.svg" />
+    <Content Include="Css\fontawesome-webfont.svg" />
     <Content Include="Css\Inicio.css" />
     <Content Include="Css\Jquery-confirm.css" />
     <Content Include="Data\Conexion\DBLaColina.Context.tt">
@@ -1862,6 +1863,9 @@
       <DependentUpon>DBLaColina.edmx</DependentUpon>
     </Content>
     <Compile Include="Data\Clases\CsvExport.cs" />
+    <Content Include="Css\fontawesome-webfont.eot" />
+    <Content Include="Css\fontawesome-webfont.ttf" />
+    <Content Include="Css\fontawesome-webfont.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
