@@ -33,6 +33,7 @@ namespace ColinaApplication.Controllers
             ViewBag.ultimoCierre = Text[0];
             if (Text.Length > 1)
                 ViewBag.ultimaFecha = Text[1];
+            model.SolicitudesModel = ConsultaUltimasFacturas();
             return View(model);
         }
         [HttpPost]
@@ -153,6 +154,18 @@ namespace ColinaApplication.Controllers
             return View("Ingresos", model);
 
         }
+        public List<ConsultaSolicitud> ConsultaUltimasFacturas()
+        {
+            SuperViewModels model = new SuperViewModels();
+            var fechaE = new DateTime(2022, 03, 06, 21, 58, 00);
+            //var fechaHoy = DateTime.Now;
+            TimeSpan ts = new TimeSpan(00, 00, 0);
+            var fecha1 = fechaE.AddDays(-1);
+            fecha1 = fecha1.Date + ts;
+            var fecha2 = fechaE;
+            model.SolicitudesModel = ventas.ConsultaUltimasFacturas(fecha1, fecha2);
+            return model.SolicitudesModel;
+        }
         [HttpGet]
         public ActionResult Gastos()
         {
@@ -240,6 +253,24 @@ namespace ColinaApplication.Controllers
             var jsonResult = Json(JsonConvert.SerializeObject(ventas.ImprimirCierreParcial(solicitudes, Convert.ToDecimal(Session["IdUsuario"].ToString()))), JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
+        }
+        public JsonResult ImprimirFactura(string IdFactura)
+        {
+            bool respuesta = ventas.ImprimirFactura(IdFactura);
+            var jsonResult = Json(JsonConvert.SerializeObject(respuesta), JsonRequestBehavior.AllowGet); ;
+            //ConsultaMesaAbierta(IdMesa);
+            return jsonResult;
+        }
+        [HttpPost]
+        public ActionResult ActualizaFactura(SuperViewModels model)
+        {
+            if (model.SolicitudModel.NroFactura > 0)
+                TempData["Resultado"] = ventas.ActualizaFactura(model.SolicitudModel);
+            else
+                TempData["Resultado"] = false;
+
+            TempData["Posicion"] = "DivFactura";
+            return RedirectToAction("Ingresos");
         }
     }
 }

@@ -47,368 +47,169 @@
         </div>
         <br /><br />
         <div class="col-md-12">
-            <h3 class="page-header"><i class="fa fa-bars"></i> Movimiento ventas por fecha </h3>
-            <div style="padding: 10px; background-color: #eeeeee; ">
-                @using (Html.BeginForm("ConsultaFechas", "Ventas", FormMethod.Post, new { @style = "" }))
-                {
-                    <small><b>Fecha inicial:</b></small>
-                    <input type="date" name="fechaInicial" class="form-control input-sm" required />
-                    <small><b>Fecha final:</b></small>
-                    <input type="date" name="fechaFinal" class="form-control input-sm" required />
-                    <br />
-                    <input type="submit" name="Consulta" class="btn btn-success" value="Consultar" />
-                    <input type="submit" name="Consulta" class="btn btn-warning" value="Exportar" />
-                }
-                @using (Html.BeginForm("ConsultaFechas", "Ventas", FormMethod.Post, new { @style = "" }))
-                {
+            <h3 class="page-header"><i class="fa fa-ticket"></i> Ultimas Facturas </h3>
+            <div class="col-md-12" style="overflow-x:auto;">
+                <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;">
+                    <thead style="background-color: black; color: white;">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>NRO FACTURA</th>
+                            <th>FECHA </th>
+                            <th>TOTAL</th>
+                            <th>NUMERO MESA </th>
+                            <th>NOMBRE MESA </th>
+                            <th>NOMBRE MESERO</th>
+                            <th>ID CLIENTE</th>
+                            <th>NOMBRE CLIENTE</th>
+                            <th>ESTADO</th>
+                            <th>OBSERVACIONES</th>
+                            <th>OTROS COBROS</th>
+                            <th>DESCUENTOS</th>
+                            <th>SUBTOTAL</th>
+                            <th>% IVA</th>
+                            <th>IVA TOTAL</th>
+                            <th>% CONSUMO</th>
+                            <th>CONSUMO TOTAL</th>
+                            <th>% SERVICIO</th>
+                            <th>SERVICIO TOTAL</th>
+                            <th>METODO PAGO</th>
+                            <th>VOUCHER</th>
+                            <th>EFECTIVO</th>
 
-                }
-                <br />
-                <br />
-                <div class="col-md-12" style="overflow-x:auto;">
-                    <br /><h4><b>Facturas</b></h4>
-                    <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;">
-                        <thead style="background-color: black; color: white;">
-                            <tr>
-                                <th>NRO FACTURA</th>
-                                <th>FECHA</th>
-                                <th># MESA</th>
-                                <th>NOMBRE MESA</th>
-                                <th>NOMBRE MESERO</th>
-                                <th>ID CLIENTE</th>
-                                <th>NOMBRE CLIENTE</th>
-                                <th>ESTADO</th>
-                                <th>OBSERVACIONES</th>
-                                <th>OTROS COBROS</th>
-                                <th>DESCUENTOS</th>
-                                <th>SUBTOTAL</th>
-                                <th>% IVA</th>
-                                <th>IVA TOTAL</th>
-                                <th>% CONSUMO</th>
-                                <th>CONSUMO TOTAL</th>
-                                <th>% SERVICIO</th>
-                                <th>SERVICIO TOTAL</th>
-                                <th>TOTAL</th>
-                                <th>METODO PAGO</th>
-                                <th>VOUCHER</th>
-                                <th>EFECTIVO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Solicitudes != null)
-                            {
-                                if (Model.Solicitudes.Count > 0)
-                                {
-                                    for (int i = 0; i < Model.Solicitudes.Count; i++)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Model.Solicitudes[i].NroFactura
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].FechaSolicitud
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].NumeroMesa
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].NombreMesa
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].NombreMesero
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].IdCliente
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].NombreCliente
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].EstadoSolicitud
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Observaciones
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].OtrosCobros
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Descuentos
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Subtotal
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].PorcentajeIVA
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].IVATotal
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].PorcentajeIConsumo
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].IConsumoTotal
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].PorcentajeServicio
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].ServicioTotal
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Total
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].MetodoPago
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Voucher
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[i].Efectivo
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-12" style="overflow-x:auto;">
-                    <br /><br /><h4><b>Productos por Facturas</b></h4>
-                    <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;">
-                        <thead style="background-color: black; color: white;">
-                            <tr>
-                                <th>ID</th>
-                                <th>FECHA REGISTRO </th>
-                                <th>NRO FACTURA</th>
-                                <th>PRODUCTO </th>
-                                <th>NOMBRE MESERO</th>
-                                <th>PRECIO PRODUCTO</th>
-                                <th>ESTADO</th>
-                                <th>DESCRIPCION</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Solicitudes != null)
-                            {
-                                if (Model.Solicitudes.Count > 0)
-                                {
-                                    for (int i = 0; i < Model.Solicitudes[0].ProductosSolicitud.Count; i++)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].Id
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].FechaRegistro
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].IdSolicitud
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].NombreProducto
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].NombreMesero
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].PrecioProducto
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].EstadoProducto
-                                            </td>
-                                            <td>
-                                                @Model.Solicitudes[0].ProductosSolicitud[i].Descripcion
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <h3 class="page-header"><i class="fa fa-ticket"></i> Factura </h3>
-            @using (Html.BeginForm("ConsultaFactura", "Ventas", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
-            {
-                <small><b>Digite número de factura:</b></small>
-                <input type="number" class="form-control input-sm" name="NumeroFactura" required />
-                <br />
-                <input type="submit" class="btn btn-success" value="Buscar" />
-                <br />
-                <br />
-                <div class="col-md-12" style="overflow-x:auto;">
-                    <br /><h4><b>Factura</b></h4>
-                    <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;">
-                        <thead style="background-color: black; color: white;">
-                            <tr>
-                                <th>NRO FACTURA</th>
-                                <th>FECHA SOLICITUD </th>
-                                <th>NUMERO MESA </th>
-                                <th>NOMBRE MESA </th>
-                                <th>NOMBRE MESERO</th>
-                                <th>ID CLIENTE</th>
-                                <th>NOMBRE CLIENTE</th>
-                                <th>ESTADO</th>
-                                <th>OBSERVACIONES</th>
-                                <th>OTROS COBROS</th>
-                                <th>DESCUENTOS</th>
-                                <th>SUBTOTAL</th>
-                                <th>% IVA</th>
-                                <th>IVA TOTAL</th>
-                                <th>% CONSUMO</th>
-                                <th>CONSUMO TOTAL</th>
-                                <th>% SERVICIO</th>
-                                <th>SERVICIO TOTAL</th>
-                                <th>TOTAL</th>
-                                <th>METODO PAGO</th>
-                                <th>VOUCHER</th>
-                                <th>EFECTIVO</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.SolicitudModel != null)
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.SolicitudesModel.Count > 0)
+                        {
+                            for (int i = 0; i < Model.SolicitudesModel.Count; i++)
                             {
                                 <tr>
-                                    <td>
-                                        @Model.SolicitudModel.NroFactura
+                                    <td style=" text-align: center;">
+                                        <i class="fa fa-2x fa-print " style="cursor: pointer;" onclick="ReImprimirFactura('@Model.SolicitudesModel[i].NroFactura')"></i>
+                                    </td>
+                                    <td style=" text-align: center;">
+                                        <i class="fa fa-2x fa-pencil " style="cursor: pointer;" onclick="EditarFactura('@Model.SolicitudesModel[i].NroFactura', '@Model.SolicitudesModel[i].OtrosCobros', '@Model.SolicitudesModel[i].Descuentos', '@Model.SolicitudesModel[i].PorcentajeServicio', '@Model.SolicitudesModel[i].Total', '@Model.SolicitudesModel[i].Subtotal')"></i>
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.FechaSolicitud
+                                        @Model.SolicitudesModel[i].NroFactura
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.NumeroMesa
+                                        @Model.SolicitudesModel[i].FechaSolicitud
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.NombreMesa
+                                        @Model.SolicitudesModel[i].Total
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.NombreMesero
+                                        @Model.SolicitudesModel[i].NumeroMesa
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.IdCliente
+                                        @Model.SolicitudesModel[i].NombreMesa
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.NombreCliente
+                                        @Model.SolicitudesModel[i].NombreMesero
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.EstadoSolicitud
+                                        @Model.SolicitudesModel[i].IdCliente
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Observaciones
+                                        @Model.SolicitudesModel[i].NombreCliente
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.OtrosCobros
+                                        @Model.SolicitudesModel[i].EstadoSolicitud
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Descuentos
+                                        @Model.SolicitudesModel[i].Observaciones
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Subtotal
+                                        @Model.SolicitudesModel[i].OtrosCobros
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.PorcentajeIVA
+                                        @Model.SolicitudesModel[i].Descuentos
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.IVATotal
+                                        @Model.SolicitudesModel[i].Subtotal
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.PorcentajeIConsumo
+                                        @Model.SolicitudesModel[i].PorcentajeIVA
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.IConsumoTotal
+                                        @Model.SolicitudesModel[i].IVATotal
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.PorcentajeServicio
+                                        @Model.SolicitudesModel[i].PorcentajeIConsumo
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.ServicioTotal
+                                        @Model.SolicitudesModel[i].IConsumoTotal
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Total
+                                        @Model.SolicitudesModel[i].PorcentajeServicio
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.MetodoPago
+                                        @Model.SolicitudesModel[i].ServicioTotal
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Voucher
+                                        @Model.SolicitudesModel[i].MetodoPago
                                     </td>
                                     <td>
-                                        @Model.SolicitudModel.Efectivo
+                                        @Model.SolicitudesModel[i].Voucher
+                                    </td>
+                                    <td>
+                                        @Model.SolicitudesModel[i].Efectivo
                                     </td>
                                 </tr>
                             }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-12" style="overflow-x:auto;">
-                    <br /><br /><h4><b>Productos por Factura</b></h4>
-                    <table id="" class="table table-bordered table-hover TablaList" style=" width: 100%; background-color: white;">
-                        <thead style="background-color: black; color: white;">
-                            <tr>
-                                <th>ID</th>
-                                <th>FECHA REGISTRO </th>
-                                <th>NRO FACTURA</th>
-                                <th>PRODUCTO </th>
-                                <th>NOMBRE MESERO</th>
-                                <th>PRECIO PRODUCTO</th>
-                                <th>ESTADO</th>
-                                <th>DESCRIPCION</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.SolicitudModel != null)
-                            {
-                                for (int i = 0; i < Model.SolicitudModel.ProductosSolicitud.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].Id
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].FechaRegistro
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].IdSolicitud
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].NombreProducto
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].NombreMesero
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].PrecioProducto
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].EstadoProducto
-                                        </td>
-                                        <td>
-                                            @Model.SolicitudModel.ProductosSolicitud[i].Descripcion
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+                        }
+                    </tbody>
+                </table>
+                <br />
+            </div>
+            <br />
+            <h3 class="page-header"><i class="fa fa-list-alt"></i> Editar Factura </h3>
+            @using (Html.BeginForm("ActualizaFactura", "Ventas", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
+            {
+                <div id="DivFactura" class="col-md-6" style="float: inherit;">
+                    <div class="col-md-12">
+                        <i class="fa fa-2x fa-trash-o" style="float: right; cursor: pointer;" onclick="LimpiaCamposFactura()"></i>
+                        <br />
+                    </div>
+                    <div class="col-md-12">
+                        <small><b>Nro Factura:</b></small>
+                        @Html.TextBoxFor(x => x.SolicitudModel.NroFactura, new { @Id = "IdFactura", @class = "form-control input-sm", @style = "max-width: 100% !important;", @readonly = "readonly" })
+                        
+                    </div>
+                    <div class="col-md-12">
+                        <small><b>Otros Cobros:</b></small>
+                        @Html.TextBoxFor(x => x.SolicitudModel.OtrosCobros, new { @Id = "OtrosCobros", Placeholder = "Digite otros cobros", @type = "number",
+                       @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", @onchange = "CalculosFactura()", @pattern = "[0-9]+"
+                   })
+                    </div>
+                    <div class="col-md-12">
+                        <small><b>Descuentos:</b></small>
+                        @Html.TextBoxFor(x => x.SolicitudModel.Descuentos, new { @Id = "Descuentos", Placeholder = "Digite descuentos", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", @onchange = "CalculosFactura()" })
+                    </div>
+                    <div class="col-md-12">
+                        <small><b>Servicio %:</b></small>
+                        @Html.TextBoxFor(x => x.SolicitudModel.PorcentajeServicio, new { @Id = "PorcentajeServicio", Placeholder = "Digite porcentaje de servicio", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", @onchange = "CalculosFactura()" })
+                        @Html.HiddenFor(x => x.SolicitudModel.ServicioTotal, new { @Id = "ServicioTotal", Value = "" })
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                        <small><b>Total:</b></small>
+                        @Html.LabelFor(x => x.SolicitudModel.Total, " ", new { @Id = "TotalCalc", @style = "color: white; font-weight: bold; font-size: 20px; padding: 5px; border-radius: 5px; background-color: #3776ff;" })
+                        @Html.HiddenFor(x => x.SolicitudModel.Total, new { @Id = "Total", Value = "" })
+                        @Html.HiddenFor(x => x.SolicitudModel.Subtotal, new { @Id = "Subtotal", Value = "" })
+                    </div>
+                </div>
+                <br /><br />
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-success" value="Guardar" />
                 </div>
             }
+
         </div>
 
-        <div class="col-md-12">
-            <h3 class="page-header"><i class="fa fa-bar-chart-o"></i> Reportes de ventas </h3>
-            <br />
-            <div class="col-md-12">
-                Gráficos
-            </div>
-        </div>
     </div>
 
     @section Scripts{
@@ -418,9 +219,12 @@
             var urlreImprimir = '@Url.Action("ReImprimir", "Ventas")';
             var urlImprimirParcial = '@Url.Action("ImprimirParcial", "Ventas")';
             var ultimaFecha = '@ViewBag.ultimaFecha';
+            var urlImprimirFactura = '@Url.Action("ImprimirFactura", "Ventas")';
+            var Resultado = '@TempData["Resultado"]';
+            var Posicion = '@TempData["Posicion"]';
         </script>
 
-        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.9"></script>
+        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.14"></script>
     }
 }
 else

@@ -4,6 +4,7 @@ using Entity;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -851,6 +852,276 @@ namespace ColinaApplication.Data.Business
                 }
             }
             return usuarioNomina;
+        }
+        public List<ConsultaSolicitud> ConsultaUltimasFacturas(DateTime fecha1, DateTime fecha2)
+        {
+            List<ConsultaSolicitud> solicitudes = new List<ConsultaSolicitud>();
+            using (DBLaColina context = new DBLaColina())
+            {
+                solicitudes = (from a in context.TBL_SOLICITUD
+                             where a.FECHA_SOLICITUD >= fecha1 && a.FECHA_SOLICITUD <= fecha2
+                             orderby a.ID descending
+                             select new ConsultaSolicitud
+                             {
+                                 NroFactura = a.ID,
+                                 FechaSolicitud = a.FECHA_SOLICITUD,
+                                 NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
+                                 NombreMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NOMBRE_MESA,
+                                 IdMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().ID,
+                                 NombreMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().NOMBRE,
+                                 IdCliente = a.IDENTIFICACION_CLIENTE,
+                                 NombreCliente = a.NOMBRE_CLIENTE,
+                                 EstadoSolicitud = a.ESTADO_SOLICITUD,
+                                 Observaciones = a.OBSERVACIONES,
+                                 OtrosCobros = a.OTROS_COBROS,
+                                 Descuentos = a.DESCUENTOS,
+                                 Subtotal = a.SUBTOTAL,
+                                 PorcentajeIVA = a.PORCENTAJE_IVA,
+                                 IVATotal = a.IVA_TOTAL,
+                                 PorcentajeIConsumo = a.PORCENTAJE_I_CONSUMO,
+                                 IConsumoTotal = a.I_CONSUMO_TOTAL,
+                                 PorcentajeServicio = a.PORCENTAJE_SERVICIO,
+                                 ServicioTotal = a.SERVICIO_TOTAL,
+                                 Total = a.TOTAL,
+                                 MetodoPago = a.METODO_PAGO,
+                                 Voucher = a.VOUCHER,
+                                 Efectivo = a.CANT_EFECTIVO
+                             }).ToList();
+            }
+            return solicitudes;
+        }
+        public bool ImprimirFactura(string idFactura)
+        {
+            bool respuesta;
+            PrintDocument printDocument1 = new PrintDocument();
+            PrinterSettings ps = new PrinterSettings();
+            printDocument1.PrinterSettings = ps;
+            printDocument1.PrinterSettings.PrinterName = "CAJA";
+
+            //CONSULTA SOLICITUD
+            var solicitud = ConsultaSolicitudMesa(Convert.ToDecimal(idFactura));
+            var ListAgrupaProductos = AgrupaProductos(solicitud[0].ProductosSolicitud);
+            //FORMATO FACTURA
+            Font Titulo = new Font("MS Mincho", 13, FontStyle.Bold);
+            Font SubTitulo = new Font("MS Mincho", 12, FontStyle.Bold);
+            Font body = new Font("MS Mincho", 10);
+            int ancho = 280;
+            int margenY = 215;
+            int YProductos = 0;
+            int UltimoPunto = 0;
+            var printedLines = 15;
+            var hoja = 1;
+
+            printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+            {
+                if (hoja == 1)
+                {
+                    e.Graphics.DrawString("La Colina", Titulo, Brushes.Black, new RectangleF(95, 10, ancho, 20));
+                    e.Graphics.DrawString("Parilla - Campestre", SubTitulo, Brushes.Black, new RectangleF(60, 30, ancho, 20));
+                    e.Graphics.DrawString("NIT " + ConfigurationManager.AppSettings["NIT"].ToString(), body, Brushes.Black, new RectangleF(90, 50, ancho, 15)); ;
+                    e.Graphics.DrawString("" + ConfigurationManager.AppSettings["DIRECCION"].ToString(), body, Brushes.Black, new RectangleF(60, 65, ancho, 15));
+                    e.Graphics.DrawString("Factura: #" + solicitud[0].Id, body, Brushes.Black, new RectangleF(0, 110, ancho, 15));
+                    e.Graphics.DrawString("Fecha: " + solicitud[0].FechaSolicitud, body, Brushes.Black, new RectangleF(0, 125, ancho, 15));
+                    e.Graphics.DrawString("Mesero: " + solicitud[0].NombreMesero, body, Brushes.Black, new RectangleF(0, 140, ancho, 15));
+                    e.Graphics.DrawString("MESA #" + solicitud[0].NumeroMesa + " - " + solicitud[0].NombreMesa, body, Brushes.Black, new RectangleF(0, 155, ancho, 15));
+                    e.Graphics.DrawString("Cliente: " + solicitud[0].IdentificacionCliente + " - " + solicitud[0].NombreCliente, body, Brushes.Black, new RectangleF(0, 170, ancho, 15));
+
+                    e.Graphics.DrawString("PRODUCTOS: ", body, Brushes.Black, new RectangleF(0, 215, ancho, 15));
+                }
+
+            };
+
+            printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
+            {
+                e.HasMorePages = false;
+                float pageHeight = e.PageSettings.PrintableArea.Height;
+
+
+                //lista los productos
+                for (int i = UltimoPunto; i < ListAgrupaProductos.Count; i++)
+                {
+                    YProductos += 15;
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].Id, body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].NombreProducto, body, Brushes.Black, new RectangleF(25, margenY + YProductos, ancho, 15));
+                    //PRECIO UNITARIO
+                    //e.Graphics.DrawString("" + item.PrecioProducto, body, Brushes.Black, new RectangleF(160, 215 + YProductos, ancho, 15));
+                    //PRECIO TOTAL
+                    e.Graphics.DrawString("" + ListAgrupaProductos[i].IdMesero, body, Brushes.Black, new RectangleF((280 - (ListAgrupaProductos[i].IdMesero.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                    UltimoPunto++;
+                    printedLines++;
+                    if ((printedLines * 16) >= pageHeight)
+                    {
+                        e.HasMorePages = true;
+                        printedLines = 0;
+                        hoja++;
+                        margenY = 0;
+                        YProductos = 0;
+                        return;
+                    }
+                }
+                var printedLines2 = printedLines + 11;
+                if (printedLines2 > 74)
+                {
+                    e.HasMorePages = true;
+                    printedLines = 0;
+                    hoja++;
+                    margenY = 0;
+                    YProductos = 0;
+                    return;
+                }
+                margenY += 30;
+                if (solicitud[0].Descuentos > 0)
+                {
+                    YProductos += 15;
+                    margenY += 15;
+                    e.Graphics.DrawString("DESCUENTOS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + solicitud[0].Descuentos, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Descuentos.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                }
+                if (solicitud[0].OtrosCobros > 0)
+                {
+                    YProductos += 15;
+                    margenY += 15;
+                    e.Graphics.DrawString("OTROS COBROS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + solicitud[0].OtrosCobros, body, Brushes.Black, new RectangleF((280 - (solicitud[0].OtrosCobros.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                }
+                margenY += 15;
+                e.Graphics.DrawString("SUBTOTAL: ", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].Subtotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Subtotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                if (solicitud[0].IVATotal > 0 || solicitud[0].IConsumoTotal > 0)
+                {
+                    YProductos += 15;
+                    margenY += 15;
+                    var sumaImpuestos = solicitud[0].Subtotal + solicitud[0].IVATotal + solicitud[0].IConsumoTotal;
+                    e.Graphics.DrawString("SUBTOTAL CON IMPUESTOS:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                    e.Graphics.DrawString("" + sumaImpuestos, body, Brushes.Black, new RectangleF((280 - (sumaImpuestos.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                }
+                margenY += 15;
+                e.Graphics.DrawString("PROPINA VOLUNTARIA:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].ServicioTotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].ServicioTotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 15;
+                e.Graphics.DrawString("TOTAL:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + solicitud[0].Total, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Total.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                margenY += 120;
+                e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, margenY + YProductos, ancho, 15));
+            };
+
+            printDocument1.Print();
+            respuesta = true;
+            return respuesta;
+        }
+        public List<ConsultaSolicitudGeneral> ConsultaSolicitudMesa(decimal IdFactura)
+        {
+            List<ConsultaSolicitudGeneral> solicitudMesa = new List<ConsultaSolicitudGeneral>();
+            using (DBLaColina context = new DBLaColina())
+            {
+                var ConsultaSolicitud = context.TBL_SOLICITUD.Where(a => a.ID == IdFactura).FirstOrDefault();
+                if (ConsultaSolicitud != null)
+                {
+                    var lista = context.TBL_PRODUCTOS_SOLICITUD.Where(a => a.ID_SOLICITUD == ConsultaSolicitud.ID).ToList();
+                    solicitudMesa.Add(new ConsultaSolicitudGeneral
+                    {
+                        Id = ConsultaSolicitud.ID,
+                        FechaSolicitud = ConsultaSolicitud.FECHA_SOLICITUD,
+                        IdMesa = ConsultaSolicitud.ID_MESA,
+                        NumeroMesa = context.TBL_MASTER_MESAS.Where(z => z.ID == ConsultaSolicitud.ID_MESA).FirstOrDefault().NUMERO_MESA,
+                        NombreMesa = context.TBL_MASTER_MESAS.Where(z => z.ID == ConsultaSolicitud.ID_MESA).FirstOrDefault().NOMBRE_MESA,
+                        IdMesero = ConsultaSolicitud.ID_MESERO,
+                        NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == ConsultaSolicitud.ID_MESERO).FirstOrDefault().NOMBRE,
+                        IdentificacionCliente = ConsultaSolicitud.IDENTIFICACION_CLIENTE,
+                        NombreCliente = ConsultaSolicitud.NOMBRE_CLIENTE,
+                        EstadoSolicitud = ConsultaSolicitud.ESTADO_SOLICITUD,
+                        Observaciones = ConsultaSolicitud.OBSERVACIONES,
+                        OtrosCobros = ConsultaSolicitud.OTROS_COBROS,
+                        Descuentos = ConsultaSolicitud.DESCUENTOS,
+                        Subtotal = ConsultaSolicitud.SUBTOTAL,
+                        PorcentajeIVA = ConsultaSolicitud.PORCENTAJE_IVA,
+                        IVATotal = ConsultaSolicitud.IVA_TOTAL,
+                        PorcentajeIConsumo = ConsultaSolicitud.PORCENTAJE_I_CONSUMO,
+                        IConsumoTotal = ConsultaSolicitud.I_CONSUMO_TOTAL,
+                        PorcentajeServicio = ConsultaSolicitud.PORCENTAJE_SERVICIO,
+                        ServicioTotal = ConsultaSolicitud.SERVICIO_TOTAL,
+                        Total = ConsultaSolicitud.TOTAL,
+                        ProductosSolicitud = new List<ProductosSolicitud>(),
+                        Impuestos = new List<Impuestos>()
+
+                    });
+                    var ConsultaProductosSolicitud = context.TBL_PRODUCTOS_SOLICITUD.Where(b => b.ID_SOLICITUD == ConsultaSolicitud.ID && b.ESTADO_PRODUCTO != Estados.Cancelado).ToList();
+                    if (ConsultaProductosSolicitud.Count > 0)
+                    {
+                        foreach (var item in ConsultaProductosSolicitud)
+                        {
+                            try
+                            {
+                                solicitudMesa[0].ProductosSolicitud.Add(new ProductosSolicitud
+                                {
+                                    Id = item.ID,
+                                    FechaRegistro = item.FECHA_REGISTRO,
+                                    IdSolicitud = item.ID_SOLICITUD,
+                                    IdProducto = item.ID_PRODUCTO,
+                                    NombreProducto = context.TBL_PRODUCTOS.Where(a => a.ID == item.ID_PRODUCTO).FirstOrDefault().NOMBRE_PRODUCTO,
+                                    IdMesero = item.ID_MESERO,
+                                    NombreMesero = context.TBL_USUARIOS.Where(a => a.ID == item.ID_MESERO).FirstOrDefault().NOMBRE,
+                                    PrecioProducto = item.PRECIO_PRODUCTO,
+                                    EstadoProducto = item.ESTADO_PRODUCTO,
+                                    Descripcion = item.DESCRIPCION
+
+                                });
+                            }
+                            catch (Exception E)
+                            {
+                                throw E;
+                            }
+                        }
+                    }
+                    var ConsultaImpuesto = context.TBL_IMPUESTOS.ToList();
+                    if (ConsultaImpuesto.Count > 0)
+                    {
+                        foreach (var item in ConsultaImpuesto)
+                        {
+                            solicitudMesa[0].Impuestos.Add(new Impuestos
+                            {
+                                Id = item.ID,
+                                NombreImpuesto = item.NOMBRE_IMPUESTO,
+                                Porcentaje = item.PORCENTAJE,
+                                Estado = item.ESTADO
+                            });
+                        }
+                    }
+                }
+            }
+
+            return solicitudMesa;
+        }
+        public bool ActualizaFactura(ConsultaSolicitud model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_SOLICITUD actualiza = new TBL_SOLICITUD();
+                    actualiza = contex.TBL_SOLICITUD.Where(a => a.ID == model.NroFactura).FirstOrDefault();
+                    if ((actualiza.METODO_PAGO).Trim() == "EFECTIVO")
+                        model.Efectivo = model.Total;
+                    if (actualiza != null)
+                    {
+                        actualiza.OTROS_COBROS = model.OtrosCobros;
+                        actualiza.DESCUENTOS = model.Descuentos;
+                        actualiza.PORCENTAJE_SERVICIO = model.PorcentajeServicio;
+                        actualiza.SERVICIO_TOTAL = model.ServicioTotal;
+                        actualiza.TOTAL = model.Total;
+                        if(model.Efectivo != null)
+                            actualiza.CANT_EFECTIVO = model.Efectivo;
+                        contex.SaveChanges();
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
         }
     }
 }

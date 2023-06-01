@@ -31,5 +31,6 @@ namespace ColinaApplication.Data.Clases
         public ConsultaSolicitud SolicitudModel { get; set; }
         public TBL_CIERRES Cierre { get; set; }
         public List<ConsultaNomina> Nomina { get; set; }
+        public List<ConsultaSolicitud> SolicitudesModel { get; set; }
     }
 }

@@ -88,6 +88,51 @@ function ValidaResultados() {
 
         default:
     }
+    switch (Resultado) {
+        case "True":
+            Resultado = "";
+            $.alert({
+                theme: 'Modern',
+                icon: 'fa fa-check',
+                boxWidth: '500px',
+                useBootstrap: false,
+                type: 'green',
+                title: 'Exitoso !',
+                content: 'Se actualizó exitosamente el registro',
+                buttons: {
+                    Continuar: {
+                        btnClass: 'btn btn-success',
+                        action: function () {
+                            window.location.href = '#' + Posicion;
+                        }
+                    }
+                }
+            });
+            break;
+        case "False":
+            Resultado = "";
+            $.alert({
+                theme: 'Modern',
+                icon: 'fa fa-times',
+                boxWidth: '500px',
+                useBootstrap: false,
+                type: 'red',
+                title: 'Error !',
+                content: 'Hubo un error al actualizar el registro o debes seleccionar una factura antes de guardar. Intentelo nuevamente',
+                buttons: {
+                    Continuar: {
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            window.location.href = '#' + Posicion;
+                        }
+                    }
+                }
+            });
+            break;
+
+        default:
+            break;
+    }
 }
 
 function reImprimir() {
@@ -199,4 +244,79 @@ function ImprimirParcial() {
 
     });
 }
+
+function ReImprimirFactura(NumFact) {
+    $.alert({
+        theme: 'Modern',
+        icon: 'fa fa-list-alt',
+        boxWidth: '500px',
+        useBootstrap: false,
+        type: 'gray',
+        title: 'Factura !',
+        content: 'Desea imprimir la factura ?',
+        buttons: {
+            Si: {
+                btnClass: 'btn btn-default',
+                action: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: urlImprimirFactura,
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({ IdFactura: NumFact }),
+                        dataType: "JSON",
+                        success: function (result) {
+                            var json = JSON.parse(result);
+                            if (json == true) {
+
+                            }
+                            else {
+
+                            }
+
+                        },
+                        error: function (request, status, error) {
+                            console.log(error);
+                        }
+
+                    });
+                }
+            },
+            Cancelar: {
+                btnClass: 'btn btn-default',
+                action: function () {
+
+                }
+            },
+        }
+    });
+    
+}
+
+function EditarFactura(idFact, otrosCobros, descuentos, servicio, total, subtotal) {
+    $("#IdFactura").val(idFact);
+    $("#OtrosCobros").val(otrosCobros);
+    $("#Descuentos").val(descuentos);
+    $("#PorcentajeServicio").val(servicio);
+    var servicioT = (servicio * subtotal)/100;
+    $("#ServicioTotal").val(parseInt(servicioT));
+    $("#TotalCalc").html(total);
+    $("#Total").val(total);
+    $("#Subtotal").val(subtotal);
+}
+function LimpiaCamposFactura() {
+    $("#IdFactura").val("");
+    $("#OtrosCobros").val("");
+    $("#Descuentos").val("");
+    $("#PorcentajeServicio").val("");
+    $("#ServicioTotal").val("");
+    $("#TotalCalc").html("");
+    $("#Total").val("");
+    $("#Subtotal").val("");
+}
+function CalculosFactura() {
+    var TotalF = parseInt($("#OtrosCobros").val()) - parseInt($("#Descuentos").val()) + ((parseInt($("#PorcentajeServicio").val()) * parseInt($("#Subtotal").val())) / 100) + parseInt($("#Subtotal").val());
+    $("#TotalCalc").html(TotalF);
+    $("#Total").val(TotalF);
+}
+
 
