@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-md-12">
                         <small><b>Servicio %:</b></small>
-                        @Html.TextBoxFor(x => x.SolicitudModel.PorcentajeServicio, new { @Id = "PorcentajeServicio", Placeholder = "Digite porcentaje de servicio", @type = "number", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", @onchange = "CalculosFactura()" })
+                        @Html.TextBoxFor(x => x.SolicitudModel.PorcentajeServicio, new { @Id = "PorcentajeServicio", Placeholder = "Digite porcentaje de servicio", @type = "text", @class = "form-control input-sm", @style = "max-width: 100% !important;", Value = "", Required = true, Autocomplete = "off", @onchange = "CalculosFactura()", @onkeypress = "return soloNum(event)" })
                         @Html.HiddenFor(x => x.SolicitudModel.ServicioTotal, new { @Id = "ServicioTotal", Value = "" })
                     </div>
                     <div class="col-md-12">
@@ -224,7 +224,7 @@
             var Posicion = '@TempData["Posicion"]';
         </script>
 
-        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.15"></script>
+        <script src="~/ScriptsViews/Ventas/Ingresos.js?1.0.16"></script>
     }
 }
 else

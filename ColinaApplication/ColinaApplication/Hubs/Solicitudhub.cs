@@ -138,7 +138,7 @@ namespace ColinaApplication.Hubs
             }
             return resultado;
         }
-        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, string porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo, decimal idMesero)
+        public void GuardaDatosCliente(decimal Id, string Cedula, string NombreCliente, string Observaciones, string OtrosCobros, string Descuentos, string SubTotal, string Estado, string IdMesa, decimal porcentajeServicio, string MetodoPago, string Voucher, string CantEfectivo, decimal idMesero)
         {
             TBL_SOLICITUD model = new TBL_SOLICITUD();
             model.ID = Id;
@@ -154,7 +154,7 @@ namespace ColinaApplication.Hubs
             model.OTROS_COBROS = string.IsNullOrEmpty(OtrosCobros) ? 0 : Convert.ToDecimal(OtrosCobros);
             model.DESCUENTOS = string.IsNullOrEmpty(Descuentos) ? 0 : Convert.ToDecimal(Descuentos);
             model.SUBTOTAL = Convert.ToDecimal(SubTotal);
-            model.PORCENTAJE_SERVICIO = Convert.ToDecimal( porcentajeServicio);
+            model.PORCENTAJE_SERVICIO = Convert.ToDecimal(porcentajeServicio);
             model.METODO_PAGO = MetodoPago;
             model.VOUCHER = Voucher;
             model.CANT_EFECTIVO = Convert.ToDecimal(CantEfectivo);

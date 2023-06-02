@@ -340,42 +340,48 @@ namespace ColinaApplication.Data.Business
 
                         foreach (var fecha in listaFechasTrabajadas)
                         {
-                            if (fecha.ID_PERFIL == 3)
+                            var Ultimocierre = contex.TBL_CIERRES.ToList().Where(x => x.FECHA_HORA_APERTURA.Value.Date == fecha.FECHA_TRABAJADO).LastOrDefault();
+                            if (Ultimocierre != null)
                             {
-                                var PropinaDia = (contex.TBL_SOLICITUD.Where(x => x.ID_MESERO == actualiza.ID_USUARIO_SISTEMA && x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100);
-                                propinas += PropinaDia;
-                                actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
-                                if (actualiza2 != null)
+                                DateTime fechaInicioUltimoCierre = Convert.ToDateTime(Ultimocierre.FECHA_HORA_APERTURA);
+                                DateTime fechaFinUltimoCierre = Convert.ToDateTime(Ultimocierre.FECHA_HORA_CIERRE);
+                                if (fecha.ID_PERFIL == 3)
                                 {
-                                    actualiza2.PROPINAS = PropinaDia;
-                                    contex.SaveChanges();
-                                }
-                            }
-                            else
-                            {
-                                if (contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA > 0)
-                                {
-                                    var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_PERFIL == 4).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
-                                    var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
-                                    if (propinaFecha != null)
-                                        propinas += propinaFecha;
+                                    var PropinaDia = (contex.TBL_SOLICITUD.Where(x => x.ID_MESERO == actualiza.ID_USUARIO_SISTEMA && x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date && (x.FECHA_SOLICITUD >= fechaInicioUltimoCierre && x.FECHA_SOLICITUD <= fechaFinUltimoCierre)).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100);
+                                    propinas += PropinaDia;
                                     actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
                                     if (actualiza2 != null)
                                     {
-                                        actualiza2.PROPINAS = propinaFecha;
+                                        actualiza2.PROPINAS = PropinaDia;
                                         contex.SaveChanges();
                                     }
                                 }
                                 else
                                 {
-                                    actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
-                                    if (actualiza2 != null)
+                                    if (contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA > 0)
                                     {
-                                        actualiza2.PROPINAS = 0;
-                                        contex.SaveChanges();
+                                        var cantUsuarios = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID_PERFIL == 4).ToList().Where(x => x.FECHA_TRABAJADO.Value.Date == fecha.FECHA_TRABAJADO).ToList().Count;
+                                        var propinaFecha = ((contex.TBL_SOLICITUD.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido && x.ESTADO_SOLICITUD != Estados.Inhabilitar).ToList().Where(x => x.FECHA_SOLICITUD.Value.Date == fecha.FECHA_TRABAJADO.Value.Date && (x.FECHA_SOLICITUD >= fechaInicioUltimoCierre && x.FECHA_SOLICITUD <= fechaFinUltimoCierre)).Sum(a => a.SERVICIO_TOTAL)) * ((contex.TBL_PERFIL.Where(x => x.ID == fecha.ID_PERFIL).FirstOrDefault().PORCENTAJE_PROPINA) / 100) / cantUsuarios);
+                                        if (propinaFecha != null)
+                                            propinas += propinaFecha;
+                                        actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
+                                        if (actualiza2 != null)
+                                        {
+                                            actualiza2.PROPINAS = propinaFecha;
+                                            contex.SaveChanges();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        actualiza2 = contex.TBL_DIAS_TRABAJADOS.Where(x => x.ID == fecha.ID).FirstOrDefault();
+                                        if (actualiza2 != null)
+                                        {
+                                            actualiza2.PROPINAS = 0;
+                                            contex.SaveChanges();
+                                        }
                                     }
                                 }
-                            }                            
+                            }
                         }
                         actualiza.PROPINAS = propinas;
                         actualiza.TOTAL_PAGAR = ((contex.TBL_DIAS_TRABAJADOS.Where(x => x.FECHA_TRABAJADO >= actualiza.FECHA_PAGO && x.ID_USUARIO_NOMINA == actualiza.ID).ToList().Sum(x => x.SUELDO_DIARIO)) + propinas);
@@ -859,34 +865,34 @@ namespace ColinaApplication.Data.Business
             using (DBLaColina context = new DBLaColina())
             {
                 solicitudes = (from a in context.TBL_SOLICITUD
-                             where a.FECHA_SOLICITUD >= fecha1 && a.FECHA_SOLICITUD <= fecha2
-                             orderby a.ID descending
-                             select new ConsultaSolicitud
-                             {
-                                 NroFactura = a.ID,
-                                 FechaSolicitud = a.FECHA_SOLICITUD,
-                                 NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
-                                 NombreMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NOMBRE_MESA,
-                                 IdMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().ID,
-                                 NombreMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().NOMBRE,
-                                 IdCliente = a.IDENTIFICACION_CLIENTE,
-                                 NombreCliente = a.NOMBRE_CLIENTE,
-                                 EstadoSolicitud = a.ESTADO_SOLICITUD,
-                                 Observaciones = a.OBSERVACIONES,
-                                 OtrosCobros = a.OTROS_COBROS,
-                                 Descuentos = a.DESCUENTOS,
-                                 Subtotal = a.SUBTOTAL,
-                                 PorcentajeIVA = a.PORCENTAJE_IVA,
-                                 IVATotal = a.IVA_TOTAL,
-                                 PorcentajeIConsumo = a.PORCENTAJE_I_CONSUMO,
-                                 IConsumoTotal = a.I_CONSUMO_TOTAL,
-                                 PorcentajeServicio = a.PORCENTAJE_SERVICIO,
-                                 ServicioTotal = a.SERVICIO_TOTAL,
-                                 Total = a.TOTAL,
-                                 MetodoPago = a.METODO_PAGO,
-                                 Voucher = a.VOUCHER,
-                                 Efectivo = a.CANT_EFECTIVO
-                             }).ToList();
+                               where a.FECHA_SOLICITUD >= fecha1 && a.FECHA_SOLICITUD <= fecha2
+                               orderby a.ID descending
+                               select new ConsultaSolicitud
+                               {
+                                   NroFactura = a.ID,
+                                   FechaSolicitud = a.FECHA_SOLICITUD,
+                                   NumeroMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NUMERO_MESA,
+                                   NombreMesa = context.TBL_MASTER_MESAS.Where(x => x.ID == a.ID_MESA).FirstOrDefault().NOMBRE_MESA,
+                                   IdMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().ID,
+                                   NombreMesero = context.TBL_USUARIOS.Where(x => x.ID == a.ID_MESERO).FirstOrDefault().NOMBRE,
+                                   IdCliente = a.IDENTIFICACION_CLIENTE,
+                                   NombreCliente = a.NOMBRE_CLIENTE,
+                                   EstadoSolicitud = a.ESTADO_SOLICITUD,
+                                   Observaciones = a.OBSERVACIONES,
+                                   OtrosCobros = a.OTROS_COBROS,
+                                   Descuentos = a.DESCUENTOS,
+                                   Subtotal = a.SUBTOTAL,
+                                   PorcentajeIVA = a.PORCENTAJE_IVA,
+                                   IVATotal = a.IVA_TOTAL,
+                                   PorcentajeIConsumo = a.PORCENTAJE_I_CONSUMO,
+                                   IConsumoTotal = a.I_CONSUMO_TOTAL,
+                                   PorcentajeServicio = a.PORCENTAJE_SERVICIO,
+                                   ServicioTotal = a.SERVICIO_TOTAL,
+                                   Total = a.TOTAL,
+                                   MetodoPago = a.METODO_PAGO,
+                                   Voucher = a.VOUCHER,
+                                   Efectivo = a.CANT_EFECTIVO
+                               }).ToList();
             }
             return solicitudes;
         }
@@ -1110,7 +1116,7 @@ namespace ColinaApplication.Data.Business
                         actualiza.PORCENTAJE_SERVICIO = model.PorcentajeServicio;
                         actualiza.SERVICIO_TOTAL = model.ServicioTotal;
                         actualiza.TOTAL = model.Total;
-                        if(model.Efectivo != null)
+                        if (model.Efectivo != null)
                             actualiza.CANT_EFECTIVO = model.Efectivo;
                         contex.SaveChanges();
                         Respuesta = true;

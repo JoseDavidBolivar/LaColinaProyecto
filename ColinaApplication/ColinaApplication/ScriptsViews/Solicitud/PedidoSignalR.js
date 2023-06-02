@@ -286,11 +286,13 @@ function ActualizaInfoPrecios(data) {
             '<span class="input-group-btn" style="float: left;">' +
             '<button class="btn btn-success" id="menosServicio" type="button" onclick="menosServicio()"><b>-</b></button>' +
             '</span>' +
-            '<input type="text" style="width:50px;text-align: center; float: left; margin-left: 10%;" id="servicio" class="form-control" value="' + data[0].PorcentajeServicio + '" readonly />' +
+            '<input type="text" style="width:62px;text-align: center; float: left; margin-left: 10%;" id="servicio" class="form-control" value="' + data[0].PorcentajeServicio + '" readonly />' +
             '<span class="input-group-btn" style="float: left; margin-left: 2%;">' +
             '<button class="btn btn-success" id="masServicio" type="button" onclick="masServicio(' + data[0].Impuestos[2].Porcentaje + ')"><b>+</b></button>' +
             '</span>' +
-
+            '<br/><br/><small><b>Digitar valor (Opcional):<b/><small/>'+
+            '<input type="text" " style="background-color: #30a630c7; font-size: 24px; color: white; font-weight: bolder;" ' +
+            'id="servicioDig" class="form-control" value="' + data[0].ServicioTotal + '" onkeypress = "return soloNum(event)" onchange="ValidarValores(' + data[0].Subtotal + ', ' + data[0].ServicioTotal+')" />' +
             '</td>' +
             '</tr>';
 
@@ -743,7 +745,7 @@ function PagarFactura() {
                                         useBootstrap: false,
                                         type: 'orange',
                                         title: '$ Efectivo !',
-                                        content: 'Digite la cantidad en efectivo <br/> <div><input style="witdh:60%; margin-left: 20%;" id="cantEfectivo" type="text" class="form-control input-sm" onkeypress = "return soloNum(event)" required /></div>',
+                                        content: 'Digite la cantidad en efectivo <br/> <div><input style="witdh:60%; margin-left: 20%;" id="cantEfectivo" type="text" class="form-control input-sm" onchange="validaValor()" onkeypress = "return soloNum(event)" required /></div>',
                                         buttons: {
                                             Continuar: {
                                                 btnClass: 'btn btn-warning',
@@ -1113,14 +1115,19 @@ function mas() {
     }
 }
 function menosServicio() {
-    if ($("#servicio").val() > 0) {
-        $("#servicio").val(Number($("#servicio").val()) - 1);
-    }
+    var numActual = Math.trunc($("#servicio").val());
+    if (numActual > 0)
+        $("#servicio").val(numActual - 1);
+    else
+        $("#servicio").val(numActual);
 }
 function masServicio(porcentajeMaximo) {
-    if ($("#servicio").val() < porcentajeMaximo) {
-        $("#servicio").val(Number($("#servicio").val()) + 1);
-    }
+    var numActual = Math.trunc($("#servicio").val());
+    if (numActual < porcentajeMaximo)
+        $("#servicio").val(numActual + 1);
+    else
+        $("#servicio").val(numActual);
+    
 }
 function Encriptar(texto) {
     return new Promise(function (resolve, reject) {
@@ -1206,4 +1213,74 @@ function EliminaProductoLista(idElemento) {
             "</td ><td><i class=\"fa fa-2x fa-minus-square\" style=\"color: #a90000; cursor: pointer; \" onclick=\"EliminaProductoLista('" + i + "')\"></i></td></tr> ");
     }
     //console.log(ProductosPedido);
+}
+function ValidarValores(subTotal, servicioTot) {
+    var propinaMaxima = (parseInt(subTotal) * 10) /100;
+    
+    if ($("#servicioDig").val() > propinaMaxima) {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Ops!',
+            content: "El valor maximo de propina es <b>" + propinaMaxima + "</b>",
+            buttons: {
+                Continuar: {
+                    btnClass: 'btn btn-danger btn2',
+                    action: function () {
+                        $("#servicioDig").val(servicioTot)
+                    }
+                }
+            }
+        });
+    }
+    else if ($("#servicioDig").val() < 0)
+    {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Ops!',
+            content: "El valor no puede ser negativo",
+            buttons: {
+                Continuar: {
+                    btnClass: 'btn btn-danger btn2',
+                    action: function () {
+                        $("#servicioDig").val(servicioTot)
+                    }
+                }
+            }
+        });
+    }
+    else {
+        var calculo = (parseInt($("#servicioDig").val()) * 100) / (parseInt($("#SubTotal").val()));
+        $("#servicio").val(calculo);
+    }
+}
+function validaValor() {
+    var cantDigitada = $("#cantEfectivo").val();
+    if (cantDigitada > (parseInt($("#Total").val())) - 1) {
+        $.alert({
+            theme: 'Modern',
+            icon: 'fa fa-times',
+            boxWidth: '500px',
+            useBootstrap: false,
+            type: 'red',
+            title: 'Ops!',
+            content: "El valor no puede ser mayor o igual al total de la cuenta",
+            buttons: {
+                Continuar: {
+                    btnClass: 'btn btn-danger btn2',
+                    action: function () {
+                        $("#cantEfectivo").val('');
+                    }
+                }
+            }
+        });
+
+    }
 }

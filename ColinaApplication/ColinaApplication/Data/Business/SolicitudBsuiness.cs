@@ -222,9 +222,9 @@ namespace ColinaApplication.Data.Business
                         actualiza.OTROS_COBROS = model.OTROS_COBROS;
                         actualiza.DESCUENTOS = model.DESCUENTOS;
                         actualiza.SUBTOTAL = model.SUBTOTAL;
-                        actualiza.PORCENTAJE_SERVICIO = model.PORCENTAJE_SERVICIO;
-                        actualiza.SERVICIO_TOTAL = (model.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
-                        actualiza.TOTAL = actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL + actualiza.OTROS_COBROS - actualiza.DESCUENTOS;
+                        actualiza.PORCENTAJE_SERVICIO = Convert.ToDecimal(Math.Round(Convert.ToDouble(model.PORCENTAJE_SERVICIO), 15));
+                        actualiza.SERVICIO_TOTAL = Convert.ToDecimal(Math.Round(Convert.ToDouble((model.SUBTOTAL * model.PORCENTAJE_SERVICIO) / 100), 0));
+                        actualiza.TOTAL = Convert.ToDecimal(Math.Round(Convert.ToDouble(actualiza.SUBTOTAL + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL + actualiza.OTROS_COBROS - actualiza.DESCUENTOS), 5));
                         actualiza.METODO_PAGO = model.METODO_PAGO;
                         actualiza.VOUCHER = model.VOUCHER;
                         if (actualiza.METODO_PAGO == "EFECTIVO")
@@ -262,8 +262,8 @@ namespace ColinaApplication.Data.Business
                         actualiza.SUBTOTAL += SubTotal;
                         actualiza.IVA_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_IVA) / 100;
                         actualiza.I_CONSUMO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_I_CONSUMO) / 100;
-                        actualiza.SERVICIO_TOTAL = (actualiza.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100;
-                        actualiza.TOTAL = ((actualiza.OTROS_COBROS + actualiza.SUBTOTAL) - actualiza.DESCUENTOS) + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL;
+                        actualiza.SERVICIO_TOTAL = Convert.ToDecimal(Math.Round(Convert.ToDouble(actualiza.SUBTOTAL * actualiza.PORCENTAJE_SERVICIO) / 100, 0));
+                        actualiza.TOTAL = Convert.ToDecimal(Math.Round(Convert.ToDouble(((actualiza.OTROS_COBROS + actualiza.SUBTOTAL) - actualiza.DESCUENTOS) + actualiza.IVA_TOTAL + actualiza.I_CONSUMO_TOTAL + actualiza.SERVICIO_TOTAL), 5));
                         contex.SaveChanges();
                         Respuesta = "Total Actualizado exitosamente";
                     }

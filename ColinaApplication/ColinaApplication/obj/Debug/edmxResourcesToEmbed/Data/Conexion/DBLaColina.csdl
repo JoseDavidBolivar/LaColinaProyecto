@@ -8,11 +8,11 @@
     <EntitySet Name="TBL_MASTER_MESAS" EntityType="COLINADBModel.TBL_MASTER_MESAS" />
     <EntitySet Name="TBL_CIERRES" EntityType="COLINADBModel.TBL_CIERRES" />
     <EntitySet Name="TBL_PERFIL" EntityType="COLINADBModel.TBL_PERFIL" />
-    <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
     <EntitySet Name="TBL_IMPRESORAS" EntityType="COLINADBModel.TBL_IMPRESORAS" />
     <EntitySet Name="TBL_PRODUCTOS" EntityType="COLINADBModel.TBL_PRODUCTOS" />
     <EntitySet Name="TBL_NOMINA" EntityType="COLINADBModel.TBL_NOMINA" />
     <EntitySet Name="TBL_DIAS_TRABAJADOS" EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" />
+    <EntitySet Name="TBL_SOLICITUD" EntityType="COLINADBModel.TBL_SOLICITUD" />
   </EntityContainer>
   <EntityType Name="TBL_CATEGORIAS">
     <Key>
@@ -99,32 +99,6 @@
     <Property Name="NOMBRE_PERFIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="PORCENTAJE_PROPINA" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
-  <EntityType Name="TBL_SOLICITUD">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
-    <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="OTROS_COBROS" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="DESCUENTOS" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="SUBTOTAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="PORCENTAJE_IVA" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="IVA_TOTAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="PORCENTAJE_I_CONSUMO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="I_CONSUMO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="PORCENTAJE_SERVICIO" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="SERVICIO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="TOTAL" Type="Decimal" Precision="18" Scale="0" />
-    <Property Name="METODO_PAGO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="VOUCHER" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="CANT_EFECTIVO" Type="Decimal" Precision="18" Scale="0" />
-  </EntityType>
   <EntityType Name="TBL_IMPRESORAS">
     <Key>
       <PropertyRef Name="ID" />
@@ -177,5 +151,31 @@
     <Property Name="PROPINAS" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="FECHA_PAGO" Type="DateTime" Precision="3" />
     <Property Name="ID_PERFIL" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="TBL_SOLICITUD">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FECHA_SOLICITUD" Type="DateTime" Precision="3" />
+    <Property Name="ID_MESA" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ID_MESERO" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="IDENTIFICACION_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ESTADO_SOLICITUD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="OBSERVACIONES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OTROS_COBROS" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DESCUENTOS" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SUBTOTAL" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_IVA" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="IVA_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_I_CONSUMO" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="I_CONSUMO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_SERVICIO" Type="Decimal" Precision="18" Scale="15" />
+    <Property Name="SERVICIO_TOTAL" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TOTAL" Type="Decimal" Precision="18" Scale="5" />
+    <Property Name="METODO_PAGO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="VOUCHER" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CANT_EFECTIVO" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
 </Schema>

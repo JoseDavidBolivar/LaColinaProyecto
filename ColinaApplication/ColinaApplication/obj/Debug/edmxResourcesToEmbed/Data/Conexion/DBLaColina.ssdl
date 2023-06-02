@@ -147,9 +147,9 @@
     <Property Name="IVA_TOTAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="PORCENTAJE_I_CONSUMO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="I_CONSUMO_TOTAL" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="15" />
     <Property Name="SERVICIO_TOTAL" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="TOTAL" Type="numeric" Precision="18" Scale="5" />
     <Property Name="METODO_PAGO" Type="varchar" MaxLength="255" />
     <Property Name="VOUCHER" Type="varchar" MaxLength="255" />
     <Property Name="CANT_EFECTIVO" Type="numeric" Precision="18" Scale="0" />
