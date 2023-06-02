@@ -603,7 +603,10 @@ namespace ColinaApplication.Data.Business
                     PrinterSettings ps = new PrinterSettings();
                     PrintDocument printDocument1 = new PrintDocument();
                     printDocument1.PrinterSettings = ps;
-                    printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
+                    if(item.NOMBRE_IMPRESORA == "PARRILLA. AUX" || item.NOMBRE_IMPRESORA == "ENTRADAS")
+                        printDocument1.PrinterSettings.PrinterName = "PARRILLA.";
+                    else
+                        printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
                     printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
                     {
                         int Ymargen = 0;

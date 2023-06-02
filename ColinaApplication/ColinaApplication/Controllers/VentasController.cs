@@ -157,12 +157,12 @@ namespace ColinaApplication.Controllers
         public List<ConsultaSolicitud> ConsultaUltimasFacturas()
         {
             SuperViewModels model = new SuperViewModels();
-            var fechaE = new DateTime(2022, 03, 06, 21, 58, 00);
-            //var fechaHoy = DateTime.Now;
+            //var fechaE = new DateTime(2022, 03, 06, 21, 58, 00);
+            var fechaHoy = DateTime.Now;
             TimeSpan ts = new TimeSpan(00, 00, 0);
-            var fecha1 = fechaE.AddDays(-1);
+            var fecha1 = fechaHoy.AddDays(-1);
             fecha1 = fecha1.Date + ts;
-            var fecha2 = fechaE;
+            var fecha2 = fechaHoy;
             model.SolicitudesModel = ventas.ConsultaUltimasFacturas(fecha1, fecha2);
             return model.SolicitudesModel;
         }

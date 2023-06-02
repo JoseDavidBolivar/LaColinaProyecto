@@ -15,7 +15,7 @@ function AsignarDia(idnomina) {
         content: 'Por favor seleccione una fecha de trabajo: <br/><label><input id="FechaTrabajada" type="date" class="form-control input-sm"></label><br>',
         buttons: {
             Continuar: {
-                btnClass: 'btn btn-warning',
+                btnClass: 'btn btn-warning btn2',
                 action: function () {
                     if ($("#FechaTrabajada").val() != "") {
                         const fechaTrabaj = $("#FechaTrabajada").val();
@@ -29,7 +29,7 @@ function AsignarDia(idnomina) {
                             content: 'Por favor digite el sueldo del día: <br/><label><input id="SueldoDiarioI" type="number" class="form-control input-sm"></label><br>',
                             buttons: {
                                 Continuar: {
-                                    btnClass: 'btn btn-warning',
+                                    btnClass: 'btn btn-warning btn2',
                                     action: function () {
                                         if ($("#SueldoDiarioI").val() != "") {
                                             const sueldoDiarioI = $("#SueldoDiarioI").val();
@@ -43,7 +43,7 @@ function AsignarDia(idnomina) {
                                                 content: 'Por favor, seleccione el cargo del dia: <br/><select id="CargoDia" class="form-control input-sm" style="margin-left: 20%;"><option value="" >-- Seleccione --</option><option value="3" > MESERO </option><option value="4" > PARRILLA / COCINA / BAR </option><option value="5" > OTROS </option></select>',
                                                 buttons: {
                                                     Continuar: {
-                                                        btnClass: 'btn btn-warning',
+                                                        btnClass: 'btn btn-warning btn2',
                                                         action: function () {
                                                             if ($("#CargoDia").val() != "") {
                                                                 $.ajax({
@@ -65,7 +65,7 @@ function AsignarDia(idnomina) {
                                                                                 content: 'Trabajador asignado a fecha seleccionada',
                                                                                 buttons: {
                                                                                     Continuar: {
-                                                                                        btnClass: 'btn btn-success',
+                                                                                        btnClass: 'btn btn-success btn2',
                                                                                         action: function () {
                                                                                             location.reload();
                                                                                         }
@@ -84,7 +84,7 @@ function AsignarDia(idnomina) {
                                                                                 content: 'La fecha seleccionada puede que ya se haya ingresado',
                                                                                 buttons: {
                                                                                     Si: {
-                                                                                        btnClass: 'btn btn-danger',
+                                                                                        btnClass: 'btn btn-danger btn2',
                                                                                         action: function () {
                                                                                             location.reload();
                                                                                         }
@@ -104,7 +104,7 @@ function AsignarDia(idnomina) {
                                                         }
                                                     },
                                                     Cancelar: {
-                                                        btnClass: 'btn btn-warning',
+                                                        btnClass: 'btn btn-warning btn2',
                                                         action: function () {
 
                                                         }
@@ -118,7 +118,7 @@ function AsignarDia(idnomina) {
                                     }
                                 },
                                 Cancelar: {
-                                    btnClass: 'btn btn-warning',
+                                    btnClass: 'btn btn-warning btn2',
                                     action: function () {
 
                                     }
@@ -132,7 +132,7 @@ function AsignarDia(idnomina) {
                 }
             },
             Cancelar: {
-                btnClass: 'btn btn-warning',
+                btnClass: 'btn btn-warning btn2',
                 action: function () {
 
                 }
@@ -162,7 +162,7 @@ function CalcularSueldo(idUsuarioNomina) {
                     content: 'Calculo exitoso',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-success',
+                            btnClass: 'btn btn-success btn2',
                             action: function () {
                                 location.reload();
                             }
@@ -181,7 +181,7 @@ function CalcularSueldo(idUsuarioNomina) {
                     content: 'Hubo un error inesperado, por favor intentelo nuevamente',
                     buttons: {
                         Si: {
-                            btnClass: 'btn btn-danger',
+                            btnClass: 'btn btn-danger btn2',
                             action: function () {
                                 location.reload();
                             }
@@ -216,7 +216,7 @@ function Liquidar(idUsuarioNomina) {
                     content: 'Trabajador Liquidado',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-success',
+                            btnClass: 'btn btn-success btn2',
                             action: function () {
                                 location.reload();
                             }
@@ -235,7 +235,7 @@ function Liquidar(idUsuarioNomina) {
                     content: 'Hubo un error inesperado, por favor intentelo nuevamente',
                     buttons: {
                         Si: {
-                            btnClass: 'btn btn-danger',
+                            btnClass: 'btn btn-danger btn2',
                             action: function () {
                                 location.reload();
                             }

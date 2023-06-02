@@ -1,6 +1,12 @@
-﻿$(document).ready(function () {
-
+﻿var enter = false;
+$(document).keyup(function (event) {
+    if (event.which === 13 && document.getElementsByClassName("btn") !== null && enter) {
+        //alert('Enter is pressed!');
+        document.querySelector('.btn2').click();
+        
+    }
 });
+
 function ValidaSesion() {
     var codigo = $("#Codigo").val();
 
@@ -28,13 +34,14 @@ function ValidaSesion() {
                             content: 'Código o Usuario INCORRECTO ......',
                             buttons: {
                                 Continuar: {
-                                    btnClass: 'btn btn-danger',
+                                    btnClass: 'btn btn-danger btn2',
                                     action: function () {
-
+                                        location.reload();
                                     }
                                 }
                             }
                         });
+                        setInterval(function () { enter = true; }, 1000);                            
                     }
                 }
             },
@@ -102,7 +109,7 @@ function logText() {
 function valideKey(evt) {
 
     var code = (evt.which) ? evt.which : evt.keyCode;
-
+    
     if (code == 13) { // backspace.
         ValidaSesion();
     } else if ((code >= 48 && code <= 57)) { // is a number or ENTER.

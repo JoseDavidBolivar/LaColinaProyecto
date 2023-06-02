@@ -19,7 +19,7 @@ function ValidaResultados() {
                     content: 'La caja se encuentra abierta para registrar pedidos',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-success',
+                            btnClass: 'btn btn-success btn2',
                             action: function () {
 
                             }
@@ -38,7 +38,7 @@ function ValidaResultados() {
                     content: 'La caja se encuentra cerrada. No pueden registrar pedidos a sus mesas asignadas',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-default',
+                            btnClass: 'btn btn-default btn2',
                             action: function () {
 
                             }
@@ -58,7 +58,7 @@ function ValidaResultados() {
                 content: 'Ha ocurrido un error inesperado. Por favor intentelo de nuevo ',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-danger',
+                        btnClass: 'btn btn-danger btn2',
                         action: function () {
 
                         }
@@ -77,7 +77,7 @@ function ValidaResultados() {
                 content: 'Existen mesas abiertas, debe asignarlas a otro usuario o finalizarlas para poder cerrar caja',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-danger',
+                        btnClass: 'btn btn-danger btn2',
                         action: function () {
 
                         }
@@ -101,7 +101,7 @@ function ValidaResultados() {
                 content: 'Se actualizó exitosamente el registro',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-success',
+                        btnClass: 'btn btn-success btn2',
                         action: function () {
                             window.location.href = '#' + Posicion;
                         }
@@ -121,7 +121,7 @@ function ValidaResultados() {
                 content: 'Hubo un error al actualizar el registro o debes seleccionar una factura antes de guardar. Intentelo nuevamente',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-danger',
+                        btnClass: 'btn btn-danger btn2',
                         action: function () {
                             window.location.href = '#' + Posicion;
                         }
@@ -154,7 +154,7 @@ function reImprimir() {
                     content: 'Se imprimio el ticket de CIERRE',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-success',
+                            btnClass: 'btn btn-success btn2',
                             action: function () {
 
                             }
@@ -173,7 +173,7 @@ function reImprimir() {
                     content: 'Error al imprimir el ticket de CIERRE. Intente nuevamente',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-danger',
+                            btnClass: 'btn btn-danger btn2',
                             action: function () {
 
                             }
@@ -209,7 +209,7 @@ function ImprimirParcial() {
                     content: 'Se imprimio el ticket de CIERRE PARCIAL',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-success',
+                            btnClass: 'btn btn-success btn2',
                             action: function () {
 
                             }
@@ -228,7 +228,7 @@ function ImprimirParcial() {
                     content: 'Error al imprimir el ticket de CIERRE PARCIAL. Intente nuevamente',
                     buttons: {
                         Continuar: {
-                            btnClass: 'btn btn-danger',
+                            btnClass: 'btn btn-danger btn2',
                             action: function () {
 
                             }
@@ -256,7 +256,7 @@ function ReImprimirFactura(NumFact) {
         content: 'Desea imprimir la factura ?',
         buttons: {
             Si: {
-                btnClass: 'btn btn-default',
+                btnClass: 'btn btn-default btn2',
                 action: function () {
                     $.ajax({
                         type: "POST",

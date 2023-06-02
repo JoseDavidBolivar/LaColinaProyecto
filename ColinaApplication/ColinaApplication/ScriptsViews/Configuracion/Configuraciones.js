@@ -29,7 +29,7 @@ function ValidaResultado() {
                 content: 'Se guardo/actualizó exitosamente el registro',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-success',
+                        btnClass: 'btn btn-success btn2',
                         action: function () {
                             window.location.href = '#' + Posicion;
                         }
@@ -49,7 +49,7 @@ function ValidaResultado() {
                 content: 'Hubo un error al guardar/actualizar el registro. Intentelo nuevamente',
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn btn-danger',
+                        btnClass: 'btn btn-danger btn2',
                         action: function () {
                             window.location.href = '#' + Posicion;
                         }
@@ -205,7 +205,7 @@ function ValidaCedula() {
                         content: 'Esta cedula ya existe en el sistema. Por favor digite otra',
                         buttons: {
                             Continuar: {
-                                btnClass: 'btn btn-danger',
+                                btnClass: 'btn btn-danger btn2',
                                 action: function () {
                                 }
                             }
@@ -243,7 +243,7 @@ function ValidaCodigo() {
                         content: 'Este código ya esta asignado a otro usuario. Por favor digite otro',
                         buttons: {
                             Continuar: {
-                                btnClass: 'btn btn-danger',
+                                btnClass: 'btn btn-danger btn2',
                                 action: function () {
                                 }
                             }

@@ -40,7 +40,7 @@ function Registra_EventosPSR(connectpsr) {
                 content: 'Debe seleccionar al menos un producto antes de enviar',
                 buttons: {
                     Ok: {
-                        btnClass: 'btn-danger',
+                        btnClass: 'btn-danger btn2',
                         action: function () {
 
                         }
@@ -84,7 +84,7 @@ function Llama_MetodosPSR(connectpsr) {
                 content: data,
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn-success',
+                        btnClass: 'btn-success btn2',
                         action: function () {
                             CargaCategorias();
                             $("#setProductosElegidos").empty();
@@ -106,7 +106,7 @@ function Llama_MetodosPSR(connectpsr) {
                 content: data,
                 buttons: {
                     Continuar: {
-                        btnClass: 'btn-success',
+                        btnClass: 'btn-success btn2',
                         action: function () {
                             CargaCategorias();
                             $("#AgregaProductos").removeAttr("disabled");
@@ -130,7 +130,7 @@ function Llama_MetodosPSR(connectpsr) {
             content: "Al parecer no hay suficientes existencias para <br/><br/><b>" + data.toString() + "</b>.<br/><br/> Prueba seleccionando menos o consulta con el administrador.",
             buttons: {
                 Continuar: {
-                    btnClass: 'btn-danger',
+                    btnClass: 'btn-danger btn2',
                     action: function () {
                         CargaCategorias();
                         $("#AgregaProductos").removeAttr("disabled");
@@ -394,7 +394,7 @@ function CancelaProductoxId(idProducto) {
         content: 'Esta seguro que desea eliminar este producto ?',
         buttons: {
             Si: {
-                btnClass: 'btn btn-danger',
+                btnClass: 'btn btn-danger btn2',
                 action: function () {
                     $.alert({
                         theme: 'Modern',
@@ -442,7 +442,7 @@ function CancelaProductoxId(idProducto) {
                                         content: 'El producto fue eliminado !',
                                         buttons: {
                                             Continuar: {
-                                                btnClass: 'btn btn-success',
+                                                btnClass: 'btn btn-success btn2',
                                                 action: function () {
                                                     connectPSR.server.consultaMesaAbierta($('#ID_MESA').val());
                                                 }
@@ -477,7 +477,7 @@ function ReEnviaProducto(idproducto, description, idmesa) {
         content: 'Esta seguro que desea reimprimir el producto ?',
         buttons: {
             Continuar: {
-                btnClass: 'btn btn-default',
+                btnClass: 'btn btn-default btn2',
                 action: function () {
                     connectPSR.server.imprimeProductos(1, idproducto, description, idmesa);
                 }
@@ -629,7 +629,7 @@ function GuardarDatosCliente() {
         content: "Datos Guardados !",
         buttons: {
             Continuar: {
-                btnClass: 'btn-success',
+                btnClass: 'btn-success btn2',
                 action: function () {
 
                 }
@@ -650,7 +650,7 @@ function PagarFactura() {
         content: 'Desea pagar la cuenta ? ',
         buttons: {
             Si: {
-                btnClass: 'btn btn-warning',
+                btnClass: 'btn btn-warning btn2',
                 action: function () {
                     $.alert({
                         theme: 'Modern',
@@ -830,7 +830,7 @@ function GeneraFactura() {
         content: 'Desea imprimir la factura ?',
         buttons: {
             Si: {
-                btnClass: 'btn btn-default',
+                btnClass: 'btn btn-default btn2',
                 action: function () {
                     //IMPRIME FACTURA
                     connectPSR.server.imprimirFactura($("#ID_MESA").val());
@@ -914,7 +914,7 @@ function AsignarLlevar() {
         content: 'Desea convertir la orden para llevar ?',
         buttons: {
             Si: {
-                btnClass: 'btn btn-warning',
+                btnClass: 'btn btn-warning btn2',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                         $("#SubTotal").val(), "LLEVAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
@@ -942,7 +942,7 @@ function AsignarAsignaMesa() {
         content: 'Desea asignar la orden a la mesa ?',
         buttons: {
             Si: {
-                btnClass: 'btn btn-success',
+                btnClass: 'btn btn-success btn2',
                 action: function () {
                     connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                         $("#SubTotal").val(), "ABIERTA", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
@@ -971,7 +971,7 @@ function ConsumoInterno() {
             content: 'Desea pasar esta cuenta a consumo interno ?',
             buttons: {
                 Si: {
-                    btnClass: 'btn btn-primary',
+                    btnClass: 'btn btn-primary btn2',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                             $("#SubTotal").val(), "CONSUMO INTERNO", $("#ID_MESA").val(), $("#servicio").val(), "N/A", "0", "0", $("#ID_MESERO").val());
@@ -986,7 +986,7 @@ function ConsumoInterno() {
                             content: 'Para ser redireccionado de clic en Continuar !',
                             buttons: {
                                 Continuar: {
-                                    btnClass: 'btn btn-primary',
+                                    btnClass: 'btn btn-primary btn2',
                                     action: function () {
                                         connectPSR.server.listarEstadoMesas("SI", $("#ID_MESA").val(), "../Solicitud/SeleccionarMesa");
                                     }
@@ -1015,7 +1015,7 @@ function ConsumoInterno() {
             content: 'Debe digitar un numero de cedula del cliente para pasarlo como consumo interno !',
             buttons: {
                 Continuar: {
-                    btnClass: 'btn btn-danger',
+                    btnClass: 'btn btn-danger btn2',
                     action: function () {
 
                     }
@@ -1038,7 +1038,7 @@ function InhabilitarMesa() {
             content: 'Desea Inhabilitar esta mesa ?',
             buttons: {
                 Si: {
-                    btnClass: 'btn btn-default',
+                    btnClass: 'btn btn-default btn2',
                     action: function () {
                         connectPSR.server.guardaDatosCliente($("#ID").val(), $("#CCCliente").val(), $("#NombreCliente").val(), $("#OBSERVACIONES").val(), $("#OtrosCobros").val(), $("#Descuentos").val(),
                             $("#SubTotal").val(), "INHABILITAR", $("#ID_MESA").val(), $("#servicio").val(), "", "", "0", $("#ID_MESERO").val());
@@ -1066,7 +1066,7 @@ function InhabilitarMesa() {
             content: 'Ud. ya no puede inhabilitar esta mesa. Revise con el Cajero/Administrador',
             buttons: {
                 Continuar: {
-                    btnClass: 'btn btn-danger',
+                    btnClass: 'btn btn-danger btn2',
                     action: function () {
                     }
                 }
@@ -1186,10 +1186,10 @@ function AgregaProductosPedido() {
             useBootstrap: false,
             type: 'red',
             title: 'Oops',
-            content: 'Debe seleccionar un producto antes de agergar a pedido',
+            content: 'Debe seleccionar un producto antes de agregar a pedido',
             buttons: {
                 Ok: {
-                    btnClass: 'btn-danger',
+                    btnClass: 'btn-danger btn2',
                     action: function () {
 
                     }

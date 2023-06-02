@@ -63,3 +63,10 @@ $(document).ajaxStart(function () {
 $(document).ajaxStop(function () {
     cerrar();
 });
+$(document).keyup(function (event) {
+    if (event.which === 13 && (document.getElementsByClassName("btn2").length > 0)) {
+        //alert('Enter is pressed!');
+        document.querySelector('.btn2').click();
+
+    }
+});
