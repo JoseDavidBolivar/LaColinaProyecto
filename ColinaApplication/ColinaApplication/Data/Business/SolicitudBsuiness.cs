@@ -54,7 +54,7 @@ namespace ColinaApplication.Data.Business
                         IConsumoTotal = ConsultaSolicitud.I_CONSUMO_TOTAL,
                         PorcentajeServicio = ConsultaSolicitud.PORCENTAJE_SERVICIO,
                         ServicioTotal = ConsultaSolicitud.SERVICIO_TOTAL,
-                        Total = ConsultaSolicitud.TOTAL,
+                        Total = Convert.ToDecimal(Math.Round(Convert.ToDouble(ConsultaSolicitud.TOTAL))),
                         ProductosSolicitud = new List<ProductosSolicitud>(),
                         Impuestos = new List<Impuestos>()
 
@@ -480,7 +480,7 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("" + solicitud[0].ServicioTotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].ServicioTotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 15;
                 e.Graphics.DrawString("TOTAL:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + solicitud[0].Total, body, Brushes.Black, new RectangleF((280 - (solicitud[0].Total.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + Math.Round(Convert.ToDouble(solicitud[0].Total)), body, Brushes.Black, new RectangleF((280 - (Math.Round(Convert.ToDouble(solicitud[0].Total)).ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 120;
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, margenY + YProductos, ancho, 15));
             };
