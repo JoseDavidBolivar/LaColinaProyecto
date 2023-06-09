@@ -579,7 +579,7 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("" + ultimoCierre.TOTAL_TARJETA, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.TOTAL_TARJETA.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 15;
                 e.Graphics.DrawString("-> TOTAL VENTAS: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + ultimoCierre.VENTA_TOTAL, body, Brushes.Black, new RectangleF((280 - (ultimoCierre.VENTA_TOTAL.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + Convert.ToInt64(Math.Round(Convert.ToDouble(ultimoCierre.VENTA_TOTAL))), body, Brushes.Black, new RectangleF((280 - ((Convert.ToInt64(Math.Round(Convert.ToDouble(ultimoCierre.VENTA_TOTAL)))).ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 120;
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 600 + YProductos, ancho, 15));
             };
@@ -751,7 +751,7 @@ namespace ColinaApplication.Data.Business
                 margenY += 15;
                 e.Graphics.DrawString("-> TOTAL VENTAS: ", body, Brushes.Black, new RectangleF(16, margenY + YProductos, ancho, 15));
                 var TotalVentas = solicitudes.Where(x => x.ESTADO_SOLICITUD != Estados.CancelaPedido).Sum(a => a.TOTAL);
-                e.Graphics.DrawString("" + TotalVentas.ToString(), body, Brushes.Black, new RectangleF((280 - (TotalVentas.ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + (Convert.ToInt64(Math.Round(Convert.ToDouble(TotalVentas)))).ToString(), body, Brushes.Black, new RectangleF((280 - ((Convert.ToInt64(Math.Round(Convert.ToDouble(TotalVentas)))).ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 120;
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, 600 + YProductos, ancho, 15));
             };
@@ -1006,7 +1006,7 @@ namespace ColinaApplication.Data.Business
                 e.Graphics.DrawString("" + solicitud[0].ServicioTotal, body, Brushes.Black, new RectangleF((280 - (solicitud[0].ServicioTotal.ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 15;
                 e.Graphics.DrawString("TOTAL:", body, Brushes.Black, new RectangleF(0, margenY + YProductos, ancho, 15));
-                e.Graphics.DrawString("" + Convert.ToInt64(Math.Round(Convert.ToDouble(solicitud[0].Total))), body, Brushes.Black, new RectangleF((280 - (Convert.ToInt64(Math.Round(Convert.ToDouble(solicitud[0].Total))).ToString().Length * 8)), margenY + YProductos, ancho, 15));
+                e.Graphics.DrawString("" + Convert.ToInt64(Math.Round(Convert.ToDouble(solicitud[0].Total))), body, Brushes.Black, new RectangleF((280 - ((Convert.ToInt64(Math.Round(Convert.ToDouble(solicitud[0].Total)))).ToString().Length * 8)), margenY + YProductos, ancho, 15));
                 margenY += 120;
                 e.Graphics.DrawString("_", body, Brushes.Black, new RectangleF(135, margenY + YProductos, ancho, 15));
             };
