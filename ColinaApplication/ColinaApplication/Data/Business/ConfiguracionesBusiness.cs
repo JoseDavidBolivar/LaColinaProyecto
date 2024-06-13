@@ -80,6 +80,15 @@ namespace ColinaApplication.Data.Business
             }
             return listImpuestos;
         }
+        public List<TBL_SISTEMA> ListaSistema()
+        {
+            List<TBL_SISTEMA> listSistema = new List<TBL_SISTEMA>();
+            using (DBLaColina contex = new DBLaColina())
+            {
+                listSistema = contex.TBL_SISTEMA.ToList();
+            }
+            return listSistema;
+        }
         public bool InsertaCategoria(TBL_CATEGORIAS model)
         {
             bool Respuesta = false;
@@ -479,6 +488,29 @@ namespace ColinaApplication.Data.Business
                     consultaCodigo = contex.TBL_USUARIOS.Where(a => a.CONTRASEÑA == Contrasena).FirstOrDefault();
                     if (consultaCodigo != null)
                     {
+                        Respuesta = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Respuesta = false;
+                }
+            }
+            return Respuesta;
+        }
+        public bool ActualizaSistema(TBL_SISTEMA model)
+        {
+            bool Respuesta = false;
+            using (DBLaColina contex = new DBLaColina())
+            {
+                try
+                {
+                    TBL_SISTEMA actualiza = new TBL_SISTEMA();
+                    actualiza = contex.TBL_SISTEMA.Where(a => a.ID == model.ID).FirstOrDefault();
+                    if (actualiza != null)
+                    {
+                        actualiza.VALOR = model.VALOR;
+                        contex.SaveChanges();
                         Respuesta = true;
                     }
                 }

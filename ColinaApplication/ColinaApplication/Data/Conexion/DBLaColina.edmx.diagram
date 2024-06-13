@@ -17,6 +17,7 @@
         <EntityTypeShape EntityType="COLINADBModel.TBL_NOMINA" Width="1.5" PointX="2.75" PointY="7.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_DIAS_TRABAJADOS" Width="1.5" PointX="8.375" PointY="8.75" />
         <EntityTypeShape EntityType="COLINADBModel.TBL_SOLICITUD" Width="1.5" PointX="9.5" PointY="2.125" />
+        <EntityTypeShape EntityType="COLINADBModel.TBL_SISTEMA" Width="1.5" PointX="5.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

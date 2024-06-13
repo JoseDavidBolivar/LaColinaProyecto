@@ -8,9 +8,32 @@ C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\bin
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
 C:\Users\ecf2744a\Documents\GitHub\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.dll.config
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.dll
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Entity.pdb
-C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csprojAssemblyReference.cache
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.Security.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Newtonsoft.Json.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Owin.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Helpers.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Mvc.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Razor.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Microsoft.Owin.Security.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\Newtonsoft.Json.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Helpers.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Mvc.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.Razor.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csproj.CoreCompileInputs.cache
+C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.csproj.CopyComplete
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.dll
 C:\Users\1076622744\Documents\Visual Studio 2019\LaColinaProyecto\ColinaApplication\Entity\obj\Debug\Entity.pdb

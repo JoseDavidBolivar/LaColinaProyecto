@@ -31,6 +31,7 @@ namespace ColinaApplication.Controllers
             model.Impresoras = configuraciones.ListaImpresoras();
             model.Impuestos = configuraciones.ListaImpuestos();
             model.NominaEmpleados = configuraciones.ListaNominaEmpleados();
+            model.Sistema = configuraciones.ListaSistema();
             //LISTA DE SELECCIONABLE CATEGORIA
             ViewBag.listaCategoriasDDL = (model.Categorias.Where(x => x.ESTADO == Estados.Activo).Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.CATEGORIA }).ToList<SelectListItem>());
             //LISTA DE USUARIOS ADMINS PARA ASIGNAR MESAS
@@ -42,7 +43,17 @@ namespace ColinaApplication.Controllers
             //LISTA DE IMPRESORAS
             ViewBag.idImpresoraDDL = (model.Impresoras.Select(p => new SelectListItem() { Value = p.ID.ToString(), Text = p.NOMBRE_IMPRESORA }).ToList<SelectListItem>());
 
+
             return View(model);
+        }
+        [HttpPost]
+        public ActionResult EditarSistema(SuperViewModels model)
+        {
+            if (model.SistemaModel.ID > 0)
+                TempData["Resultado"] = configuraciones.ActualizaSistema(model.SistemaModel);
+
+            TempData["Posicion"] = "";
+            return RedirectToAction("Configuraciones");
         }
         [HttpPost]
         public ActionResult AgregarEditarCategoria(SuperViewModels model)

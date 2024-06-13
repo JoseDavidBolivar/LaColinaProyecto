@@ -25,6 +25,8 @@ namespace ColinaApplication.Data.Clases
         public TBL_PERFIL PerfilesModel { get; set; }
         public List<TBL_NOMINA> NominaEmpleados { get; set; }
         public TBL_NOMINA NominaEmpleadosModel { get; set; }
+        public List<TBL_SISTEMA> Sistema { get; set; }
+        public TBL_SISTEMA SistemaModel { get; set; }
 
 
         public List<ConsultaSolicitud> Solicitudes { get; set; }

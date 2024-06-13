@@ -177,5 +177,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TBL_SISTEMA">
+      <EntityTypeMapping TypeName="COLINADBModel.TBL_SISTEMA">
+        <MappingFragment StoreEntitySet="TBL_SISTEMA">
+          <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+          <ScalarProperty Name="PARAMETRO" ColumnName="PARAMETRO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

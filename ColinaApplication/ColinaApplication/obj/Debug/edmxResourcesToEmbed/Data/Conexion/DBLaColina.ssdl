@@ -128,6 +128,14 @@
     <Property Name="ESTADO_PRODUCTO" Type="varchar" MaxLength="255" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="1000" />
   </EntityType>
+  <EntityType Name="TBL_SISTEMA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PARAMETRO" Type="varchar" MaxLength="255" />
+    <Property Name="VALOR" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="TBL_SOLICITUD">
     <Key>
       <PropertyRef Name="ID" />
@@ -147,9 +155,9 @@
     <Property Name="IVA_TOTAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="PORCENTAJE_I_CONSUMO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="I_CONSUMO_TOTAL" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="15" />
+    <Property Name="PORCENTAJE_SERVICIO" Type="numeric" Precision="18" Scale="0" />
     <Property Name="SERVICIO_TOTAL" Type="numeric" Precision="18" Scale="0" />
-    <Property Name="TOTAL" Type="numeric" Precision="18" Scale="5" />
+    <Property Name="TOTAL" Type="numeric" Precision="18" Scale="0" />
     <Property Name="METODO_PAGO" Type="varchar" MaxLength="255" />
     <Property Name="VOUCHER" Type="varchar" MaxLength="255" />
     <Property Name="CANT_EFECTIVO" Type="numeric" Precision="18" Scale="0" />
@@ -175,6 +183,7 @@
     <EntitySet Name="TBL_PERFIL" EntityType="Self.TBL_PERFIL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS" EntityType="Self.TBL_PRODUCTOS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_PRODUCTOS_SOLICITUD" EntityType="Self.TBL_PRODUCTOS_SOLICITUD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_SISTEMA" EntityType="Self.TBL_SISTEMA" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_SOLICITUD" EntityType="Self.TBL_SOLICITUD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TBL_USUARIOS" EntityType="Self.TBL_USUARIOS" Schema="dbo" store:Type="Tables" />
   </EntityContainer>

@@ -529,7 +529,16 @@ namespace ColinaApplication.Data.Business
                 }
             }
             printDocument1.PrinterSettings = ps;
-            printDocument1.PrinterSettings.PrinterName = impresora.NOMBRE_IMPRESORA;
+            var consultaE = ConsultaEnergia();
+            if (consultaE.VALOR != "1")
+            {
+                printDocument1.PrinterSettings.PrinterName = "CAJA";
+            }
+            else
+            {
+                printDocument1.PrinterSettings.PrinterName = impresora.NOMBRE_IMPRESORA;
+            }
+            
             printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
             {
                 //CONSULTA SOLICITUD
@@ -603,10 +612,19 @@ namespace ColinaApplication.Data.Business
                     PrinterSettings ps = new PrinterSettings();
                     PrintDocument printDocument1 = new PrintDocument();
                     printDocument1.PrinterSettings = ps;
-                    if(item.NOMBRE_IMPRESORA == "PARRILLA. AUX" || item.NOMBRE_IMPRESORA == "ENTRADAS")
-                        printDocument1.PrinterSettings.PrinterName = "PARRILLA.";
+                    var consultaE = ConsultaEnergia();
+                    if (consultaE.VALOR != "1")
+                    {
+                        printDocument1.PrinterSettings.PrinterName = "CAJA";
+                    }
                     else
-                        printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
+                    {
+                        if (item.NOMBRE_IMPRESORA == "PARRILLA. AUX" || item.NOMBRE_IMPRESORA == "ENTRADAS")
+                            printDocument1.PrinterSettings.PrinterName = "PARRILLA.";
+                        else
+                            printDocument1.PrinterSettings.PrinterName = item.NOMBRE_IMPRESORA;
+                    }
+                    
                     printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
                     {
                         int Ymargen = 0;
@@ -666,6 +684,15 @@ namespace ColinaApplication.Data.Business
                 respuesta = false;
             }
             return respuesta;
+        }
+        public TBL_SISTEMA ConsultaEnergia()
+        {
+            TBL_SISTEMA Energia = new TBL_SISTEMA();
+            using (DBLaColina context = new DBLaColina())
+            {
+                Energia = context.TBL_SISTEMA.Where(x => x.ID == 1).FirstOrDefault();
+            }
+            return Energia;
         }
         public List<TBL_USUARIOS> ListaMeseros()
         {

@@ -166,35 +166,35 @@ function Llama_MetodosPSR(connectpsr) {
         for (var i = 0; i < data.length; i++) {
             switch (data[i].ESTADO) {
                 case "LIBRE":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="CambioMesa(this.id, \'OCUPADO\');" class="clic panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="CambioMesa(this.id, \'OCUPADO\');" class="card text-white bg-success estilo" style="width: 120px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 22px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-check text-success"></i>' +
+                        '<br/><i class="fa fa-2x fa-check"></i><br/>' +
                         '</div>');
                     break;
                 case "OCUPADO":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="card text-white bg-danger estilo" style="width: 120px; text-align: center; float: left; margin: 5px; cursor: not-allowed;">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 22px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-arrow-down text-danger"></i>' +
+                        '<br/><i class="fa fa-2x fa-arrow-down"></i><br/>' +
                         '</div>');
                     break;
                 case "ESPERA":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="card text-dark bg-warning estilo" style="width: 120px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 22px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-clock-o text-warning"></i>' +
+                        '<br/><i class="fa fa-2x fa-clock-o"></i><br/>' +
                         '</div>');
                     break;
                 case "NO DISPONIBLE":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="card text-white bg-secondary" style="width: 120px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 22px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-times-circle text-primary"></i>' +
+                        '<br/><i class="fa fa-2x fa-times-circle"></i><br/>' +
                         '</div>');
                     break;
 
@@ -282,11 +282,11 @@ function ActualizaInfoPrecios(data) {
     if (data[0].Impuestos[2].Estado == "ACTIVO")
         SERVICIO = '<tr>' +
             '<td>' +
-            '<small><b>Servicio (' + data[0].Impuestos[2].Porcentaje + '% Máx.) :</b></small><small style="color: white; font-weight: bold; font-size: 20px; padding: 5px; border-radius: 5px; background-color: #30a630;">    $' + data[0].ServicioTotal + '</small><br>' +
+            '<small><b>Servicio (' + data[0].Impuestos[2].Porcentaje + '% Máx.) :</b></small>&nbsp;&nbsp;&nbsp;<small style="color: white; font-weight: bold; font-size: 20px; padding: 5px; border-radius: 5px; background-color: #30a630;">    $' + data[0].ServicioTotal + '</small><br>' +
             '<span class="input-group-btn" style="float: left;">' +
             '<button class="btn btn-success" id="menosServicio" type="button" onclick="menosServicio()"><b>-</b></button>' +
             '</span>' +
-            '<input type="text" style="width:62px;text-align: center; float: left; margin-left: 10%;" id="servicio" class="form-control" value="' + data[0].PorcentajeServicio + '" readonly />' +
+            '<input type="text" style="width:62px;text-align: center; float: left; margin-left: 2%;" id="servicio" class="form-control" value="' + data[0].PorcentajeServicio + '" readonly />' +
             '<span class="input-group-btn" style="float: left; margin-left: 2%;">' +
             '<button class="btn btn-success" id="masServicio" type="button" onclick="masServicio(' + data[0].Impuestos[2].Porcentaje + ')"><b>+</b></button>' +
             '</span>' +
@@ -378,11 +378,11 @@ function ActualizaInfoProductos(data) {
             '</<td>' +
             '</tr>');
     }
-    $('#Tabla2').DataTable({
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-        }
-    });
+    //$('#Tabla2').DataTable({
+    //    "language": {
+    //        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+    //    }
+    //});
 }
 //FUNCION DE CANCELAR PRODUCTO POR ID
 function CancelaProductoxId(idProducto) {
@@ -581,12 +581,12 @@ function CargaProducto(id) {
                 for (var index = 0, len = json.length; index < len; index++) {
                     if (json[index].CANTIDAD >= 1) {
                         $("#setProducto").append('<div class="Prod" id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: pointer; background-color: #f4a1247d;" onclick="CargaAdiciones(' + json[index].ID + ', ' + json[index].PRECIO + ', \'' + json[index].NOMBRE_PRODUCTO + '\')">' +
-                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px; background-color: transparent;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
                             '</div >');
                     }
                     else {
                         $("#setProducto").append('<div id="' + json[index].ID + '_Producto" precio="' + json[index].PRECIO + '" cantidad="' + json[index].CANTIDAD + '" style = "margin-left: 2%; margin-top: 2%; float:left; border: 2px solid; width: 100px; height: 100px; border-radius: 5px; display: flex; align-items: center; text-align: center; cursor: not-allowed; background-color: #aa020273;">' +
-                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
+                            '<div style="width: 100%; font-family: Copperplate Gothic Bold; font-size: 16px; background-color: transparent;"><b>' + json[index].NOMBRE_PRODUCTO + '</b></div>' +
                             '</div >');
                     }
                     if (index == 6 || index == 13 || index == 20 || index == 27) {

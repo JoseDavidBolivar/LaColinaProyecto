@@ -5,20 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-xs-12">
-        <button class="btn btn-toolbar" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
-        <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
-        @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })
-        @Html.HiddenFor(m => m.ID, new { @Id = "ID" })
-        @Html.HiddenFor(m => m.ESTADO_SOLICITUD, new { @Id = "ESTADO_SOLICITUD" })
-        @Html.HiddenFor(m => m.ID_MESERO, new { @Id = "ID_MESERO" })
-        <input id="ID_PRODUCTO" type="hidden" />
-        <input id="PRECIO_PRODUCTO" type="hidden" />
-        <input id="NOMBREPRODUCTO" type="hidden"/> 
-    </div>
-    <div class="col-md-12">
-        <div class="col-md-4">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <button class="btn btn-light" style="float: right; width: 7%;" onclick="return window.location.href = '../Solicitud/SeleccionarMesa' "><b>Atras</b></button>
+            <h1 class="page-header"><i class="fa fa-columns"></i> Pedido </h1>
+            @Html.HiddenFor(m => m.ID_MESA, new { @Id = "ID_MESA" })
+            @Html.HiddenFor(m => m.ID, new { @Id = "ID" })
+            @Html.HiddenFor(m => m.ESTADO_SOLICITUD, new { @Id = "ESTADO_SOLICITUD" })
+            @Html.HiddenFor(m => m.ID_MESERO, new { @Id = "ID_MESERO" })
+            <input id="ID_PRODUCTO" type="hidden" />
+            <input id="PRECIO_PRODUCTO" type="hidden" />
+            <input id="NOMBREPRODUCTO" type="hidden" />
+            <br />
+        </div>
+        <div class="col-sm-4">
             <div class="box-body" id="InfoMesa">
 
             </div>
@@ -26,9 +27,10 @@
 
             </div>
         </div>
-        <div class="col-md-8">
-            <a class="AgregProd" href="#AgregaProducto" data-toggle="modal" data-backdrop="static" data-keyboard="false"><i class="fa fa-2x fa-plus-circle"></i> Agregar</a>
-            <a class="AgregProd" href="#CambioMesa" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="CargaMesas()"> <i class="fa fa-2x fa-exchange"></i> Cambio</a>
+        <div class="col-sm-8">
+
+            <a class="AgregProd" data-bs-toggle="modal" data-bs-target="#AgregaProducto" data-backdrop="static" data-keyboard="false"><i class="fa fa-2x fa-plus-circle"></i> Agregar</a>
+            <a class="AgregProd" data-bs-toggle="modal" data-bs-target="#CambioMesa" data-backdrop="static" data-keyboard="false" onclick="CargaMesas()"> <i class="fa fa-2x fa-exchange"></i> Cambio</a>
             <div id="DivLlevar" style="display: none;">
                 <a class="AgregProd" style="background-color: #e3a200; cursor: pointer;" onclick="AsignarLlevar()"> <i class="fa fa-2x fa-arrow-up"></i> Llevar</a>
             </div>
@@ -55,151 +57,154 @@
 
             </div>
         </div>
-        <table class="" style="width: 100%;">
-            <tr>
-                <td colspan="6">
-                    <h4><b>Observaciones: </b></h4>
-                    @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control input-sm", id = "OBSERVACIONES", style = "text-transform: uppercase; margin-left:5px; width:100%; height:70px; max-width: 100%;" })
-                </td>
-            </tr>
-        </table>
-        <br /><br />
-        <div class="col-md-3">
+        <div class="col-sm-12">
+            <table class="" style="width: 100%;">
+                <tr>
+                    <td colspan="6">
+                        <h4><b>Observaciones: </b></h4>
+                        @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control input-sm", id = "OBSERVACIONES", style = "text-transform: uppercase; margin-left:5px; width:100%; height:70px; max-width: 100%;" })
+                    </td>
+                </tr>
+            </table>
+            <br /><br />
+        </div>
+        <div class="col-sm-3">
             <button id="GuardaDatosCliente" type="button" class="btn btn-primary" style="width: 90%; margin-left: 5%;" onclick="GuardarDatosCliente();"><i class="fa fa-2x fa-save"></i>&nbsp;&nbsp; Guardar Datos</button>
         </div>
         @if (@Session["IdPerfil"].ToString() == "1" || @Session["IdPerfil"].ToString() == "2")
         {
-            <div class="col-md-3">
+            <div class="col-sm-3">
                 <button id="" type="button" class="btn btn-success" style="width: 90%; margin-left: 5%;" onclick="PagarFactura();"><i class="fa fa-2x fa-money"></i>&nbsp;&nbsp; Pagar</button>
             </div>
         }
-        <div class="col-md-3">
-            <button id="" type="button" class="btn btn-default" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
+        <div class="col-sm-3">
+            <button id="" type="button" class="btn btn-secondary" style="width: 90%; margin-left: 5%;" onclick="GeneraFactura();"><i class="fa fa-2x fa-list-alt"></i>&nbsp;&nbsp; Factura</button>
         </div>
         @if (@Session["IdPerfil"].ToString() == "1")
         {
-            <div class="col-md-3">
+            <div class="col-sm-3">
                 <button id="" type="button" class="btn btn-danger" style="width: 90%; margin-left: 5%;" onclick="CancelaPedido();"><i class="fa fa-2x fa-times"></i>&nbsp;&nbsp; Cancelar Pedido</button>
             </div>
         }
         <br /><br />
-    </div>
-</div>
 
-<div id="CambioMesa" class="modal">
-    <div class="modal-dialog" style="width:1000px;">
-        <div class="modal-content" style="width:1000px;">
-            <div class="modal-header" style="width:1000px; background-color:#006512;">
-                <button type="button" id="CerrarModalCM" class="close" data-dismiss="modal" style="color: white;" onclick="CierraModalCM()"><i class="fa fa-times"></i></button>
-                <h3 class="modal-title" style="color: white;"><i class="fa fa-exchange" aria-hidden="true" style="color: white;"></i><b> Cambio de mesa</b></h3>
-            </div>
-            <div class="modal-body" style="width:1010px;">
-                <br />
-                <div class="row">
-                    <table class="table" style="width:950px; margin-left:25px; font-size: 16px;">
-                        <tr>
-                            <td><b>Seleccione la nueva mesa:</b></td>
-                        </tr>
-                    </table>
-                    <div id="ListaMesas" class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
+        <div id="CambioMesa" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:#006512;">
+                        <button type="button" id="CerrarModalCM" data-bs-dismiss="modal" style="color: white; background-color: transparent; border: none;" aria-label="Close" onclick="CierraModalCM()"><i class="fa fa-2x fa-times"></i></button>
+                        <h3 class="modal-title" style="color: white;"><i class="fa fa-exchange" aria-hidden="true" style="color: white;"></i><b> Cambio de mesa</b></h3>
+                    </div>
+                    <div class="modal-body" style="width:1010px;">
+                        <br />
+                        <div class="row">
+                            <table class="table" style="width:950px; margin-left:25px; font-size: 16px;">
+                                <tr>
+                                    <td><b>Seleccione la nueva mesa:</b></td>
+                                </tr>
+                            </table>
+                            <div id="ListaMesas" class="col-lg-offset-1" style="width:950px; margin-left:25px; font-size: 16px;">
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div id="AgregaProducto" class="modal">
-    <div class="modal-dialog" style="width:1000px;">
-        <div class="modal-content" style="width:1000px;">
-            <div class="modal-header" style="width:1000px; background-color:#006512;">
-                <button type="button" id="CerrarModalAP" class="close" data-dismiss="modal" style="color: white;"><i class="fa fa-times"></i></button>
-                <h3 class="modal-title" style="color: white;"><i class="fa fa-plus-circle" aria-hidden="true" style="color: white"></i><b> Agregar Productos</b></h3>
-            </div>
-            <div class="modal-body" style="width:1010px;">
-                <br />
-                <div class="row">
-                    <div class="col-md-12" style="width:950px; margin-left:25px; font-size: 16px;">
-                        <h4><b>Elija una categoria: </b></h4>
-                        <div id="setCategoria">
+        <div id="AgregaProducto" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:#006512;">
+                        <button type="button" id="CerrarModalAP" data-bs-dismiss="modal" style="color: white; background-color: transparent; border: none; " aria-label="Close"><i class="fa fa-2x fa-times"></i></button>
+                        <h3 class="modal-title" style="color: white;"><i class="fa fa-plus-circle" aria-hidden="true" style="color: white"></i><b> Agregar Productos</b></h3>
+                    </div>
+                    <div class="modal-body" style="">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12" style=" margin-left:25px;">
+                                <h4><b>Elija una categoria: </b></h4>
+                                <div id="setCategoria">
 
-                        </div>
-                        <br /><br /><br /><br /><br /><br />
-                        <div id="tableProductos" class="table" style=" display: none">
-                            <h4><b>Elija un producto: </b></h4>
-                            <div id="setProducto">
+                                </div>
+                                <br /><br /><br /><br /><br /><br />
+                                <div id="tableProductos" class="table" style=" display: none">
+                                    <h4><b>Elija un producto: </b></h4>
+                                    <div id="setProducto">
 
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <br /><br /><br /><br /><br /><br />
-                        <table id="tableAdiciones" class="table" style="display: none">
-                            <tr>
-                                <td style="width: 2%;"><h4><b>Digite las adiciones (Acompañamientos, salsas, termino): </b></h4></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <textarea id="Adiciones" class="form-control input-sm" style="text-transform: uppercase; margin-left: 5px; width: 100%; height: 70px; max-width: 100%;"></textarea>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <div>
-                            <h4><b>Cantidad: </b></h4>
-                            <span class="input-group-btn" style="float: left;">
-                                <button class="btn btn-warning" id="menos" type="button" onclick="menos()"><b>-</b></button>
-                            </span>
-                            <input type="text" style="width:50px;text-align: center; float: left; margin-left: 3%;" id="contador" class="form-control" value="1" min="1" readonly />
-                            <span class="input-group-btn" style="float: left; margin-left: 1%;">
-                                <button class="btn btn-warning" id="mas" type="button" onclick="mas()"><b>+</b></button>
-                            </span>
-                        </div>
-                        <br />
-                        <br />
-                        <br />
-                        <table style="width: 100%;">
-                            <tr>
-                                <td>
-                                    <button id="AgregaPedido" class="btn btn-primary" style="width: 20%; margin-left: 40%;" onclick="AgregaProductosPedido()">Agregar</button>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <br />
-                        <div style="padding: 10px; background-color: #d8d8d8; border-radius: 10px;">
-                            <h4><b style=" color: #a90000">Tu pedido: </b></h4>
-                            <table id="" class="table table-bordered table-hover" style="background-color: white;">
-                                <thead>
+                            <div class="col-sm-12" style="margin-left:25px; width: 90%;">
+                                <br /><br />
+                                <table id="tableAdiciones" class="table" style="display: none;">
+                                    <tr>
+                                        <td style="width: 2%;"><h4><b>Digite las adiciones (Acompañamientos, salsas, termino): </b></h4></td>
+                                    </tr>
                                     <tr>
                                         <td>
-                                            <b>Cantidad</b>
-                                        </td>
-                                        <td>
-                                            <b>Producto</b>
-                                        </td>
-                                        <td>
-                                            <b>Adiciones</b>
-                                        </td>
-                                        <td>
-                                            <b>Eliminar</b>
+                                            <textarea id="Adiciones" class="form-control input-sm" style="text-transform: uppercase; margin-left: 5px; width: 100%; height: 70px; max-width: 100%;"></textarea>
                                         </td>
                                     </tr>
-                                </thead>
-                                <tbody id="setProductosElegidos">
-
-                                </tbody>
-                            </table>
-                        </div>                        
-                        <br />
-                        <br />
-                        <table style="width: 100%;">
-                            <tr>
-                                <td>
-                                    <button id="AgregaProductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Enviar</button>
-                                </td>
-                            </tr>
-                        </table>
-                        <br />
-                        <br />
+                                </table>
+                            </div>
+                            <div class="col-sm-12" style="margin-left:25px;">
+                                <h4><b>Cantidad: </b></h4>
+                                <span class="input-group-btn" style="float: left;">
+                                    <button class="btn btn-warning" id="menos" type="button" onclick="menos()"><b>-</b></button>
+                                </span>
+                                <input type="text" style="width:50px;text-align: center; float: left; margin-left: 3%;" id="contador" class="form-control" value="1" min="1" readonly />
+                                <span class="input-group-btn" style="float: left; margin-left: 1%;">
+                                    <button class="btn btn-warning" id="mas" type="button" onclick="mas()"><b>+</b></button>
+                                </span>
+                            </div>
+                            <d iv class="col-sm-12" style="">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td>
+                                            <button id="AgregaPedido" class="btn btn-primary" style="width: 20%; margin-left: 40%;" onclick="AgregaProductosPedido()">Agregar</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <br />
+                            </div>
+                            <div class="col-sm-12" style="margin-left: 25px; width: 90%;">
+                                <div style="padding: 10px; background-color: #d8d8d8; border-radius: 10px;">
+                                    <h4><b style=" color: #a90000">Tu pedido: </b></h4>
+                                    <table id="" class="table table-bordered table-hover" style="background-color: white;">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <b>Cantidad</b>
+                                                </td>
+                                                <td>
+                                                    <b>Producto</b>
+                                                </td>
+                                                <td>
+                                                    <b>Adiciones</b>
+                                                </td>
+                                                <td>
+                                                    <b>Eliminar</b>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="setProductosElegidos">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br /><br />
+                            </div>
+                            <div class="col-sm-12" style="">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td>
+                                            <button id="AgregaProductos" class="btn btn-success" style="width: 20%; margin-left: 40%;">Enviar</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br /><br />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,9 +224,7 @@
     </script>
 
     <script src="~/ScriptsViews/Solicitud/Pedido.js?1.0.8"></script>
-    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.71"></script>
-
-
+    <script src="~/ScriptsViews/Solicitud/PedidoSignalR.js?1.1.73"></script>
 
 }
 

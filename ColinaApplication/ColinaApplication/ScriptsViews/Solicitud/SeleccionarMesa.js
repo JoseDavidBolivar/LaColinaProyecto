@@ -19,43 +19,43 @@ function Llama_MetodosSeMe(connectsm) {
         for (var i = 0; i < data.length; i++) {
             switch (data[i].ESTADO) {
                 case "LIBRE":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'OCUPADO\');" class="clic panel panel-success estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'OCUPADO\');" class="card text-white bg-success estilo" style="width: 150px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 25px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-check text-success"></i>' +
+                        '<br/><i class="fa fa-3x fa-check"></i><br/>' +
                         '</div>');
                     break;
                 case "OCUPADO":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-danger estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="card text-white bg-danger estilo" style="width: 150px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 25px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-arrow-down text-danger"></i>' +
+                        '<br/><i class="fa fa-3x fa-arrow-down"></i><br/>' +
                         '</div>');
                     break;
                 case "ESPERA":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="panel panel-warning estilo" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' onclick="alerta(this.id, \'NO\');"  class="card text-dark bg-warning estilo" style="width: 150px; text-align: center; float: left; margin: 5px; cursor: pointer; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 25px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-clock-o text-warning"></i>' +
+                        '<br/><i class="fa fa-3x fa-clock-o"></i><br/>' +
                         '</div>');
                     break;
                 case "NO DISPONIBLE":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="card text-white bg-secondary" style="width: 150px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 25px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-times-circle text-primary"></i>' +
+                        '<br/><i class="fa fa-3x fa-times-circle"></i><br/>' +
                         '</div>');
                     break;
                 case "CERRADO":
-                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="panel panel-default" style="width: 100px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
-                        '<div class="panel-heading">' +
-                        '<h2 class="panel-title" style="overflow: hidden;">' + data[i].NOMBRE_MESA + '</h2>' +
+                    $("#ListaMesas").append('<div id=' + data[i].ID + ' class="card text-dark bg-light" style="width: 150px; text-align: center; float: left; margin: 5px; cursor: not-allowed; ">' +
+                        '<div class="card-header">' +
+                        '<h2 style="font-size: 25px; overflow: hidden; text-overflow: ellipsis; white-space: pre;">' + data[i].NOMBRE_MESA + '</h2>' +
                         '</div>' +
-                        '<i class="fa fa-3x fa-times text-muted"></i>' +
+                        '<br/><i class="fa fa-3x fa-times text-muted"></i><br/>' +
                         '</div>');
                     break;
 

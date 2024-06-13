@@ -1,0 +1,3 @@
+﻿Archivo de modelo generado: DBLaColina.edmx.
+La carga de los metadatos desde la base de datos tardó 00:00:00.8378126.
+La generación del modelo tardó 00:00:01.7002292.

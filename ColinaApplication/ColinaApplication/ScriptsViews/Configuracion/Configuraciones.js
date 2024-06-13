@@ -258,3 +258,8 @@ function ValidaCodigo() {
         });
     }
 }
+function CambiaParametrosSistema(id, valor) {
+    $("#IdSistema").val(id);
+    $("#SistemaValor").val(valor);
+    $("#GuardarSistema").click();
+}
