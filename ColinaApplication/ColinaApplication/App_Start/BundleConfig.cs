@@ -20,9 +20,9 @@ namespace ColinaApplication
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js?1.0.2",
-                      "~/Scripts/respond.js?1.0.2",
-                      "~/Scripts/bootstrap.bundle.js?1.0.2"));
+                        "~/Scripts/bootstrap.js?1.0.0",
+                        "~/Scripts/bootstrap.bundle.min.js?1.0.0",
+                        "~/Scripts/bootstrap.bundle.js?1.0.0"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
