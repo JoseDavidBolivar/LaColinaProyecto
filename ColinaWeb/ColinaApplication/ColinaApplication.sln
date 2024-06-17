@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35004.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColinaApplication", "ColinaApplication\ColinaApplication.csproj", "{960BDA6B-8DAE-40C5-840F-7E56CADAEDD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{445EE79A-B7E0-4406-B29F-8D1D2009597F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{960BDA6B-8DAE-40C5-840F-7E56CADAEDD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960BDA6B-8DAE-40C5-840F-7E56CADAEDD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960BDA6B-8DAE-40C5-840F-7E56CADAEDD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960BDA6B-8DAE-40C5-840F-7E56CADAEDD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445EE79A-B7E0-4406-B29F-8D1D2009597F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445EE79A-B7E0-4406-B29F-8D1D2009597F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445EE79A-B7E0-4406-B29F-8D1D2009597F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445EE79A-B7E0-4406-B29F-8D1D2009597F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

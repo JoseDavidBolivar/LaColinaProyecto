@@ -13,7 +13,7 @@ function Registra_EventosSeMe(connectsm) {
     connectsm.server.listarEstadoMesas("NO", 0, "");
 }
 function Llama_MetodosSeMe(connectsm) {
-
+    
     connectsm.client.ListaMesas = function (data, Redirecciona, idmesa, ruta) {
         $("#ListaMesas").empty();
         for (var i = 0; i < data.length; i++) {

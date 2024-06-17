@@ -39,6 +39,7 @@
             }
         </div>
         <div id="DivMesas" class="col-md-12">
+            <br /><br />
             <h3 class="page-header"><i class="fa fa-table"></i> Mesas </h3>
             @using (Html.BeginForm("AgregarEditarMesas", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
             {
@@ -133,6 +134,7 @@
         @if (Session["IdPerfil"].ToString() == "1")
         {
             <div class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-th-list"></i> Inventarios </h3>
                 @using (Html.BeginForm("AgregarEditarCategoria", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
@@ -295,6 +297,7 @@
                 }
             </div>
             <div class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-user"></i> Usuarios </h3>
                 @using (Html.BeginForm("AgregarEditarUsuarios", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
@@ -370,6 +373,7 @@
             </div>
 
             <div class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-print"></i> Impresoras </h3>
                 @using (Html.BeginForm("AgregarEditarImpresoras", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
@@ -428,6 +432,7 @@
             </div>
 
             <div id="DivImpuestos" class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-money"></i> Impuestos </h3>
                 @using (Html.BeginForm("AgregarEditarImpuestos", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
@@ -500,6 +505,7 @@
             </div>
 
             <div class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-users"></i> Perfiles </h3>
                 @using (Html.BeginForm("AgregarEditarPerfiles", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
@@ -558,6 +564,7 @@
                 }
             </div>
             <div class="col-md-12">
+                <br /><br />
                 <h3 class="page-header"><i class="fa fa-chess"></i> Nómina </h3>
                 @using (Html.BeginForm("AgregarEditarNomina", "Configuracion", FormMethod.Post, new { @style = "padding: 10px; background-color: #eeeeee;" }))
                 {
