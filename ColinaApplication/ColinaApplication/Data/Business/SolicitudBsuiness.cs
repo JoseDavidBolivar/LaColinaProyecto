@@ -536,7 +536,10 @@ namespace ColinaApplication.Data.Business
             }
             else
             {
-                printDocument1.PrinterSettings.PrinterName = impresora.NOMBRE_IMPRESORA;
+                if (impresora.NOMBRE_IMPRESORA == "PARRILLA. AUX" || impresora.NOMBRE_IMPRESORA == "ENTRADAS")
+                    printDocument1.PrinterSettings.PrinterName = "PARRILLA.";
+                else
+                    printDocument1.PrinterSettings.PrinterName = impresora.NOMBRE_IMPRESORA;
             }
             
             printDocument1.PrintPage += (object sender, PrintPageEventArgs e) =>
